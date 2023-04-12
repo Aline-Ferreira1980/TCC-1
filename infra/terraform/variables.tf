@@ -24,21 +24,3 @@ variable "repo" {
   description = "Repositorio da aplicação"
   default     = "https://github.com/Aline-Ferreira1980/TCC-1"
 }
-
-
-variable "aws_access_key_id" {
-  description = "Access Key do usuário a ser usado"
-  sensitive   = true
-
-}
-
-variable "aws_secret_key" {
-  description = "Secret Key do usuário a ser usado"
-  sensitive   = true
-
-}
-
-variable "aws_token" {
-  description = "Secret Key do usuário a ser usado"
-  sensitive   = true
-}
