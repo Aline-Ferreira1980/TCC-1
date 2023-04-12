@@ -1,0 +1,20 @@
+
+server:
+  port: 8080
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: prometheus
+  endpoint:
+    prometheus:
+      enabled: true
+
+aws:
+  cloudwatch:
+    enabled: true
+    region: us-west-2
+    namespace: gestao_agenda_backend
+  metrics:
+    enabled: false
