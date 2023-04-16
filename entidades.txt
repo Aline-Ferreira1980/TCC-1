@@ -1,0 +1,90 @@
+Usuário
+Nome de Registro
+Nome Social
+Data de nascimento
+Gênero {F, M, Outros}
+Estado civil
+identidade étnico racial {preto, pardo, branco, amarelo, indígena}
+deficiência {null, qual??}
+escolaridade {fundamental1, fundamental2, médio, superior completo, superior incompleto, outros}
+ocupação/profissão
+reside com quem?
+repensável legal {null, qual??}
+menor_ id do termo de assentimento
+endereço
+bairro
+cidade
+telefone celular
+telefone fixo
+telefone de emergência
+contato de emergência
+email
+uscs_possui vinculo de parentesco com aluno ou funcionários uscs
+uscs_aluno uscs {sim, nao}
+uscs_aluno ra
+uscs_aluno campus
+uscs_aluno curso
+uscs_aluno semestre
+uscs_aluno período {manha, tarde, noite}
+id disponibilidade de horário para atendimento {obs: slots por dia da semana e granularidade de hora em hora}
+como ficou sabendo do serviço-escola uscs
+ja obteve atendimento serviço-escola
+possui encaminhamento {null, qual}
+motivo da procura do serviço de psicologia {sugestão: queixa}
+id do termo de aceite
+reservado_contato_data do contato {max 3 tentativas de contato}
+reservado_contato_ quem fez o contato
+reservado_contato_ observações
+reservado_encaminhamento {agendamento realizado, usuário nao tem interesse, arquivamento, volta para fila}
+reservado_serviço que o usuário vai utilizar {lista de serviços da cesep}
+estado no fluxo {fila de espera, acolhimento, atendimento}
+consentimento em participação em pesquisa
+teste padronizado de domínio publico (nao acho que faz parte do registro e sim do prontuário)
+
+
+
+usuários dissentes
+ra
+tipo do dissente
+Nome
+função
+expediente {30, 20}
+turno {manha,tarde, note}
+ano
+semestre
+tipo do estágio
+cursa pisco? {sim, nao}
+id do orientador relação n-n
+id do serviço relação n-n
+id professor responsável relação n-n
+
+usuário docente
+ruscs
+Nome
+****serviço orientado {lista de serviço } relação n-n
+****lista de estagiários (turma, semestre vigente) 
+função
+
+serviços
+id do serviços
+nome do serviço
+acrônimo
+id estagiários
+id orientador
+id professor responsável
+
+salas
+id da sala
+nome
+local
+disponibilidade {dia, horário}
+
+agendamento
+id usuário
+id sala
+id do estagiários
+dia
+hora
+
+
+
