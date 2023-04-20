@@ -43,9 +43,9 @@ teste padronizado de domínio publico (nao acho que faz parte do registro e sim 
 
 
 
-usuários dissentes
+usuários discentes
 ra
-tipo do dissente
+tipo do discente
 Nome
 função
 expediente {30, 20}
