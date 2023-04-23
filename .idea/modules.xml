@@ -3,7 +3,6 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/TCC-1.iml" filepath="$PROJECT_DIR$/.idea/TCC-1.iml" />
-      <module fileurl="file://$PROJECT_DIR$/gestao_agenda_backend/gestao_agenda_backend.iml" filepath="$PROJECT_DIR$/gestao_agenda_backend/gestao_agenda_backend.iml" />
     </modules>
   </component>
 </project>
