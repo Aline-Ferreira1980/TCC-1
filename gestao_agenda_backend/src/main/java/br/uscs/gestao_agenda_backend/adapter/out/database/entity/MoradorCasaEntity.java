@@ -5,10 +5,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
 @Table(name = "Morador_Casa")
@@ -16,11 +14,17 @@ import javax.persistence.Table;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class MoradorCasaEntity {
+public class MoradorCasaEntity implements Serializable {
 
+    @ManyToOne
+    @JoinColumn(name = "moradoresCasa")
+    private PacienteEntity idPaciente;
     @Id
-    @Column(name = "id_paciente")
-    private  PacienteEntity idPaciente;
+    @GeneratedValue(strategy=GenerationType.AUTO)
+    @Column(name = "id_morador")
+    private Integer idMorador;
+
+
     @Column(name = "nome_morador")
     private String nomeMorador;
     @Column(name = "idade_morador")

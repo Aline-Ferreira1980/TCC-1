@@ -9,6 +9,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import java.io.Serializable;
 
 @Entity
 @Table(name = "Funcionario")
@@ -16,7 +17,7 @@ import javax.persistence.Table;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class FuncionarioEntity {
+public class FuncionarioEntity implements Serializable {
 
     @Id
     @Column(name = "ruscs_funcionario")

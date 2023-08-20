@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
 @Table(name = "Telefone")
@@ -13,18 +14,28 @@ import javax.persistence.*;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class TelefoneEntity {
+public class TelefoneEntity implements Serializable {
 
+
+
+    @OneToOne
+    @JoinColumn(name = "telefone")
+    private PacienteEntity idPaciente;
 
     @Id
-    @Column(name = "id_paciente")
-    private PacienteEntity idPaciente;
+    @GeneratedValue(strategy=GenerationType.AUTO)
+    @Column(name = "id_telefone")
+    private Integer idTelefone;
+
     @Column(name = "tel_cel")
     private String telefoneCelular;
+
     @Column(name = "tel_fixo")
     private String telefoneFixo;
+
     @Column(name = "tel_emerg")
     private String telefoneEmergencia;
+
     @Column(name = "nome_contat_tel_emerg")
     private String nomeContatoEmergencia;
 

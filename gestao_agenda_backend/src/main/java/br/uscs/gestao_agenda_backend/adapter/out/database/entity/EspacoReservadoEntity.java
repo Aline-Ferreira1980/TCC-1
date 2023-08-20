@@ -7,10 +7,8 @@ import lombok.NoArgsConstructor;
 import org.joda.time.DateTime;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.io.Serializable;
 import java.sql.Time;
 
 @Entity
@@ -19,11 +17,16 @@ import java.sql.Time;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class EspacoReservadoEntity {
+public class EspacoReservadoEntity implements Serializable {
 
-    @Id
-    @Column(name = "id_paciente")
+    @ManyToOne
+    @JoinColumn(name = "id_paciente")
     private PacienteEntity idPaciente;
+    @Id
+    @GeneratedValue(strategy=GenerationType.AUTO)
+    @Column(name = "id_contato")
+    private Integer idContato;
+
     @Column(name = "quem_contactou")
     private String quemContactou;
     @Column(name = "data_contato")
