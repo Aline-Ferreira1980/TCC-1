@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
 @Table(name = "Aluno_Uscs")
@@ -13,7 +14,7 @@ import javax.persistence.*;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class AlunoUscsEntity {
+public class AlunoUscsEntity implements Serializable {
 
     @Id
     @Column(name = "id_paciente")

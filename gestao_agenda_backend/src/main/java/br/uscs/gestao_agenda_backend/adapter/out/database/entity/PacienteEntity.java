@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
@@ -17,7 +18,7 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class PacienteEntity {
+public class PacienteEntity implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -41,25 +42,21 @@ public class PacienteEntity {
     private String etniaRacial;
 
     @Column(name = "enderaco")
-    @OneToOne(mappedBy="Endereco")
     private EnderecoEntity endereco;
 
     @Column(name = "telefone")
-    @OneToMany(mappedBy="Telefone")
     private List<TelefoneEntity> telefone;
 
     @Column(name = "portador_deficiencia")
     private boolean portador_deficiencia;
 
     @Column(name = "escolaridade")
-    @OneToOne(mappedBy = "Escolaridade")
     private EscolaridadeEntity escolaridade;
 
     @Column(name = "atividade_profissional")
     private String atividade_profissional;
 
     @Column(name = "moradores_casa")
-    @OneToMany(mappedBy = "Morador_Casa")
     private List<MoradorCasaEntity> moradoresCasa;
 
     @Column(name = "responsavel_legal")
@@ -69,7 +66,6 @@ public class PacienteEntity {
     private EmailAddressGrantee email;
 
     @Column(name = "vinculo_ou_parentesco_funcionario_uscs")
-    @OneToOne(mappedBy = "Aluno_Uscs")
     private AlunoUscsEntity vinculoParentescoFuncionarioUscs;
 
     @Column(name = "disponibilidade_atendimento")

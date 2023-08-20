@@ -5,10 +5,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
 @Table(name = "Discente")
@@ -16,7 +14,7 @@ import javax.persistence.Table;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class DiscenteEntity {
+public class DiscenteEntity implements Serializable {
 
     @Id
     @Column(name = "ra_discente")
@@ -39,9 +37,13 @@ public class DiscenteEntity {
     private String tipoEstagio;
     @Column(name = "cursa_psicologia")
     private boolean cursaPsicologia;
-    @Column(name = "docente_orientador")
-    private DocenteEntity ruscsDocenteOrientador;
-    @Column(name = "docente_professor_responsavel")
-    private Integer ruscsDocenteProfessorResponsavel;
+
+    @ManyToOne
+    @JoinColumn(name = "ruscs_docente_professor_responsavel")
+    private DocenteVsDiscenteEntity ruscsDocenteOrientador;
+
+    @ManyToOne
+    @JoinColumn(name = "ruscs_docente_professor_responsavel")
+    private DocenteVsDiscenteEntity ruscsDocenteProfessorResponsavel;
 
 }

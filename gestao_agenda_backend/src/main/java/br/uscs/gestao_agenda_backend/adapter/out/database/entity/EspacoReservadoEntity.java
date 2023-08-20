@@ -11,6 +11,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import java.io.Serializable;
 import java.sql.Time;
 
 @Entity
@@ -19,7 +20,7 @@ import java.sql.Time;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class EspacoReservadoEntity {
+public class EspacoReservadoEntity implements Serializable {
 
     @Id
     @Column(name = "id_paciente")

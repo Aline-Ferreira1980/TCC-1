@@ -10,6 +10,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.criteria.CriteriaBuilder;
+import java.io.Serializable;
 
 @Entity
 @Table(name = "Docente")
@@ -17,14 +18,16 @@ import javax.persistence.criteria.CriteriaBuilder;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class DocenteEntity {
+public class DocenteEntity implements Serializable {
 
     @Id
     @Column(name = "ruscs_docente")
     private Integer ruscsDocente;
+
     @Column(name = "id_servico")
     private ServicoEntity idServico;
+
     @Column(name = "ra_discente")
-    private DiscenteEntity raDiscente;
+    private DocenteVsDiscenteEntity raDiscente;
 
 }

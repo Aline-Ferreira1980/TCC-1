@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
 @Table(name = "Paciente_Vs_Discente")
@@ -13,15 +14,13 @@ import javax.persistence.*;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class PacienteVsDiscenteEntity {
+public class PacienteVsDiscenteEntity implements Serializable {
 
     @Id
     @Column(name = "id_paciente")
-    @OneToOne(mappedBy = "Paciente")
     private PacienteEntity idPaciente;
 
     @Column(name = "ra_discente")
-    @OneToOne(mappedBy = "Discente")
     private DiscenteEntity raDiscente;
 
 }
