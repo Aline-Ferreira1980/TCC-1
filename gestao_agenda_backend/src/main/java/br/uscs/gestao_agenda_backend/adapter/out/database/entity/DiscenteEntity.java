@@ -19,27 +19,36 @@ public class DiscenteEntity implements Serializable {
     @Id
     @Column(name = "ra_discente")
     private Integer raDiscente;
+
     @Column(name = "nome_discente")
     private String nomeDiscente;
+
     @Column(name = "tipo_discente")
     private String tipoDicsente;
+
     @Column(name = "funcao_discente")
     private String funcaoDiscente;
+
     @Column(name = "expediente_horas")
     private String expedienteHoras;
+
     @Column(name = "turno")
     private String turno;
+
     @Column(name = "ano_referencia")
     private String anoRef;
+
     @Column(name = "semestre_em_curso")
     private String semestreEmCurso;
+
     @Column(name = "tipo_estagio")
     private String tipoEstagio;
+
     @Column(name = "cursa_psicologia")
     private boolean cursaPsicologia;
 
     @ManyToOne
-    @JoinColumn(name = "ruscs_docente_professor_responsavel")
+    @JoinColumn(name = "ruscs_docente_orientador")
     private DocenteVsDiscenteEntity ruscsDocenteOrientador;
 
     @ManyToOne

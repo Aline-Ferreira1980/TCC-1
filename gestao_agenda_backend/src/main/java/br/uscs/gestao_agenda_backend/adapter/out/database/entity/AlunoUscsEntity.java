@@ -16,19 +16,27 @@ import java.io.Serializable;
 @AllArgsConstructor
 public class AlunoUscsEntity implements Serializable {
 
-    @Id
-    @Column(name = "id_paciente")
+    @OneToOne
+    @JoinColumn(name = "alunoUscs")
     private PacienteEntity idPaciente;
-    @Column(name = "aluno_uscs")
-    private String alunoUscs;
-    @Column(name = "ra_aluno_uscs")
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "ra_aluno")
     private Integer alunUscsRa;
+
+    @Column(name = "nome_aluno")
+    private String nomeAluno;
+
     @Column(name = "campus")
     private String campus;
+
     @Column(name = "curso")
     private String curso;
+
     @Column(name = "periodo")
     private String periodo;
+
     @Column(name = "semestre")
     private String semestre;
 

@@ -17,15 +17,25 @@ import java.io.Serializable;
 public class TelefoneEntity implements Serializable {
 
 
-    @Id
-    @Column(name = "id_paciente")
+
+    @OneToOne
+    @JoinColumn(name = "telefone")
     private PacienteEntity idPaciente;
+
+    @Id
+    @GeneratedValue(strategy=GenerationType.AUTO)
+    @Column(name = "id_telefone")
+    private Integer idTelefone;
+
     @Column(name = "tel_cel")
     private String telefoneCelular;
+
     @Column(name = "tel_fixo")
     private String telefoneFixo;
+
     @Column(name = "tel_emerg")
     private String telefoneEmergencia;
+
     @Column(name = "nome_contat_tel_emerg")
     private String nomeContatoEmergencia;
 

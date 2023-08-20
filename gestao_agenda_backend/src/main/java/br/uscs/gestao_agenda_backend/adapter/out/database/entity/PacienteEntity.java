@@ -21,7 +21,7 @@ import java.util.List;
 public class PacienteEntity implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id_paciente")
     private Integer idPaciente;
 
@@ -41,22 +41,22 @@ public class PacienteEntity implements Serializable {
     @Column(name = "etnia_racial")
     private String etniaRacial;
 
-    @Column(name = "enderaco")
+    @OneToOne(mappedBy = "idPaciente")
     private EnderecoEntity endereco;
 
-    @Column(name = "telefone")
+    @OneToMany(mappedBy = "idPaciente")
     private List<TelefoneEntity> telefone;
 
     @Column(name = "portador_deficiencia")
     private boolean portador_deficiencia;
 
     @Column(name = "escolaridade")
-    private EscolaridadeEntity escolaridade;
+    private String escolaridade;
 
     @Column(name = "atividade_profissional")
     private String atividade_profissional;
 
-    @Column(name = "moradores_casa")
+    @OneToMany(mappedBy = "idPaciente")
     private List<MoradorCasaEntity> moradoresCasa;
 
     @Column(name = "responsavel_legal")
@@ -65,8 +65,8 @@ public class PacienteEntity implements Serializable {
     @Column(name = "email", nullable = false)
     private EmailAddressGrantee email;
 
-    @Column(name = "vinculo_ou_parentesco_funcionario_uscs")
-    private AlunoUscsEntity vinculoParentescoFuncionarioUscs;
+    @OneToOne(mappedBy = "idPaciente")
+    private AlunoUscsEntity alunoUscs;
 
     @Column(name = "disponibilidade_atendimento")
     private String disponibilidadeAtendimento;

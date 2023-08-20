@@ -16,9 +16,15 @@ import java.io.Serializable;
 @AllArgsConstructor
 public class MoradorCasaEntity implements Serializable {
 
+    @ManyToOne
+    @JoinColumn(name = "moradoresCasa")
+    private PacienteEntity idPaciente;
     @Id
-    @Column(name = "id_paciente")
-    private  PacienteEntity idPaciente;
+    @GeneratedValue(strategy=GenerationType.AUTO)
+    @Column(name = "id_morador")
+    private Integer idMorador;
+
+
     @Column(name = "nome_morador")
     private String nomeMorador;
     @Column(name = "idade_morador")

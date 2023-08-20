@@ -5,10 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
@@ -17,20 +14,29 @@ import java.io.Serializable;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class EnderecoEntity implements Serializable
-{
+public class EnderecoEntity implements Serializable {
+
+    @OneToOne
+    @JoinColumn(name = "id_endereco")
+    private PacienteEntity idPaciente;
 
     @Id
-    @Column(name = "id_paciente")
-    private PacienteEntity idPaciente;
+    @GeneratedValue(strategy=GenerationType.AUTO)
+    @Column(name = "id_endereco")
+    private Integer endereco;
+
     @Column(name = "rua_numero")
     private String ruaNumero;
+
     @Column(name = "bairro")
     private String bairro;
+
     @Column(name = "cidade")
     private String cidade;
+
     @Column(name = "estado")
     private String estado;
+
     @Column(name = "cep")
     private String cep;
 
