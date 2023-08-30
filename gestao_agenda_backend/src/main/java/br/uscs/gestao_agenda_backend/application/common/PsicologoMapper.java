@@ -14,7 +14,7 @@ public class PsicologoMapper {
 
     public static Psicologo fromRequest(CadastroPsicologoRequest request){
         Psicologo psicologo = Psicologo.builder()
-                .nome(request.getNome())
+                .nomeSocial(request.getNome())
                 .email(request.getEmail())
                 .senha(request.getSenha())
                 .especialidade(request.getEspecialidade())
@@ -37,7 +37,7 @@ public class PsicologoMapper {
     public static PsicologoResponse toResponse(Psicologo psicologo) {
         PsicologoResponse response = PsicologoResponse.builder()
                 .psicologoId(psicologo.getId())
-                .nome(psicologo.getNome())
+                .nome(psicologo.getNomeSocial())
                 .email(psicologo.getEmail())
                 .especialidade(psicologo.getEspecialidade())
                 .build();

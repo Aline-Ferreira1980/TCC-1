@@ -5,15 +5,14 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
-
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
 @Builder
-public class UpdatePsicologoRequest {
-    private Long id;
-    private String nome;
-    private String especialidade;
-    private List<HorarioTrabalhoRequest> horariosTrabalho;
+public class Telefone {
+
+    private String telefoneCelular;
+    private String telefoneFixo;
+    private String telefoneEmergencia;
+    private String nomeContatoEmergencia;
 }

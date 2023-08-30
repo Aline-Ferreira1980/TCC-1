@@ -2,7 +2,8 @@ package br.uscs.gestao_agenda_backend.domain.model;
 
 public enum UserRole {
     PACIENTE("paciente"),
-    PSICOLOGO("pscicologo");
+    PSICOLOGO("pscicologo"),
+    DOCENTE_ORIENTADOR("professorOrientador");
 
     private final String role;
 

@@ -5,12 +5,14 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -29,13 +31,30 @@ public class User implements UserDetails {
     @Enumerated(EnumType.STRING)
     private UserRole role;
 
-    private String nome;
+    @Column(name = "nome_social")
+    private String nomeSocial;
+
+    @DateTimeFormat(pattern="yyyy-mm-dd")
+    @Column(name = "data_nascimento")
+    private Date dataNascimento;
+    @Column
+    private String genero;
+    @Column
+    private String estadoCivil;
+    @Column
+    private String etniaRacial;
+    @Column
     private String senha;
 
 
-    public User (String nome, String email, String senha, UserRole role){
-        this.nome = nome;
+    public User (String nomeSocial, String email, Date dataNascimento,String genero, String estadoCivil,
+                 String etniaRacial,String senha, UserRole role){
+        this.nomeSocial = nomeSocial;
         this.email = email;
+        this.dataNascimento = dataNascimento;
+        this.genero = genero;
+        this.estadoCivil = estadoCivil;
+        this.etniaRacial= etniaRacial;
         this.senha = senha;
         this.role = role;
     }

@@ -39,7 +39,7 @@ public class PsicologoServiceImpl  implements PsicologoService {
 
 
         Psicologo psicologo = new Psicologo();
-        psicologo.setNome(request.getNome());
+        psicologo.setNomeSocial(request.getNome());
         psicologo.setEmail(request.getEmail());
         psicologo.setSenha(senhaCriptografada);
         psicologo.setEspecialidade(request.getEspecialidade());
@@ -76,7 +76,7 @@ public class PsicologoServiceImpl  implements PsicologoService {
     @Override
     public PsicologoResponse uodatePsicologo(UpdatePsicologoRequest request) {
         Psicologo psicologo = psicologoRepository.getById(request.getId());
-        psicologo.setNome(request.getNome());
+        psicologo.setNomeSocial(request.getNome());
         psicologo.setEspecialidade(request.getEspecialidade());
 
         List<HorarioTrabalho> horariosTrabalho = HorarioTrabalhoMapper.fromRequestList(request.getHorariosTrabalho());

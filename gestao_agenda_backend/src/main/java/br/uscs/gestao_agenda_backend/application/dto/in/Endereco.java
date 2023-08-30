@@ -4,16 +4,15 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.util.List;
-
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
 @Builder
-public class UpdatePsicologoRequest {
-    private Long id;
-    private String nome;
-    private String especialidade;
-    private List<HorarioTrabalhoRequest> horariosTrabalho;
+public class Endereco {
+
+    private String ruaNumero;
+    private String bairro;
+    private String cidade;
+    private String estado;
+    private String cep;
 }

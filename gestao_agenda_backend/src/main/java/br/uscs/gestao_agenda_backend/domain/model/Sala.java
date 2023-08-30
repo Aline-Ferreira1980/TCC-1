@@ -21,9 +21,8 @@ public class Sala {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private String local;
-
     private String nome;
+    private String disponibilidade;
 
 }
