@@ -1,7 +1,7 @@
 package br.uscs.gestao_agenda_backend.application.port;
 
-import br.uscs.gestao_agenda_backend.application.dto.in.SalaRequest;
-import br.uscs.gestao_agenda_backend.application.dto.out.SalaResponse;
+import br.uscs.gestao_agenda_backend.application.request.SalaRequest;
+import br.uscs.gestao_agenda_backend.application.dto.SalaResponse;
 
 import java.util.List;
 

@@ -18,7 +18,7 @@ public class HorarioTrabalho {
     private Long id;
 
     @ManyToOne
-    private Psicologo psicologo;
+    private Estagiario estagiario;
 
     @Enumerated(EnumType.ORDINAL)
     private DayOfWeek diaSemana;
@@ -26,12 +26,12 @@ public class HorarioTrabalho {
     private LocalTime horarioInicio;
     private LocalTime horarioFim;
 
-    public HorarioTrabalho(Psicologo psicologo,
+    public HorarioTrabalho(Estagiario psicologo,
                            DayOfWeek diaSemana,
                            LocalTime horarioInicio,
                            LocalTime horarioFim){
 
-        this.psicologo = psicologo;
+        this.estagiario = psicologo;
         this.diaSemana = diaSemana;
         this.horarioInicio = horarioInicio;
         this.horarioFim = horarioFim;

@@ -1,8 +1,8 @@
 package br.uscs.gestao_agenda_backend.infrastructure.web;
 
 
-import br.uscs.gestao_agenda_backend.application.dto.in.AuthenticationRequest;
-import br.uscs.gestao_agenda_backend.application.dto.out.LoginResponse;
+import br.uscs.gestao_agenda_backend.application.request.AuthenticationRequest;
+import br.uscs.gestao_agenda_backend.application.dto.LoginResponse;
 import br.uscs.gestao_agenda_backend.domain.model.User;
 import br.uscs.gestao_agenda_backend.infrastructure.security.TokenService;
 import org.springframework.beans.factory.annotation.Autowired;

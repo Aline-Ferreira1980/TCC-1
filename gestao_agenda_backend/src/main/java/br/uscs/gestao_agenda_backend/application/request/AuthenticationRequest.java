@@ -1,4 +1,4 @@
-package br.uscs.gestao_agenda_backend.application.dto.out;
+package br.uscs.gestao_agenda_backend.application.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class LoginResponse {
-    String token;
+public class AuthenticationRequest{
+    String email;
+    String senha;
 }

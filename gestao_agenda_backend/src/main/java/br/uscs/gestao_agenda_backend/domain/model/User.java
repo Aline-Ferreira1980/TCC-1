@@ -1,8 +1,8 @@
 package br.uscs.gestao_agenda_backend.domain.model;
 
 
+import br.uscs.gestao_agenda_backend.domain.model.enums.UserRole;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
@@ -15,6 +15,7 @@ import java.util.List;
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
+//@MappedSuperclass
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
@@ -30,19 +31,14 @@ public class User implements UserDetails {
     private UserRole role;
 
     private String nome;
+    private String sobrenome;
     private String senha;
 
 
-    public User (String nome, String email, String senha, UserRole role){
-        this.nome = nome;
-        this.email = email;
-        this.senha = senha;
-        this.role = role;
-    }
-
+    // TODO: Alterar authorities com o professor e funcionario como adm
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        if (this.role == UserRole.PSICOLOGO) return List.of(
+        if (this.role == UserRole.ESTAGIARIO) return List.of(
                 new SimpleGrantedAuthority("ROLE_ADMINS"),
                 new SimpleGrantedAuthority("ROLE_USER"));
 

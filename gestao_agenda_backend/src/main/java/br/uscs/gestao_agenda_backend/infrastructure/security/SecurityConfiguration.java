@@ -32,11 +32,16 @@ public class SecurityConfiguration {
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorize -> authorize
                         .antMatchers(HttpMethod.POST, "/auth/login").permitAll()
-                        .antMatchers(HttpMethod.POST, "/cadastro/**").permitAll()
                         .antMatchers(HttpMethod.POST, "/sala/**").permitAll()
-                        .antMatchers(HttpMethod.GET, "/psicologo/**").permitAll()
-                        .antMatchers(HttpMethod.PUT, "/psicologo/**").permitAll()
-                        .antMatchers(HttpMethod.GET, "/paciente/listar").hasRole("ADMINS")
+                        .antMatchers(HttpMethod.GET, "/estagiario/**").permitAll()
+                        .antMatchers(HttpMethod.POST, "/estagiario/**").permitAll()
+                        .antMatchers(HttpMethod.PUT, "/estagiario/**").permitAll()
+                        .antMatchers(HttpMethod.DELETE, "/estagiario/**").permitAll()
+//                        .antMatchers(HttpMethod.GET, "/paciente/listar").hasRole("ADMINS")
+                        .antMatchers(HttpMethod.GET, "/paciente/**").permitAll()
+                        .antMatchers(HttpMethod.POST, "/paciente/**").permitAll()
+                        .antMatchers(HttpMethod.PUT, "/paciente/**").permitAll()
+                        .antMatchers(HttpMethod.DELETE, "/paciente/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
@@ -46,7 +51,11 @@ public class SecurityConfiguration {
     // TODO: Remover depois dos testes
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer() {
-        return (web) -> web.ignoring().antMatchers("/h2-console/**");
+        return (web) -> web.ignoring().antMatchers("/h2-console/**")
+                .antMatchers("/swagger-ui/**")
+                .antMatchers("/v3/api-docs/**")
+                .antMatchers("/configuration/**")
+                .antMatchers("/v3/api-docs/**");
     }
 
     @Bean

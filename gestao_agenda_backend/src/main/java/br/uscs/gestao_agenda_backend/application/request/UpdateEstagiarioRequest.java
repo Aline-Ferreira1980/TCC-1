@@ -1,4 +1,4 @@
-package br.uscs.gestao_agenda_backend.application.dto.in;
+package br.uscs.gestao_agenda_backend.application.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -9,10 +9,9 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class CadastroPsicologoRequest {
+public class UpdateEstagiarioRequest {
+    private Long id;
     private String nome;
-    private String email;
-    private String senha;
     private String especialidade;
     private List<HorarioTrabalhoRequest> horariosTrabalho;
 }

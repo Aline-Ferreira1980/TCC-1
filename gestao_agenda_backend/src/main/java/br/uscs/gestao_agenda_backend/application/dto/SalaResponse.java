@@ -1,4 +1,4 @@
-package br.uscs.gestao_agenda_backend.application.dto.in;
+package br.uscs.gestao_agenda_backend.application.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,8 +9,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 @Data
-public class SalaRequest {
-
-    private String local;
+public class SalaResponse {
     private String nome;
+    private String local;
+
 }
