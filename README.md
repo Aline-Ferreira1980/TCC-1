@@ -13,7 +13,7 @@ Repositório para TCC 1
 [Link](https://www.figma.com/proto/s0W63PmAQJdSioNTx2fzrM/Tela-login%2Fcadastro?type=design&node-id=0-3&scaling=contain&page-id=0%3A1) para acesso à versão de teste do protótipo.
 
 
-- [ ] Cadastro Paciente (CRUD)
+- [X] Cadastro Paciente (CRUD)
 - [ ] Cadastro Estagiario (CRUD)
 - [ ] Cadastro Dicente (CRUD)
 - [ ] Cadastro Sala (CRUD)
