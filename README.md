@@ -14,7 +14,7 @@ Repositório para TCC 1
 
 
 - [X] Cadastro Paciente (CRUD)
-- [ ] Cadastro Estagiario (CRUD)
+- [X] Cadastro Estagiario (CRUD)
 - [ ] Cadastro Dicente (CRUD)
 - [ ] Cadastro Sala (CRUD)
 - [ ] Criar agendamento
