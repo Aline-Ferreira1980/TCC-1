@@ -4,7 +4,7 @@ import br.uscs.gestao_agenda_backend.application.common.HorarioTrabalhoMapper;
 import br.uscs.gestao_agenda_backend.application.common.EstagiarioMapper;
 import br.uscs.gestao_agenda_backend.application.request.CadastroEstagiarioRequest;
 import br.uscs.gestao_agenda_backend.application.request.HorarioTrabalhoRequest;
-import br.uscs.gestao_agenda_backend.application.request.UpdateEstagiarioRequest;
+import br.uscs.gestao_agenda_backend.application.request.AtualizaEstagiarioRequest;
 import br.uscs.gestao_agenda_backend.application.dto.EstagiarioResponse;
 import br.uscs.gestao_agenda_backend.application.port.EstagiarioService;
 import br.uscs.gestao_agenda_backend.domain.model.HorarioTrabalho;
@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -83,18 +84,40 @@ public class EstagiarioServiceImpl implements EstagiarioService {
 
 
     @Override
-    public EstagiarioResponse updateEstagiario(UpdateEstagiarioRequest request) {
-        Estagiario estagiario = estagiarioRepository.getById(request.getId());
-        BeanUtils.copyProperties(request, estagiario,"id", "horariosTrabalho");
+    public Optional<EstagiarioResponse> updateEstagiario(Long id, AtualizaEstagiarioRequest request) {
+        Optional<Estagiario> rs = estagiarioRepository.findById(id);
 
-        List<HorarioTrabalho> horariosTrabalho = horarioTrabalhoMapper.fromRequestList(request.getHorariosTrabalho());
-        estagiario.setHorariosTrabalho(horariosTrabalho);
+        if(rs.isPresent()) {
+            Estagiario estagiario = rs.get();
+            BeanUtils.copyProperties(request, estagiario,
+                    "id",
+                    "horariosTrabalho",
+                    "agendamentos",
+                    "professorResponsavel",
+                    "servicos",
+                    "pacientes");
 
-        estagiarioRepository.save(estagiario);
-        return estagiarioMapper.toResponse(estagiario);
+            List<HorarioTrabalho> horariosTrabalho = horarioTrabalhoMapper.fromRequestList(request.getHorariosTrabalho());
+            estagiario.getHorariosTrabalho().clear();
+            estagiario.addAllHorarioTrabalho(horariosTrabalho);
+            return Optional.ofNullable(estagiarioMapper.toResponse(estagiarioRepository.save(estagiario)));
+        }
+        return Optional.empty();
 
     }
 
+    @Override
+    public Optional<EstagiarioResponse> findById(Long id) {
+        Optional<Estagiario> estagiario = estagiarioRepository.findById(id);
+        return estagiario.map(estagiarioMapper::toResponse);
+    }
+
+    @Override
+    public void deletaPaciente(Long id) {
+        estagiarioRepository.deleteById(id);
+        estagiarioRepository.flush();
+        // TODO: Mandar erro customizado
+    }
 
     @Override
     public List<EstagiarioResponse> getAllAvailableInDataRange(LocalDate startDate, LocalDate endDate) {

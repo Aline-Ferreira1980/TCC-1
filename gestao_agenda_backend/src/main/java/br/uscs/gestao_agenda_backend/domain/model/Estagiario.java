@@ -43,4 +43,8 @@ public class Estagiario extends User{
         pacientes.forEach( child -> child.setEstagiario(null));
     }
 
+    public void addAllHorarioTrabalho(List<HorarioTrabalho> horarios){
+        this.horariosTrabalho.addAll(horarios);
+    }
+
 }

@@ -72,7 +72,7 @@ public class PacienteContoller {
     })
     @GetMapping(value = "/{id}")
     public ResponseEntity<PacienteResponse> getPaciente(@PathVariable Long id){
-        Optional<PacienteResponse> response = pacienteService.find(id);
+        Optional<PacienteResponse> response = pacienteService.findById(id);
         return response.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 

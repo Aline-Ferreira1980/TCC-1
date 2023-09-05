@@ -17,8 +17,6 @@ public class HorarioTrabalhoResponse {
 
     @Schema(type = "integer", example = "1")
     private DayOfWeek diaSemana;
-    @Schema(type = "string", example = "08:00:00")
     private LocalTime horarioInicio;
-    @Schema(type = "string", example = "17:00:00")
     private LocalTime horarioFim;
 }

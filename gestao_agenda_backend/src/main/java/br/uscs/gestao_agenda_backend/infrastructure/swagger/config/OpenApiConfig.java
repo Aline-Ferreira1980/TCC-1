@@ -1,5 +1,6 @@
 package br.uscs.gestao_agenda_backend.infrastructure.swagger.config;
 
+import br.uscs.gestao_agenda_backend.domain.model.enums.Turno;
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.enums.SecuritySchemeIn;
 import io.swagger.v3.oas.annotations.enums.SecuritySchemeType;
@@ -7,8 +8,17 @@ import io.swagger.v3.oas.annotations.info.Info;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.security.SecurityScheme;
 import io.swagger.v3.oas.annotations.servers.Server;
+import io.swagger.v3.oas.models.media.Schema;
+import io.swagger.v3.oas.models.media.StringSchema;
+import org.springdoc.core.customizers.OpenApiCustomiser;
+import org.springdoc.core.customizers.OperationCustomizer;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+
+import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.List;
+
 
 @OpenAPIDefinition(
         info = @Info(
@@ -32,6 +42,26 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
         bearerFormat = "JWT",
         in = SecuritySchemeIn.HEADER
 )
-public class OpenApiConfig {
 
+@Configuration
+public class OpenApiConfig {
+        @Bean
+        public OpenApiCustomiser customOpenApi() {
+                return openApi -> {
+                        Schema<?> localTimeSchema = new StringSchema()
+                                .format("HH:mm:ss")
+                                .example("08:00:00")
+                                .description("Definiçao de horario no formado HH:mm:ss");
+
+                        openApi.getComponents().addSchemas("LocalTime", localTimeSchema);
+                };
+        }
+
+        @Bean
+        public OperationCustomizer customOperation() {
+                return (operation, handlerMethod) -> {
+                        // Customize individual operations here if needed
+                        return operation;
+                };
+        }
 }

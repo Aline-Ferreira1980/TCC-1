@@ -44,7 +44,7 @@ public class PacienteServiceImpl implements PacienteService {
     }
 
     @Override
-    public Optional<PacienteResponse> find(Long id) {
+    public Optional<PacienteResponse> findById(Long id) {
         Optional<Paciente> paciente = pacienteRepository.findById(id);
         return paciente.map(pacienteMapper::toResponse);
 

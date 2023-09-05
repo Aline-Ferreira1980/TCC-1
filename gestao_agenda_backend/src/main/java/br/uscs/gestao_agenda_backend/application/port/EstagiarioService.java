@@ -1,11 +1,12 @@
 package br.uscs.gestao_agenda_backend.application.port;
 
 import br.uscs.gestao_agenda_backend.application.request.CadastroEstagiarioRequest;
-import br.uscs.gestao_agenda_backend.application.request.UpdateEstagiarioRequest;
+import br.uscs.gestao_agenda_backend.application.request.AtualizaEstagiarioRequest;
 import br.uscs.gestao_agenda_backend.application.dto.EstagiarioResponse;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 public interface EstagiarioService {
     EstagiarioResponse cadastrarEstagiario(CadastroEstagiarioRequest request);
@@ -14,5 +15,9 @@ public interface EstagiarioService {
 
     List<EstagiarioResponse> findAll();
 
-    EstagiarioResponse updateEstagiario(UpdateEstagiarioRequest request);
+    Optional<EstagiarioResponse> updateEstagiario(Long id, AtualizaEstagiarioRequest request);
+
+    Optional<EstagiarioResponse> findById(Long id);
+
+    void deletaPaciente(Long id);
 }
