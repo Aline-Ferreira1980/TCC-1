@@ -1,6 +1,7 @@
 package br.uscs.gestao_agenda_backend.application.common;
 
 import br.uscs.gestao_agenda_backend.application.dto.SalaResponse;
+import br.uscs.gestao_agenda_backend.application.request.AtualizaSalaRequest;
 import br.uscs.gestao_agenda_backend.application.request.SalaRequest;
 import br.uscs.gestao_agenda_backend.domain.model.Paciente;
 import br.uscs.gestao_agenda_backend.domain.model.Sala;
@@ -32,8 +33,11 @@ public class SalaMapper {
         return modelMapper.map(request, Sala.class);
     }
 
+    public Sala fromRequest(AtualizaSalaRequest request) {
+        return modelMapper.map(request, Sala.class);
+    }
+
     public SalaResponse toResponse(Sala sala){
         return modelMapper.map(sala, SalaResponse.class);
     }
-
 }

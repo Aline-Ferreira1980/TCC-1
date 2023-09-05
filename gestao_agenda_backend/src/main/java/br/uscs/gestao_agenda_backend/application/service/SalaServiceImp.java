@@ -4,14 +4,15 @@ import br.uscs.gestao_agenda_backend.application.common.SalaMapper;
 import br.uscs.gestao_agenda_backend.application.request.SalaRequest;
 import br.uscs.gestao_agenda_backend.application.dto.SalaResponse;
 import br.uscs.gestao_agenda_backend.application.port.SalaService;
+import br.uscs.gestao_agenda_backend.domain.model.Paciente;
 import br.uscs.gestao_agenda_backend.domain.model.Sala;
 import br.uscs.gestao_agenda_backend.domain.port.SalaRepository;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @AllArgsConstructor
@@ -21,16 +22,34 @@ public class SalaServiceImp implements SalaService {
     private final SalaMapper salaMapper;
 
     @Override
-    public void cadastraSala(SalaRequest request) {
-        Sala sala = Sala.builder()
-                .nome(request.getNome())
-                .local(request.getLocal()).build();
-
-        salaRepository.save(sala);
+    public SalaResponse cadastraSala(Sala request) {
+        return salaMapper.toResponse(salaRepository.save(request));
     }
 
     @Override
     public List<SalaResponse> findAll() {
         return salaRepository.findAll().stream().map(salaMapper::toResponse).toList();
     }
+
+    @Override
+    public Optional<SalaResponse> findById(Long id) {
+        Optional<Sala> sala = salaRepository.findById(id);
+        return sala.map(salaMapper::toResponse);
+    }
+
+    @Override
+    public Optional<SalaResponse> atualizaSala(Long id, Sala request) {
+        Optional<Sala> rs = salaRepository.findById(id);
+
+        if (rs.isPresent()){
+            Sala sala = rs.get();
+            BeanUtils.copyProperties(request, sala, "id", "agendamentos", "local");
+            return Optional.ofNullable(salaMapper.toResponse(salaRepository.save(sala)));
+        }
+        return Optional.empty();
+    }
+
+
+
+
 }

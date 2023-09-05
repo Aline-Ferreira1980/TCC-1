@@ -11,10 +11,8 @@ import java.util.List;
 @NoArgsConstructor
 @Builder
 @Data
-public class SalaResponse {
+public class SalaPropertyResponse {
     private Long id;
     private String nome;
     private String local;
-    private List<AgendamentoPropertyResponse> agendamentos;
-
 }
