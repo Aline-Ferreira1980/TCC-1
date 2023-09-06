@@ -17,4 +17,6 @@ public interface SalaService {
     Optional<SalaResponse> findById(Long id);
 
     Optional<SalaResponse> atualizaSala(Long id, Sala request);
+
+    void deletaSala(Long id);
 }

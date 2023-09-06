@@ -49,7 +49,12 @@ public class SalaServiceImp implements SalaService {
         return Optional.empty();
     }
 
-
+    @Override
+    public void deletaSala(Long id) {
+        // TODO: Mandar erro customizado
+        salaRepository.deleteById(id);
+        salaRepository.flush();
+    }
 
 
 }

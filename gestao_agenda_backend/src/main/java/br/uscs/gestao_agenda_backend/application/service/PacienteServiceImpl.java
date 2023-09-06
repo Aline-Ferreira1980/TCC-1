@@ -64,8 +64,8 @@ public class PacienteServiceImpl implements PacienteService {
 
     @Override
     public void deletaPaciente(Long id) {
+        // TODO: Mandar erro customizado
         pacienteRepository.deleteById(id);
         pacienteRepository.flush();
-        // TODO: Mandar erro customizado
     }
 }

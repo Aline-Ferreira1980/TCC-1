@@ -9,8 +9,10 @@ import br.uscs.gestao_agenda_backend.application.port.SalaService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -23,6 +25,7 @@ import java.util.Optional;
 @RestController
 @AllArgsConstructor
 @RequestMapping("sala")
+@Tag(name = "Sala")
 //@SecurityRequirement(name = "BearerAuth") swagger
 public class SalaController {
 
@@ -90,5 +93,23 @@ public class SalaController {
 
         Optional<SalaResponse> response = salaService.atualizaSala(id, salaMapper.fromRequest(request));
         return response.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
+    @Operation(summary = "Deleta Sala na aplicação", method = "DELETE")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Sala Deletada com sucesso"),
+            @ApiResponse(responseCode = "422", description = "Dados de requisição inválida"),
+            @ApiResponse(responseCode = "401", description = "Usuario nao autenticado"),
+            @ApiResponse(responseCode = "400", description = "Parametros inválidos"),
+            @ApiResponse(responseCode = "500", description = "Erro ao realizar atualização do Paciente"),
+    })
+    @DeleteMapping(value = "/{id}")
+    public ResponseEntity<String> deletaSala(@PathVariable Long id) {
+        try {
+            salaService.deletaSala(id);
+            return ResponseEntity.ok("Saladeletado com sucesso");
+        }catch (EmptyResultDataAccessException e){
+            return ResponseEntity.notFound().build();
+        }
     }
 }

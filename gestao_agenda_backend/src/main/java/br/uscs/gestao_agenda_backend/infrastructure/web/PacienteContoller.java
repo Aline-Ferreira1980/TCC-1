@@ -94,7 +94,7 @@ public class PacienteContoller {
 
     @Operation(summary = "Deleta paciente na aplicação", method = "DELETE")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Paciente Atualizado com sucesso"),
+            @ApiResponse(responseCode = "200", description = "Paciente Deletado com sucesso"),
             @ApiResponse(responseCode = "422", description = "Dados de requisição inválida"),
             @ApiResponse(responseCode = "401", description = "Usuario nao autenticado"),
             @ApiResponse(responseCode = "400", description = "Parametros inválidos"),

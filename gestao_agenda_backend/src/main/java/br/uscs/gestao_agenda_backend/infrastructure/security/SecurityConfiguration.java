@@ -33,6 +33,9 @@ public class SecurityConfiguration {
                 .authorizeHttpRequests(authorize -> authorize
                         .antMatchers(HttpMethod.POST, "/auth/login").permitAll()
                         .antMatchers(HttpMethod.POST, "/sala/**").permitAll()
+                        .antMatchers(HttpMethod.GET, "/sala/**").permitAll()
+                        .antMatchers(HttpMethod.PUT, "/sala/**").permitAll()
+                        .antMatchers(HttpMethod.DELETE, "/sala/**").permitAll()
                         .antMatchers(HttpMethod.GET, "/estagiario/**").permitAll()
                         .antMatchers(HttpMethod.POST, "/estagiario/**").permitAll()
                         .antMatchers(HttpMethod.PUT, "/estagiario/**").permitAll()
