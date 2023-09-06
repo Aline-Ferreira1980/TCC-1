@@ -2,7 +2,7 @@ package br.uscs.gestao_agenda_backend.application.common;
 
 import br.uscs.gestao_agenda_backend.application.dto.DocenteResponse;
 import br.uscs.gestao_agenda_backend.application.dto.DocentePropertyResponse;
-import br.uscs.gestao_agenda_backend.application.request.DocenteRequest;
+import br.uscs.gestao_agenda_backend.application.request.CadastroDocenteRequest;
 import br.uscs.gestao_agenda_backend.domain.model.Docente;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -15,7 +15,7 @@ public class DocenteMapper {
 
     private ModelMapper modelMapper;
 
-    public Docente fromRequest(DocenteRequest request){
+    public Docente fromRequest(CadastroDocenteRequest request){
         return modelMapper.map(request, Docente.class);
     }
 

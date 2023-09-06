@@ -54,5 +54,4 @@ public class SalaServiceImp implements SalaService {
         salaRepository.flush();
     }
 
-
 }

@@ -43,7 +43,7 @@ public class SalaController {
     public ResponseEntity<SalaResponse> cadastrarSala(@RequestBody SalaRequest request,
                                                       UriComponentsBuilder uriBuilder){
         SalaResponse response = salaService.cadastraSala(salaMapper.fromRequest(request));
-        URI uri = uriBuilder.path("/paciente/{id}").buildAndExpand(response.getId()).toUri();
+        URI uri = uriBuilder.path("/sala/{id}").buildAndExpand(response.getId()).toUri();
         return ResponseEntity.created(uri).body(response);
     }
 
@@ -83,7 +83,7 @@ public class SalaController {
             @ApiResponse(responseCode = "422", description = "Dados de requisição inválida"),
             @ApiResponse(responseCode = "401", description = "Usuario nao autenticado"),
             @ApiResponse(responseCode = "400", description = "Parametros inválidos"),
-            @ApiResponse(responseCode = "500", description = "Erro ao realizar atualização do Paciente"),
+            @ApiResponse(responseCode = "500", description = "Erro ao realizar atualização do Sala"),
     })
     @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<SalaResponse> atualizaSala(@PathVariable Long id,
@@ -99,13 +99,13 @@ public class SalaController {
             @ApiResponse(responseCode = "422", description = "Dados de requisição inválida"),
             @ApiResponse(responseCode = "401", description = "Usuario nao autenticado"),
             @ApiResponse(responseCode = "400", description = "Parametros inválidos"),
-            @ApiResponse(responseCode = "500", description = "Erro ao realizar atualização do Paciente"),
+            @ApiResponse(responseCode = "500", description = "Erro ao realizar atualização do Sala"),
     })
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<String> deletaSala(@PathVariable Long id) {
         try {
             salaService.deletaSala(id);
-            return ResponseEntity.ok("Saladeletado com sucesso");
+            return ResponseEntity.ok("Sala deletado com sucesso");
         }catch (EmptyResultDataAccessException e){
             return ResponseEntity.notFound().build();
         }

@@ -8,5 +8,5 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Data
 public class AtualizaSalaRequest {
-    private String local;
+    private String nome;
 }
