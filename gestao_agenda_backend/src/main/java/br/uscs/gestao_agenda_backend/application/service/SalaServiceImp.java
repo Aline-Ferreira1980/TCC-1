@@ -1,10 +1,8 @@
 package br.uscs.gestao_agenda_backend.application.service;
 
 import br.uscs.gestao_agenda_backend.application.common.SalaMapper;
-import br.uscs.gestao_agenda_backend.application.request.SalaRequest;
 import br.uscs.gestao_agenda_backend.application.dto.SalaResponse;
 import br.uscs.gestao_agenda_backend.application.port.SalaService;
-import br.uscs.gestao_agenda_backend.domain.model.Paciente;
 import br.uscs.gestao_agenda_backend.domain.model.Sala;
 import br.uscs.gestao_agenda_backend.domain.port.SalaRepository;
 import lombok.AllArgsConstructor;

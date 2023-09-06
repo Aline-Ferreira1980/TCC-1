@@ -3,14 +3,10 @@ package br.uscs.gestao_agenda_backend.application.service;
 import br.uscs.gestao_agenda_backend.application.common.PacienteMapper;
 import br.uscs.gestao_agenda_backend.application.dto.PacienteResponse;
 import br.uscs.gestao_agenda_backend.application.port.PacienteService;
-import br.uscs.gestao_agenda_backend.application.request.AtualizaPacienteRequest;
 import br.uscs.gestao_agenda_backend.domain.model.Paciente;
 import br.uscs.gestao_agenda_backend.domain.port.PacienteRepository;
-import com.fasterxml.jackson.databind.util.BeanUtil;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.BeanUtils;
-import org.springframework.context.annotation.Bean;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 

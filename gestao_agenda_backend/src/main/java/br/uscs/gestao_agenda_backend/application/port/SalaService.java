@@ -1,8 +1,6 @@
 package br.uscs.gestao_agenda_backend.application.port;
 
-import br.uscs.gestao_agenda_backend.application.request.SalaRequest;
 import br.uscs.gestao_agenda_backend.application.dto.SalaResponse;
-import br.uscs.gestao_agenda_backend.domain.model.Paciente;
 import br.uscs.gestao_agenda_backend.domain.model.Sala;
 
 import java.util.List;

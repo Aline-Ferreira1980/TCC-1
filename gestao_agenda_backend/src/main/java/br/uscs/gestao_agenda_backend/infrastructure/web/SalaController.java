@@ -2,7 +2,6 @@ package br.uscs.gestao_agenda_backend.infrastructure.web;
 
 import br.uscs.gestao_agenda_backend.application.common.SalaMapper;
 import br.uscs.gestao_agenda_backend.application.request.AtualizaSalaRequest;
-import br.uscs.gestao_agenda_backend.application.dto.PacienteResponse;
 import br.uscs.gestao_agenda_backend.application.dto.SalaResponse;
 import br.uscs.gestao_agenda_backend.application.request.SalaRequest;
 import br.uscs.gestao_agenda_backend.application.port.SalaService;
@@ -11,7 +10,6 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
