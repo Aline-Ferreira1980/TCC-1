@@ -1,5 +1,6 @@
 package br.uscs.gestao_agenda_backend.application.request;
 
+import br.uscs.gestao_agenda_backend.domain.model.HorarioTrabalho;
 import br.uscs.gestao_agenda_backend.domain.model.enums.Turno;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;

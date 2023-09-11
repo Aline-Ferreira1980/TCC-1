@@ -16,6 +16,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -38,9 +39,9 @@ public class EstagiarioServiceImpl implements EstagiarioService {
     public EstagiarioResponse cadastrarEstagiario(CadastroEstagiarioRequest request) {
         Estagiario estagiario = estagiarioMapper.fromRequest(request);
 
-        if (estagiarioRepository.findByEmail(estagiario.getEmail()) != null) {
+        if (estagiarioRepository.findByEmail(estagiario.getEmail()).isPresent()) {
             // TODO: Criar uma exeção customizad
-            throw new RuntimeException("O email já está em uso.");
+            throw new IllegalArgumentException("Email para estagiario ja esta em uso");
         }
 
         String senhaCriptografada = new BCryptPasswordEncoder().encode(estagiario.getSenha());
@@ -83,6 +84,7 @@ public class EstagiarioServiceImpl implements EstagiarioService {
     }
 
 
+    @Transactional
     @Override
     public Optional<EstagiarioResponse> updateEstagiario(Long id, AtualizaEstagiarioRequest request) {
         Optional<Estagiario> rs = estagiarioRepository.findById(id);
@@ -99,7 +101,7 @@ public class EstagiarioServiceImpl implements EstagiarioService {
 
             List<HorarioTrabalho> horariosTrabalho = horarioTrabalhoMapper.fromRequestList(request.getHorariosTrabalho());
             estagiario.getHorariosTrabalho().clear();
-            estagiario.addAllHorarioTrabalho(horariosTrabalho);
+            estagiario.getHorariosTrabalho().addAll(horariosTrabalho);
             return Optional.ofNullable(estagiarioMapper.toResponse(estagiarioRepository.save(estagiario)));
         }
         return Optional.empty();

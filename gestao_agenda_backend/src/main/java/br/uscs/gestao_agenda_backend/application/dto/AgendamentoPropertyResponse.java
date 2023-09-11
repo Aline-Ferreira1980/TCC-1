@@ -1,7 +1,15 @@
 package br.uscs.gestao_agenda_backend.application.dto;
 
-import java.time.LocalDateTime;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
+@Data
 public class AgendamentoPropertyResponse {
 
 
@@ -13,6 +21,7 @@ public class AgendamentoPropertyResponse {
 
     private SalaPropertyResponse sala;
 
-    private LocalDateTime dataConsulta;
+    private LocalDateTime inicioAgendamento;
+    private LocalDateTime fimAgendamento;
 }
 

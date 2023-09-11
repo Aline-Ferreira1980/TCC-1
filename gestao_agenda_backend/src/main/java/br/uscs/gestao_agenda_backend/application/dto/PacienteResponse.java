@@ -43,8 +43,8 @@ public class PacienteResponse {
     private String relacaoRepresentante;
     private String representanteNome;
 
-    private Estagiario estagiario;
+    private EstagiarioPropertyResponse estagiario;
 
-    private List<Agendamento> agendamentos;
+    private List<AgendamentoPropertyResponse> agendamentos;
 
 }

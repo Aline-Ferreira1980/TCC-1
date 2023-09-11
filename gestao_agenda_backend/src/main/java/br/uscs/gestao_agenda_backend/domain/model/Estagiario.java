@@ -4,6 +4,8 @@ import br.uscs.gestao_agenda_backend.domain.model.enums.Turno;
 import lombok.*;
 
 import javax.persistence.*;
+import java.time.DayOfWeek;
+import java.time.LocalTime;
 import java.util.List;
 import java.util.Set;
 
@@ -45,6 +47,21 @@ public class Estagiario extends User{
 
     public void addAllHorarioTrabalho(List<HorarioTrabalho> horarios){
         this.horariosTrabalho.addAll(horarios);
+    }
+
+    public boolean trabalhaNoDia(DayOfWeek diaDesejado) {
+        return horariosTrabalho.stream()
+                .anyMatch(horario -> horario.getDiaSemana() == diaDesejado);
+    }
+
+    public boolean trabalhaNoRangeDeHorario(LocalTime inicio, LocalTime fim){
+         boolean iniciaDepois =
+                 horariosTrabalho.stream().anyMatch(horario -> horario.getHorarioInicio().isBefore(inicio));
+
+         boolean terminaAntes =
+                 horariosTrabalho.stream().anyMatch(horario -> horario.getHorarioFim().isAfter(fim));
+
+         return iniciaDepois && terminaAntes;
     }
 
 }

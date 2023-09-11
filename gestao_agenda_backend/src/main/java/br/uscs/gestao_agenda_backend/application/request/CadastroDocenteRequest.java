@@ -27,8 +27,6 @@ public class CadastroDocenteRequest {
     @NotBlank
     private String senha;
 
-    private UserRole role;
-
     @NonNull
     @NotBlank
     private String nome;

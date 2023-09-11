@@ -54,6 +54,15 @@ public class OpenApiConfig {
                                 .description("Definiçao de horario no formado HH:mm:ss");
 
                         openApi.getComponents().addSchemas("LocalTime", localTimeSchema);
+
+                        Schema<?> locaDateTimeSchema = new StringSchema()
+                                .format("YYYY-mm-dd'T'HH:mm:ss")
+                                .example("2023-09-15T14:00:00")
+                                .description("Definiçao de data e hora seguindo o formato ISO 8601 YYYY-mm-dd'T'HH:mm:ss");
+
+                        openApi.getComponents().addSchemas("LocalDateTime", locaDateTimeSchema);
+
+
                 };
         }
 

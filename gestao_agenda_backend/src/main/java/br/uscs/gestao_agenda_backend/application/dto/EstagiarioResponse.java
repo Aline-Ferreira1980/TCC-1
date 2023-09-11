@@ -35,6 +35,6 @@ public class EstagiarioResponse {
 
     private List<HorarioTrabalhoResponse> horariosTrabalho;
 
-    private List<AgendamentoResponse> agendamentos;
+    private List<AgendamentoPropertyResponse> agendamentos;
 
 }

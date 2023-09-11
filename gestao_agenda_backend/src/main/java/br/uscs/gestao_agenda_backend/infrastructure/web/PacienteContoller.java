@@ -22,7 +22,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping(value = "paciente", produces = {"application/json"})
-@Tag(name = "paciente")
+@Tag(name = "Paciente")
 @AllArgsConstructor
 public class PacienteContoller {
 

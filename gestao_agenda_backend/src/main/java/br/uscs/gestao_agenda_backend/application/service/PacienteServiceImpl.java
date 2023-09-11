@@ -23,9 +23,9 @@ public class PacienteServiceImpl implements PacienteService {
 
     @Override
     public PacienteResponse cadastraPaciente(Paciente paciente) {
-        if (pacienteRepository.findByEmail(paciente.getEmail()) != null) {
+        if (pacienteRepository.findByEmail(paciente.getEmail()).isPresent()) {
             // TODO: Criar uma exeção customizad
-            throw new RuntimeException("O email já está em uso.");
+            throw new IllegalArgumentException("Email para paciente ja esta em uso");
         }
 
         String senhaCriptografada = new BCryptPasswordEncoder().encode(paciente.getSenha());

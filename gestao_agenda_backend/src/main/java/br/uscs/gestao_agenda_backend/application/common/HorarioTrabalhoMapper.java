@@ -3,13 +3,17 @@ package br.uscs.gestao_agenda_backend.application.common;
 import br.uscs.gestao_agenda_backend.application.request.HorarioTrabalhoRequest;
 import br.uscs.gestao_agenda_backend.application.dto.HorarioTrabalhoResponse;
 import br.uscs.gestao_agenda_backend.domain.model.HorarioTrabalho;
+import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+
 @Component
+@AllArgsConstructor
 public class HorarioTrabalhoMapper {
 
 
@@ -29,7 +33,6 @@ public class HorarioTrabalhoMapper {
 //                .build();
 //    }
 
-    @Autowired
     private ModelMapper modelMapper;
 
     public HorarioTrabalho fromRequest(HorarioTrabalhoRequest request){
@@ -52,5 +55,11 @@ public class HorarioTrabalhoMapper {
 
         }
         return horariosTrabalho;
+    }
+
+    public List<HorarioTrabalhoResponse> toReponseList(List<HorarioTrabalho> horariosTrabalho) {
+        return horariosTrabalho.stream()
+                .map(this::toReponse)
+                .collect(Collectors.toList());
     }
 }

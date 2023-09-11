@@ -1,15 +1,16 @@
 package br.uscs.gestao_agenda_backend.application.dto;
 
-import br.uscs.gestao_agenda_backend.domain.model.Estagiario;
-import br.uscs.gestao_agenda_backend.domain.model.Paciente;
-import br.uscs.gestao_agenda_backend.domain.model.Sala;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
 import java.time.LocalDateTime;
 
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
+@Data
 public class AgendamentoResponse {
 
     private Long id;
@@ -18,7 +19,8 @@ public class AgendamentoResponse {
 
     private PacientePropertyResponse paciente;
 
-    private SalaResponse sala;
+    private SalaPropertyResponse sala;
 
-    private LocalDateTime dataConsulta;
+    private LocalDateTime inicioAgendamento;
+    private LocalDateTime fimAgendamento;
 }
