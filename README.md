@@ -15,10 +15,10 @@ Repositório para TCC 1
 
 - [X] Cadastro Paciente (CRUD)
 - [X] Cadastro Estagiario (CRUD)
-- [ ] Cadastro Dicente (CRUD)
+- [X] Cadastro Dicente (CRUD)
 - [X] Cadastro Sala (CRUD)
-- [ ] Criar agendamento
-- [ ] Cunsultar agendamento por usuário
+- [X] Criar agendamento
+- [X] Cunsultar agendamento por usuário
 - [ ] Consultar agendamento por Aluno (retorna agendamentos num range de dias)
 - [ ] Consultar agendamento por sala
 - [ ] Consultar agendamento por range de dia 
