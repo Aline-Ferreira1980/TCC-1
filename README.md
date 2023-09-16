@@ -26,6 +26,9 @@ Repositório para TCC 1
 - [ ] Alterar agendamento
 - [ ] Consultar disponiblidade de agendamento por aluno por range de dia
 - [ ] Consultar disponibilidade de agendamento da sala por range de dia
+- [ ] Deploy na AWS
+      
+#### Ao fim desta fase a aplicação deve estar habil a iniciar a integração ao front-end
 ---
 ### Phase 2
 - [ ] Consultar alunos por serviço
@@ -36,3 +39,7 @@ Repositório para TCC 1
 - [ ] Remove Docente de serviço
 - [ ] Consultar Docentes por serviço
 - [ ] Consultar Estagiarios por serviço
+- [ ] Implementação de autenticação via oauth2
+---
+### Pahse 3
+
