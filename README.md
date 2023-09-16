@@ -20,10 +20,17 @@ Repositório para TCC 1
 - [X] Criar agendamento
 - [X] Cunsultar agendamento por usuário
 - [ ] Consultar agendamento por Aluno (retorna agendamentos num range de dias)
-- [ ] Consultar agendamento por sala
-- [ ] Consultar agendamento por range de dia 
+- [X] Consultar agendamento por sala
+- [X] Consultar agendamento por range de dia 
 - [ ] Alterar agendamento
 - [ ] Consultar disponiblidade de agendamento por aluno por range de dia
 - [ ] Consultar disponibilidade de agendamento da sala por range de dia
+===================== Phase 2 ===============================================
 - [ ] Consultar alunos por serviço
-
+- [ ] Cadastrar serviço (CRUD)
+- [ ] Adiciona Estagiario a serviço
+- [ ] Remover Estagiario de serviço
+- [ ] Adiciona Docente a serviço
+- [ ] Remove Docente de serviço
+- [ ] Consultar Docentes por serviço
+- [ ] Consultar Estagiarios por serviço
