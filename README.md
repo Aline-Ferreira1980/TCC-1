@@ -12,7 +12,8 @@ Repositório para TCC 1
 
 [Link](https://www.figma.com/proto/s0W63PmAQJdSioNTx2fzrM/Tela-login%2Fcadastro?type=design&node-id=0-3&scaling=contain&page-id=0%3A1) para acesso à versão de teste do protótipo.
 
-
+---
+### Phase 1
 - [X] Cadastro Paciente (CRUD)
 - [X] Cadastro Estagiario (CRUD)
 - [X] Cadastro Dicente (CRUD)
@@ -25,7 +26,8 @@ Repositório para TCC 1
 - [ ] Alterar agendamento
 - [ ] Consultar disponiblidade de agendamento por aluno por range de dia
 - [ ] Consultar disponibilidade de agendamento da sala por range de dia
-===================== Phase 2 ===============================================
+---
+### Phase 2
 - [ ] Consultar alunos por serviço
 - [ ] Cadastrar serviço (CRUD)
 - [ ] Adiciona Estagiario a serviço
