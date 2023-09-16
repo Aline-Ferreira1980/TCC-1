@@ -54,7 +54,6 @@ public class PacienteMapper {
                 new ModelMapper(), this.estagiarioMapper, this, new SalaMapper(this.modelMapper)
         );
         PacienteResponse response = PacienteResponse.builder()
-                .agendamentos(agendamentoMapper.toPropertyResponseList(paciente.getAgendamentos()))
                 .estagiario(estagiarioMapper.toPropertyResponse(paciente.getEstagiario()))
                 .build();
 

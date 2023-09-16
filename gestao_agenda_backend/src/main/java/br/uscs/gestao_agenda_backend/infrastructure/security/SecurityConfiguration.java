@@ -48,6 +48,8 @@ public class SecurityConfiguration {
                         .antMatchers(HttpMethod.PUT, "/docente/**").permitAll()
                         .antMatchers(HttpMethod.POST, "/agendamento/**").permitAll()
                         .antMatchers(HttpMethod.GET, "/agendamento/**").permitAll()
+                        .antMatchers(HttpMethod.PUT, "/agendamento/**").permitAll()
+                        .antMatchers(HttpMethod.DELETE, "/agendamento/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)

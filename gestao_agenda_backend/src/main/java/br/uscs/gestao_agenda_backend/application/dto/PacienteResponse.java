@@ -45,6 +45,4 @@ public class PacienteResponse {
 
     private EstagiarioPropertyResponse estagiario;
 
-    private List<AgendamentoPropertyResponse> agendamentos;
-
 }

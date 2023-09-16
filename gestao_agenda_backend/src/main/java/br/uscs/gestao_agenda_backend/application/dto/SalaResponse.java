@@ -15,6 +15,5 @@ public class SalaResponse {
     private Long id;
     private String nome;
     private String local;
-    private List<AgendamentoPropertyResponse> agendamentos;
 
 }

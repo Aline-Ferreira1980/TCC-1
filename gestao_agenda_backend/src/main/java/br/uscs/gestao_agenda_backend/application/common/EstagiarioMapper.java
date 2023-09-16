@@ -83,7 +83,6 @@ public class EstagiarioMapper {
                 .servicos(servicoMapper.toPropertyResponseSet(estagiario.getServicos()))
                 .professorResponsavel(docenteMapper.toPropertyResponse(estagiario.getProfessorResponsavel()))
                 .horariosTrabalho(horarioTrabalhoMapper.toReponseList(estagiario.getHorariosTrabalho()))
-                .agendamentos(agendamentoMapper.toPropertyResponseList(estagiario.getAgendamentos()))
                 .build();
 
     }
