@@ -35,8 +35,8 @@ public class ServicoController {
             @ApiResponse(responseCode = "500", description = "Erro ao realizar busca dos dados"),
     })
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> cadastrarSerico(@RequestBody ServicoRequest request,
-                                             UriComponentsBuilder uriBuilder) {
+    public ResponseEntity<ServicoResponse> cadastrarSerico(@RequestBody ServicoRequest request,
+                                                           UriComponentsBuilder uriBuilder) {
 
         try {
             Optional<ServicoResponse> response = servicoService.cadastrarServico(request);
@@ -47,7 +47,8 @@ public class ServicoController {
             }
             return ResponseEntity.badRequest().build();
         } catch (Exception ex) {
-            return ResponseEntity.badRequest().body(ex.getMessage());
+            // TODO: Levantar um erro especifico
+            return ResponseEntity.badRequest().build();
         }
     }
 
@@ -119,30 +120,23 @@ public class ServicoController {
         }
     }
 
-//    @Operation(summary = "Cria novo serviço na aplicação", method = "POST")
-//    @ApiResponses(value = {
-//            @ApiResponse(responseCode = "201", description = "Serviço criado com sucesso"),
-//            @ApiResponse(responseCode = "422", description = "Dados de requisição inválida"),
-//            @ApiResponse(responseCode = "401", description = "Usuário nao autenticado"),
-//            @ApiResponse(responseCode = "400", description = "Parâmetros inválidos"),
-//            @ApiResponse(responseCode = "500", description = "Erro ao realizar busca dos dados"),
-//    })
-//    @PostMapping(value="/{service_id}/addEstagiario" ,consumes = MediaType.APPLICATION_JSON_VALUE)
-//    public ResponseEntity<?> addEstagiarioToService(@RequestBody ServicoRequest request,
-//                                             UriComponentsBuilder uriBuilder) {
-//
-//        try {
-//            Optional<ServicoResponse> response = servicoService.cadastrarServico(request);
-//            if (response.isPresent()) {
-//
-//                URI uri = uriBuilder.path("/{id}").buildAndExpand(response.get().getId()).toUri();
-//                return ResponseEntity.created(uri).body(response.get());
-//            }
-//            return ResponseEntity.badRequest().build();
-//        } catch (Exception ex){
-//            return ResponseEntity.badRequest().body(ex.getMessage());
-//        }
-//    }
+    @Operation(summary = "Vincula estagiário a serviço", method = "POST")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Estagiário vinculado com sucesso"),
+            @ApiResponse(responseCode = "422", description = "Dados de requisição inválida"),
+            @ApiResponse(responseCode = "401", description = "Usuário nao autenticado"),
+            @ApiResponse(responseCode = "400", description = "Parâmetros inválidos"),
+            @ApiResponse(responseCode = "500", description = "Erro ao realizar busca dos dados"),
+    })
+    @PostMapping(value = "/{id_servico}/addEstagiario", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+    public ResponseEntity<ServicoResponse> addEstagiarioToService(@PathVariable Long id_servico,
+                                                                  @RequestParam Long id_estagiario) {
 
+        Optional<ServicoResponse> response = servicoService.addEstagiarioToServico(
+                id_servico, id_estagiario);
+
+        return response.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+
+    }
 
 }

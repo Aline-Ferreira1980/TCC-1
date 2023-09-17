@@ -18,6 +18,7 @@ public class Docente extends User {
     @Column(unique = true)
     private String ruscs;
 
+    @EqualsAndHashCode.Exclude
     @ManyToMany(mappedBy = "docentes", cascade = CascadeType.ALL)
     private Set<Servico> servicos;
 

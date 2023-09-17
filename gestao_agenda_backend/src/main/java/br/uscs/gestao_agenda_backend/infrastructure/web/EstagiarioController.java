@@ -78,7 +78,7 @@ public class EstagiarioController {
             @ApiResponse(responseCode = "500", description = "Erro ao realizar busca dos dados"),
     })
     @GetMapping("/listar")
-    public ResponseEntity<List<EstagiarioResponse>> getAllPsicologos() {
+    public ResponseEntity<List<EstagiarioResponse>> getAllEstagiarios() {
         List<EstagiarioResponse> response = estagiarioService.findAll();
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
@@ -118,6 +118,21 @@ public class EstagiarioController {
         } catch (EmptyResultDataAccessException e) {
             return ResponseEntity.notFound().build();
         }
+    }
+
+    @Operation(summary = "Lista estagiários por serviço", method = "GET")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Busca realizada com sucesso"),
+            @ApiResponse(responseCode = "422", description = "Dados de requisição inválida"),
+            @ApiResponse(responseCode = "404", description = "Docente não encontrado"),
+            @ApiResponse(responseCode = "401", description = "Usuário nao autenticado"),
+            @ApiResponse(responseCode = "400", description = "Parâmetros inválidos"),
+            @ApiResponse(responseCode = "500", description = "Erro ao realizar busca dos dados"),
+    })
+    @GetMapping("/servico")
+    public ResponseEntity<List<EstagiarioResponse>> listEstagiariosByServico(@RequestParam String acronimo) {
+        List<EstagiarioResponse> response = estagiarioService.findByServico(acronimo);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
 

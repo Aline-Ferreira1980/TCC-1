@@ -54,7 +54,7 @@ public class EstagiarioMapper {
 
     private ModelMapper modelMapper;
 
-    private ServicoMapper servicoMapper;
+
     private DocenteMapper docenteMapper;
     private HorarioTrabalhoMapper horarioTrabalhoMapper;
     private SalaMapper salaMapper;
@@ -64,6 +64,7 @@ public class EstagiarioMapper {
     }
 
     public EstagiarioResponse toResponse(Estagiario estagiario) {
+        ServicoMapper servicoMapper = new ServicoMapper(this.modelMapper, this);
         PacienteMapper pacienteMapper = new PacienteMapper(this.modelMapper, this);
         AgendamentoMapper agendamentoMapper = new AgendamentoMapper(
                 this.modelMapper, this, pacienteMapper, this.salaMapper);
@@ -96,6 +97,5 @@ public class EstagiarioMapper {
         }
         return null;
     }
-
 
 }

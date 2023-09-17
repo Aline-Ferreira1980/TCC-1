@@ -30,7 +30,8 @@ public class Estagiario extends User {
     @OneToMany(mappedBy = "estagiario", cascade = CascadeType.ALL)
     private Set<Paciente> pacientes;
 
-    @ManyToMany(mappedBy = "estagiarios")
+    @EqualsAndHashCode.Exclude
+    @ManyToMany(mappedBy = "estagiarios", cascade = CascadeType.ALL)
     private Set<Servico> servicos;
 
     @ManyToOne

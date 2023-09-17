@@ -1,14 +1,14 @@
 package br.uscs.gestao_agenda_backend.application.service;
 
-import br.uscs.gestao_agenda_backend.application.common.HorarioTrabalhoMapper;
 import br.uscs.gestao_agenda_backend.application.common.EstagiarioMapper;
-import br.uscs.gestao_agenda_backend.application.request.CadastroEstagiarioRequest;
-import br.uscs.gestao_agenda_backend.application.request.HorarioTrabalhoRequest;
-import br.uscs.gestao_agenda_backend.application.request.AtualizaEstagiarioRequest;
+import br.uscs.gestao_agenda_backend.application.common.HorarioTrabalhoMapper;
 import br.uscs.gestao_agenda_backend.application.dto.EstagiarioResponse;
 import br.uscs.gestao_agenda_backend.application.port.EstagiarioService;
-import br.uscs.gestao_agenda_backend.domain.model.HorarioTrabalho;
+import br.uscs.gestao_agenda_backend.application.request.AtualizaEstagiarioRequest;
+import br.uscs.gestao_agenda_backend.application.request.CadastroEstagiarioRequest;
+import br.uscs.gestao_agenda_backend.application.request.HorarioTrabalhoRequest;
 import br.uscs.gestao_agenda_backend.domain.model.Estagiario;
+import br.uscs.gestao_agenda_backend.domain.model.HorarioTrabalho;
 import br.uscs.gestao_agenda_backend.domain.model.enums.UserRole;
 import br.uscs.gestao_agenda_backend.domain.port.EstagiarioRepository;
 import lombok.AllArgsConstructor;
@@ -32,7 +32,6 @@ public class EstagiarioServiceImpl implements EstagiarioService {
     private final HorarioTrabalhoMapper horarioTrabalhoMapper;
 
     private final EstagiarioRepository estagiarioRepository;
-
 
 
     @Override
@@ -59,9 +58,9 @@ public class EstagiarioServiceImpl implements EstagiarioService {
     private List<HorarioTrabalho> createHorariosTrabalho(Estagiario psicologo,
                                                          List<HorarioTrabalhoRequest> horariosRequest) {
 
-        if(horariosRequest != null){
+        if (horariosRequest != null) {
             List<HorarioTrabalho> horariosTrabalho = new ArrayList<>();
-            for(HorarioTrabalhoRequest horarioRequest: horariosRequest){
+            for (HorarioTrabalhoRequest horarioRequest : horariosRequest) {
                 horariosTrabalho.add(new HorarioTrabalho(
                         psicologo,
                         horarioRequest.getDiaSemana(),
@@ -76,7 +75,7 @@ public class EstagiarioServiceImpl implements EstagiarioService {
 
     }
 
-    public List<EstagiarioResponse> findAll(){
+    public List<EstagiarioResponse> findAll() {
         return estagiarioRepository.findAll()
                 .stream()
                 .map(estagiarioMapper::toResponse)
@@ -89,7 +88,7 @@ public class EstagiarioServiceImpl implements EstagiarioService {
     public Optional<EstagiarioResponse> updateEstagiario(Long id, AtualizaEstagiarioRequest request) {
         Optional<Estagiario> rs = estagiarioRepository.findById(id);
 
-        if(rs.isPresent()) {
+        if (rs.isPresent()) {
             Estagiario estagiario = rs.get();
             BeanUtils.copyProperties(request, estagiario,
                     "id",
@@ -119,6 +118,15 @@ public class EstagiarioServiceImpl implements EstagiarioService {
         estagiarioRepository.deleteById(id);
         estagiarioRepository.flush();
         // TODO: Mandar erro customizado
+    }
+
+    @Override
+    public List<EstagiarioResponse> findByServico(String servicoAcronimo) {
+
+        return estagiarioRepository.findByServicosAcronimo(servicoAcronimo)
+                .stream()
+                .map(estagiarioMapper::toResponse)
+                .collect(Collectors.toList());
     }
 
     @Override

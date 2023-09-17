@@ -16,4 +16,6 @@ public interface ServicoService {
     Optional<ServicoResponse> udpateServico(Long id, ServicoRequest request);
 
     void deletaServico(Long id);
+
+    Optional<ServicoResponse> addEstagiarioToServico(Long servicoId, Long estagiarioId);
 }

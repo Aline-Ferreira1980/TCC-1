@@ -20,4 +20,6 @@ public interface EstagiarioService {
     Optional<EstagiarioResponse> findById(Long id);
 
     void deletaEstagiario(Long id);
+
+    List<EstagiarioResponse> findByServico(String servicoAcronimo);
 }
