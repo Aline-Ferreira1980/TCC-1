@@ -122,6 +122,15 @@ public class EstagiarioServiceImpl implements EstagiarioService {
     }
 
     @Override
+    public List<EstagiarioResponse> findByServico(String servicoAcronimo) {
+
+        return estagiarioRepository.findByServicosAcronimo(servicoAcronimo)
+                .stream()
+                .map(estagiarioMapper::toResponse)
+                .collect(Collectors.toList());
+    }
+
+    @Override
     public List<EstagiarioResponse> getAllAvailableInDataRange(LocalDate startDate, LocalDate endDate) {
         return null;
     }

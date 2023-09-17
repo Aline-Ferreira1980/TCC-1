@@ -127,8 +127,6 @@ public class ServicoController {
         }
     }
 
-
-
     @Operation(summary = "Vincula estagiário a serviço", method = "POST")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Estagiário vinculado com sucesso"),
@@ -141,15 +139,11 @@ public class ServicoController {
     public ResponseEntity<ServicoResponse> addEstagiarioToService(@PathVariable Long id_servico,
                                                     @RequestParam Long id_estagiario) {
 
-
-
         Optional<ServicoResponse> response = servicoService.addEstagiarioToServico(
                 id_servico, id_estagiario);
 
         return response.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
 
     }
-
-
 
 }
