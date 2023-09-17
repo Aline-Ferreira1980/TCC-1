@@ -13,33 +13,26 @@ Repositório para TCC 1
 [Link](https://www.figma.com/proto/s0W63PmAQJdSioNTx2fzrM/Tela-login%2Fcadastro?type=design&node-id=0-3&scaling=contain&page-id=0%3A1) para acesso à versão de teste do protótipo.
 
 ---
-### Phase 1
+
 - [X] Cadastro Paciente (CRUD)
 - [X] Cadastro Estagiario (CRUD)
 - [X] Cadastro Dicente (CRUD)
 - [X] Cadastro Sala (CRUD)
 - [X] Criar agendamento
 - [X] Cunsultar agendamento por usuário
-- [ ] Consultar agendamento por Aluno (retorna agendamentos num range de dias)
+- [x] Consultar agendamento por Aluno (retorna agendamentos num range de dias)
 - [X] Consultar agendamento por sala
 - [X] Consultar agendamento por range de dia 
-- [ ] Alterar agendamento
-- [ ] Consultar disponiblidade de agendamento por aluno por range de dia
-- [ ] Consultar disponibilidade de agendamento da sala por range de dia
-- [ ] Deploy na AWS
-      
-#### Ao fim desta fase a aplicação deve estar habil a iniciar a integração ao front-end
----
-### Phase 2
+- [x] Alterar agendamento
+- [x] Cadastrar serviço (CRUD)
 - [ ] Consultar alunos por serviço
-- [ ] Cadastrar serviço (CRUD)
 - [ ] Adiciona Estagiario a serviço
 - [ ] Remover Estagiario de serviço
 - [ ] Adiciona Docente a serviço
 - [ ] Remove Docente de serviço
 - [ ] Consultar Docentes por serviço
 - [ ] Consultar Estagiarios por serviço
+- [ ] Deploy na AWS
 - [ ] Implementação de autenticação via oauth2
 ---
-### Pahse 3
 
