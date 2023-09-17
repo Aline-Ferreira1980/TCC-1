@@ -1,9 +1,6 @@
 package br.uscs.gestao_agenda_backend.domain.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.Set;
@@ -18,6 +15,7 @@ public class Docente extends User {
     @Column(unique = true)
     private String ruscs;
 
+    @EqualsAndHashCode.Exclude
     @ManyToMany(mappedBy = "docentes", cascade = CascadeType.ALL)
     private Set<Servico> servicos;
 

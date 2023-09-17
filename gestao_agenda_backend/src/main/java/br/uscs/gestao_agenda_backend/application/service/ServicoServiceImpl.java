@@ -10,6 +10,7 @@ import br.uscs.gestao_agenda_backend.domain.model.Docente;
 import br.uscs.gestao_agenda_backend.domain.model.Estagiario;
 import br.uscs.gestao_agenda_backend.domain.model.HorarioTrabalho;
 import br.uscs.gestao_agenda_backend.domain.model.Servico;
+import br.uscs.gestao_agenda_backend.domain.port.EstagiarioRepository;
 import br.uscs.gestao_agenda_backend.domain.port.ServicoRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.BeanUtils;
@@ -25,7 +26,9 @@ import java.util.stream.Collectors;
 public class ServicoServiceImpl implements ServicoService {
 
     private final ServicoRepository servicoRepository;
+    private final EstagiarioRepository estagiarioRepository;
     private final ServicoMapper servicoMapper;
+
     @Transactional
     @Override
     public Optional<ServicoResponse> cadastrarServico(ServicoRequest request) {
@@ -72,6 +75,26 @@ public class ServicoServiceImpl implements ServicoService {
         servicoRepository.deleteById(id);
         servicoRepository.flush();
         // TODO: Mandar erro customizado
+    }
+
+    @Override
+    public Optional<ServicoResponse> addEstagiarioToServico(Long servicoId, Long estagiarioId) {
+        Optional<Servico> svc = servicoRepository.findById(servicoId);
+        if(svc.isPresent()){
+            for(Estagiario e : svc.get().getEstagiarios()){
+                if(e.getId().equals(estagiarioId)){
+                    throw new IllegalArgumentException("O Estagiario ja foi vinculado a este Serviço");
+                }
+            }
+
+            Servico servico = svc.get();
+            Optional<Estagiario> estag = estagiarioRepository.findById(estagiarioId);
+//            estag.ifPresent(servico.getEstagiarios()::add);
+            servico.getEstagiarios().add(estag.get());
+            return Optional.ofNullable(servicoMapper.toResponse(servicoRepository.save(servico)));
+        }
+
+        return Optional.empty();
     }
 
 
