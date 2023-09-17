@@ -1,7 +1,6 @@
 package br.uscs.gestao_agenda_backend.application.port;
 
 import br.uscs.gestao_agenda_backend.application.dto.AgendamentoResponse;
-import br.uscs.gestao_agenda_backend.application.dto.DocenteResponse;
 import br.uscs.gestao_agenda_backend.application.request.AgendamentoRequest;
 
 import java.time.LocalDateTime;

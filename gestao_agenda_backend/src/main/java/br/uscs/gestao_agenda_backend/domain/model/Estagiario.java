@@ -1,7 +1,10 @@
 package br.uscs.gestao_agenda_backend.domain.model;
 
 import br.uscs.gestao_agenda_backend.domain.model.enums.Turno;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.DayOfWeek;
@@ -14,7 +17,7 @@ import java.util.Set;
 @NoArgsConstructor
 @Entity
 @Data
-public class Estagiario extends User{
+public class Estagiario extends User {
 
     private String ra;
 
@@ -42,10 +45,10 @@ public class Estagiario extends User{
 
     @PreRemove
     private void preRemove() {
-        pacientes.forEach( child -> child.setEstagiario(null));
+        pacientes.forEach(child -> child.setEstagiario(null));
     }
 
-    public void addAllHorarioTrabalho(List<HorarioTrabalho> horarios){
+    public void addAllHorarioTrabalho(List<HorarioTrabalho> horarios) {
         this.horariosTrabalho.addAll(horarios);
     }
 
@@ -54,14 +57,14 @@ public class Estagiario extends User{
                 .anyMatch(horario -> horario.getDiaSemana() == diaDesejado);
     }
 
-    public boolean trabalhaNoRangeDeHorario(LocalTime inicio, LocalTime fim){
-         boolean iniciaDepois =
-                 horariosTrabalho.stream().anyMatch(horario -> horario.getHorarioInicio().isBefore(inicio));
+    public boolean trabalhaNoRangeDeHorario(LocalTime inicio, LocalTime fim) {
+        boolean iniciaDepois =
+                horariosTrabalho.stream().anyMatch(horario -> horario.getHorarioInicio().isBefore(inicio));
 
-         boolean terminaAntes =
-                 horariosTrabalho.stream().anyMatch(horario -> horario.getHorarioFim().isAfter(fim));
+        boolean terminaAntes =
+                horariosTrabalho.stream().anyMatch(horario -> horario.getHorarioFim().isAfter(fim));
 
-         return iniciaDepois && terminaAntes;
+        return iniciaDepois && terminaAntes;
     }
 
 }

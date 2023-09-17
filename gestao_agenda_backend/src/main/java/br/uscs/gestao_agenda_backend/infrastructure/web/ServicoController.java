@@ -1,12 +1,7 @@
 package br.uscs.gestao_agenda_backend.infrastructure.web;
 
-import br.uscs.gestao_agenda_backend.application.dto.AgendamentoResponse;
-import br.uscs.gestao_agenda_backend.application.dto.DocenteResponse;
-import br.uscs.gestao_agenda_backend.application.dto.EstagiarioResponse;
 import br.uscs.gestao_agenda_backend.application.dto.ServicoResponse;
 import br.uscs.gestao_agenda_backend.application.port.ServicoService;
-import br.uscs.gestao_agenda_backend.application.request.AgendamentoRequest;
-import br.uscs.gestao_agenda_backend.application.request.AtualizaEstagiarioRequest;
 import br.uscs.gestao_agenda_backend.application.request.ServicoRequest;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -41,7 +36,7 @@ public class ServicoController {
     })
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> cadastrarSerico(@RequestBody ServicoRequest request,
-                                               UriComponentsBuilder uriBuilder) {
+                                             UriComponentsBuilder uriBuilder) {
 
         try {
             Optional<ServicoResponse> response = servicoService.cadastrarServico(request);
@@ -51,10 +46,11 @@ public class ServicoController {
                 return ResponseEntity.created(uri).body(response.get());
             }
             return ResponseEntity.badRequest().build();
-        } catch (Exception ex){
+        } catch (Exception ex) {
             return ResponseEntity.badRequest().body(ex.getMessage());
         }
     }
+
     @Operation(summary = "Realiza busca serviço por id", method = "GET")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Busca realizada com sucesso"),
@@ -65,7 +61,7 @@ public class ServicoController {
             @ApiResponse(responseCode = "500", description = "Erro ao realizar busca dos dados"),
     })
     @GetMapping(value = "/{id}")
-    public ResponseEntity<ServicoResponse> getServicoById(@PathVariable Long id){
+    public ResponseEntity<ServicoResponse> getServicoById(@PathVariable Long id) {
         Optional<ServicoResponse> response = servicoService.findById(id);
         return response.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
@@ -81,7 +77,7 @@ public class ServicoController {
             @ApiResponse(responseCode = "500", description = "Erro ao realizar busca dos dados"),
     })
     @GetMapping(value = "/listar")
-    public ResponseEntity<List<ServicoResponse>> getAllServico(){
+    public ResponseEntity<List<ServicoResponse>> getAllServico() {
         List<ServicoResponse> response = servicoService.findAll();
         return ResponseEntity.ok(response);
     }
@@ -98,7 +94,7 @@ public class ServicoController {
     @PutMapping("/{id}")
     public ResponseEntity<ServicoResponse> updateServico(
             @PathVariable Long id,
-            @RequestBody ServicoRequest request){
+            @RequestBody ServicoRequest request) {
 
         Optional<ServicoResponse> response = servicoService.udpateServico(id, request);
         return response.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
@@ -114,11 +110,11 @@ public class ServicoController {
             @ApiResponse(responseCode = "500", description = "Erro ao realizar busca dos dados"),
     })
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteServico(@PathVariable Long id){
+    public ResponseEntity<String> deleteServico(@PathVariable Long id) {
         try {
             servicoService.deletaServico(id);
             return ResponseEntity.ok("Serviço deletado com sucesso");
-        }catch (EmptyResultDataAccessException e){
+        } catch (EmptyResultDataAccessException e) {
             return ResponseEntity.notFound().build();
         }
     }

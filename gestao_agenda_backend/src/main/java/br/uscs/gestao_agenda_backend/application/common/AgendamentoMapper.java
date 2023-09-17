@@ -1,8 +1,8 @@
 package br.uscs.gestao_agenda_backend.application.common;
 
-import br.uscs.gestao_agenda_backend.application.dto.*;
+import br.uscs.gestao_agenda_backend.application.dto.AgendamentoPropertyResponse;
+import br.uscs.gestao_agenda_backend.application.dto.AgendamentoResponse;
 import br.uscs.gestao_agenda_backend.domain.model.Agendamento;
-import br.uscs.gestao_agenda_backend.domain.model.Servico;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
@@ -18,11 +18,11 @@ public class AgendamentoMapper {
     private final PacienteMapper pacienteMapper;
     private final SalaMapper salaMapper;
 
-    public AgendamentoResponse toResponse(Agendamento agendamento){
+    public AgendamentoResponse toResponse(Agendamento agendamento) {
         return modelMapper.map(agendamento, AgendamentoResponse.class);
     }
 
-    public AgendamentoPropertyResponse toPropertyResponse(Agendamento agendamento){
+    public AgendamentoPropertyResponse toPropertyResponse(Agendamento agendamento) {
         return AgendamentoPropertyResponse.builder()
                 .id(agendamento.getId())
                 .estagiario(estagiarioMapper.toPropertyResponse(agendamento.getEstagiario()))

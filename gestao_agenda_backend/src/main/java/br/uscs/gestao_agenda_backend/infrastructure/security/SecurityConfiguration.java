@@ -28,29 +28,29 @@ public class SecurityConfiguration {
                 .csrf(csrf -> csrf.disable())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorize -> authorize
-                        .antMatchers(HttpMethod.POST, "/auth/login").permitAll()
-                        .antMatchers(HttpMethod.POST, "/sala/**").permitAll()
-                        .antMatchers(HttpMethod.GET, "/sala/**").permitAll()
-                        .antMatchers(HttpMethod.PUT, "/sala/**").permitAll()
-                        .antMatchers(HttpMethod.DELETE, "/sala/**").permitAll()
-                        .antMatchers(HttpMethod.GET, "/estagiario/**").permitAll()
-                        .antMatchers(HttpMethod.POST, "/estagiario/**").permitAll()
-                        .antMatchers(HttpMethod.PUT, "/estagiario/**").permitAll()
-                        .antMatchers(HttpMethod.DELETE, "/estagiario/**").permitAll()
+                                .antMatchers(HttpMethod.POST, "/auth/login").permitAll()
+                                .antMatchers(HttpMethod.POST, "/sala/**").permitAll()
+                                .antMatchers(HttpMethod.GET, "/sala/**").permitAll()
+                                .antMatchers(HttpMethod.PUT, "/sala/**").permitAll()
+                                .antMatchers(HttpMethod.DELETE, "/sala/**").permitAll()
+                                .antMatchers(HttpMethod.GET, "/estagiario/**").permitAll()
+                                .antMatchers(HttpMethod.POST, "/estagiario/**").permitAll()
+                                .antMatchers(HttpMethod.PUT, "/estagiario/**").permitAll()
+                                .antMatchers(HttpMethod.DELETE, "/estagiario/**").permitAll()
 //                        .antMatchers(HttpMethod.GET, "/paciente/listar").hasRole("ADMINS")
-                        .antMatchers(HttpMethod.GET, "/paciente/**").permitAll()
-                        .antMatchers(HttpMethod.POST, "/paciente/**").permitAll()
-                        .antMatchers(HttpMethod.PUT, "/paciente/**").permitAll()
-                        .antMatchers(HttpMethod.DELETE, "/paciente/**").permitAll()
-                        .antMatchers(HttpMethod.DELETE, "/docente/**").permitAll()
-                        .antMatchers(HttpMethod.GET, "/docente/**").permitAll()
-                        .antMatchers(HttpMethod.POST, "/docente/**").permitAll()
-                        .antMatchers(HttpMethod.PUT, "/docente/**").permitAll()
-                        .antMatchers(HttpMethod.POST, "/agendamento/**").permitAll()
-                        .antMatchers(HttpMethod.GET, "/agendamento/**").permitAll()
-                        .antMatchers(HttpMethod.PUT, "/agendamento/**").permitAll()
-                        .antMatchers(HttpMethod.DELETE, "/agendamento/**").permitAll()
-                        .anyRequest().authenticated()
+                                .antMatchers(HttpMethod.GET, "/paciente/**").permitAll()
+                                .antMatchers(HttpMethod.POST, "/paciente/**").permitAll()
+                                .antMatchers(HttpMethod.PUT, "/paciente/**").permitAll()
+                                .antMatchers(HttpMethod.DELETE, "/paciente/**").permitAll()
+                                .antMatchers(HttpMethod.DELETE, "/docente/**").permitAll()
+                                .antMatchers(HttpMethod.GET, "/docente/**").permitAll()
+                                .antMatchers(HttpMethod.POST, "/docente/**").permitAll()
+                                .antMatchers(HttpMethod.PUT, "/docente/**").permitAll()
+                                .antMatchers(HttpMethod.POST, "/agendamento/**").permitAll()
+                                .antMatchers(HttpMethod.GET, "/agendamento/**").permitAll()
+                                .antMatchers(HttpMethod.PUT, "/agendamento/**").permitAll()
+                                .antMatchers(HttpMethod.DELETE, "/agendamento/**").permitAll()
+                                .anyRequest().authenticated()
                 )
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
@@ -72,7 +72,7 @@ public class SecurityConfiguration {
     }
 
     @Bean
-    public PasswordEncoder passwordEncoder(){
+    public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 }

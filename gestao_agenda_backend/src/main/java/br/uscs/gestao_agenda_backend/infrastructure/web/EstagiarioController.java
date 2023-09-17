@@ -1,9 +1,9 @@
 package br.uscs.gestao_agenda_backend.infrastructure.web;
 
-import br.uscs.gestao_agenda_backend.application.request.CadastroEstagiarioRequest;
-import br.uscs.gestao_agenda_backend.application.request.AtualizaEstagiarioRequest;
 import br.uscs.gestao_agenda_backend.application.dto.EstagiarioResponse;
 import br.uscs.gestao_agenda_backend.application.port.EstagiarioService;
+import br.uscs.gestao_agenda_backend.application.request.AtualizaEstagiarioRequest;
+import br.uscs.gestao_agenda_backend.application.request.CadastroEstagiarioRequest;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -64,7 +64,7 @@ public class EstagiarioController {
             @ApiResponse(responseCode = "500", description = "Erro ao realizar busca dos dados"),
     })
     @GetMapping(value = "/{id}")
-    public ResponseEntity<EstagiarioResponse> getEstagiarioById(@PathVariable Long id){
+    public ResponseEntity<EstagiarioResponse> getEstagiarioById(@PathVariable Long id) {
         Optional<EstagiarioResponse> response = estagiarioService.findById(id);
         return response.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
@@ -95,7 +95,7 @@ public class EstagiarioController {
     @PutMapping("/{id}")
     public ResponseEntity<EstagiarioResponse> updateEstagiario(
             @PathVariable Long id,
-            @RequestBody AtualizaEstagiarioRequest request){
+            @RequestBody AtualizaEstagiarioRequest request) {
 
         Optional<EstagiarioResponse> response = estagiarioService.updateEstagiario(id, request);
         return response.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
@@ -111,11 +111,11 @@ public class EstagiarioController {
             @ApiResponse(responseCode = "500", description = "Erro ao realizar busca dos dados"),
     })
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteEstagiario(@PathVariable Long id){
+    public ResponseEntity<String> deleteEstagiario(@PathVariable Long id) {
         try {
             estagiarioService.deletaEstagiario(id);
             return ResponseEntity.ok("Estagiario deletado com sucesso");
-        }catch (EmptyResultDataAccessException e){
+        } catch (EmptyResultDataAccessException e) {
             return ResponseEntity.notFound().build();
         }
     }

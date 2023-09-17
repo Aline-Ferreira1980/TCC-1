@@ -26,9 +26,8 @@ public class Docente extends User {
 
     @PreRemove
     private void preRemove() {
-        estagiarios.forEach( child -> child.setProfessorResponsavel(null));
+        estagiarios.forEach(child -> child.setProfessorResponsavel(null));
     }
-
 
 
 }

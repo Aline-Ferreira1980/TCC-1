@@ -1,13 +1,11 @@
 package br.uscs.gestao_agenda_backend.application.common;
 
 import br.uscs.gestao_agenda_backend.application.dto.EstagiarioPropertyResponse;
-import br.uscs.gestao_agenda_backend.application.request.CadastroEstagiarioRequest;
 import br.uscs.gestao_agenda_backend.application.dto.EstagiarioResponse;
+import br.uscs.gestao_agenda_backend.application.request.CadastroEstagiarioRequest;
 import br.uscs.gestao_agenda_backend.domain.model.Estagiario;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -61,14 +59,14 @@ public class EstagiarioMapper {
     private HorarioTrabalhoMapper horarioTrabalhoMapper;
     private SalaMapper salaMapper;
 
-    public Estagiario fromRequest(CadastroEstagiarioRequest request){
+    public Estagiario fromRequest(CadastroEstagiarioRequest request) {
         return modelMapper.map(request, Estagiario.class);
     }
 
-    public EstagiarioResponse toResponse(Estagiario estagiario){
+    public EstagiarioResponse toResponse(Estagiario estagiario) {
         PacienteMapper pacienteMapper = new PacienteMapper(this.modelMapper, this);
         AgendamentoMapper agendamentoMapper = new AgendamentoMapper(
-        this.modelMapper, this, pacienteMapper, this.salaMapper);
+                this.modelMapper, this, pacienteMapper, this.salaMapper);
 
         return EstagiarioResponse.builder()
                 .id(estagiario.getId())
@@ -91,14 +89,13 @@ public class EstagiarioMapper {
 //        return modelMapper.map(estagiario, EstagiarioResponse.class);
 //    }
 
-    public EstagiarioPropertyResponse toPropertyResponse(Estagiario estagiario){
-        if(estagiario != null){
+    public EstagiarioPropertyResponse toPropertyResponse(Estagiario estagiario) {
+        if (estagiario != null) {
 
             return modelMapper.map(estagiario, EstagiarioPropertyResponse.class);
         }
         return null;
     }
-
 
 
 }

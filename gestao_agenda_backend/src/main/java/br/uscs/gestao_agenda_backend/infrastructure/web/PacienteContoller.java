@@ -29,7 +29,6 @@ public class PacienteContoller {
     private PacienteService pacienteService;
     private final PacienteMapper pacienteMapper;
 
-
     @Operation(summary = "Cadastra novo paciente na aplicação", method = "POST")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Paciente cadastrado com sucesso"),
@@ -71,7 +70,7 @@ public class PacienteContoller {
             @ApiResponse(responseCode = "500", description = "Erro ao realizar busca dos dados"),
     })
     @GetMapping(value = "/{id}")
-    public ResponseEntity<PacienteResponse> getPaciente(@PathVariable Long id){
+    public ResponseEntity<PacienteResponse> getPaciente(@PathVariable Long id) {
         Optional<PacienteResponse> response = pacienteService.findById(id);
         return response.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
@@ -105,7 +104,7 @@ public class PacienteContoller {
         try {
             pacienteService.deletaPaciente(id);
             return ResponseEntity.ok("Usuário deletado com sucesso");
-        }catch (EmptyResultDataAccessException e){
+        } catch (EmptyResultDataAccessException e) {
             return ResponseEntity.notFound().build();
         }
     }

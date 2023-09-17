@@ -2,10 +2,8 @@ package br.uscs.gestao_agenda_backend.infrastructure.web;
 
 import br.uscs.gestao_agenda_backend.application.common.AgendamentoMapper;
 import br.uscs.gestao_agenda_backend.application.dto.AgendamentoResponse;
-import br.uscs.gestao_agenda_backend.application.dto.DocenteResponse;
 import br.uscs.gestao_agenda_backend.application.port.AgendamentoService;
 import br.uscs.gestao_agenda_backend.application.request.AgendamentoRequest;
-import br.uscs.gestao_agenda_backend.application.request.AtualizaDocenteRequest;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -42,7 +40,7 @@ public class AgendamentoController {
     })
     @PostMapping(value = "/agendar", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> cadastrarPaciente(@RequestBody AgendamentoRequest request,
-                                                                 UriComponentsBuilder uriBuilder) {
+                                               UriComponentsBuilder uriBuilder) {
 
         try {
             Optional<AgendamentoResponse> response = agendamentoService.cadastraAgendametno(request);
@@ -52,7 +50,7 @@ public class AgendamentoController {
                 return ResponseEntity.created(uri).body(response.get());
             }
             return ResponseEntity.badRequest().build();
-        } catch (Exception ex){
+        } catch (Exception ex) {
             return ResponseEntity.badRequest().body(ex.getMessage());
         }
     }
@@ -99,8 +97,8 @@ public class AgendamentoController {
     })
     @GetMapping("/findByDate")
     public ResponseEntity<List<AgendamentoResponse>> findAgendamentoByDateRange(
-            @RequestParam @DateTimeFormat(iso=DateTimeFormat.ISO.DATE_TIME) LocalDateTime inicio,
-            @RequestParam @DateTimeFormat(iso=DateTimeFormat.ISO.DATE_TIME) LocalDateTime fim) {
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime inicio,
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime fim) {
         List<AgendamentoResponse> response = agendamentoService.findAgendamentosByDateRange(inicio, fim);
         return (response != null) ? ResponseEntity.ok(response) : ResponseEntity.notFound().build();
     }
@@ -117,8 +115,8 @@ public class AgendamentoController {
     @GetMapping("/user/{userId}/findByDate")
     public ResponseEntity<List<AgendamentoResponse>> findAgendamentoByUserIdAndDateRange(
             @PathVariable Long userId,
-            @RequestParam @DateTimeFormat(iso=DateTimeFormat.ISO.DATE_TIME) LocalDateTime inicio,
-            @RequestParam @DateTimeFormat(iso=DateTimeFormat.ISO.DATE_TIME) LocalDateTime fim) {
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime inicio,
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime fim) {
         List<AgendamentoResponse> response = agendamentoService
                 .findAgendamentoByUserIdAndDateRange(userId, inicio, fim);
 
@@ -135,7 +133,7 @@ public class AgendamentoController {
     })
     @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<AgendamentoResponse> atualizaAgendamento(@PathVariable Long id,
-                                                           @RequestBody AgendamentoRequest request) {
+                                                                   @RequestBody AgendamentoRequest request) {
 
         Optional<AgendamentoResponse> response = agendamentoService.atualizaAgendamento(id, request);
         return response.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
@@ -154,7 +152,7 @@ public class AgendamentoController {
         try {
             agendamentoService.deleteAgendamento(id);
             return ResponseEntity.ok("Agendamento deletado com sucesso");
-        }catch (EmptyResultDataAccessException e){
+        } catch (EmptyResultDataAccessException e) {
             return ResponseEntity.notFound().build();
         }
     }

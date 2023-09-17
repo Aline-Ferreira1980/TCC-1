@@ -1,10 +1,10 @@
 package br.uscs.gestao_agenda_backend.infrastructure.web;
 
 import br.uscs.gestao_agenda_backend.application.common.SalaMapper;
-import br.uscs.gestao_agenda_backend.application.request.AtualizaSalaRequest;
 import br.uscs.gestao_agenda_backend.application.dto.SalaResponse;
-import br.uscs.gestao_agenda_backend.application.request.SalaRequest;
 import br.uscs.gestao_agenda_backend.application.port.SalaService;
+import br.uscs.gestao_agenda_backend.application.request.AtualizaSalaRequest;
+import br.uscs.gestao_agenda_backend.application.request.SalaRequest;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -41,7 +41,7 @@ public class SalaController {
     })
     @PostMapping(value = "/cadastrar", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<SalaResponse> cadastrarSala(@RequestBody SalaRequest request,
-                                                      UriComponentsBuilder uriBuilder){
+                                                      UriComponentsBuilder uriBuilder) {
         SalaResponse response = salaService.cadastraSala(salaMapper.fromRequest(request));
         URI uri = uriBuilder.path("/sala/{id}").buildAndExpand(response.getId()).toUri();
         return ResponseEntity.created(uri).body(response);
@@ -71,7 +71,7 @@ public class SalaController {
             @ApiResponse(responseCode = "500", description = "Erro ao realizar busca dos dados"),
     })
     @GetMapping(value = "/{id}")
-    public ResponseEntity<SalaResponse> getSalaById(@PathVariable Long id){
+    public ResponseEntity<SalaResponse> getSalaById(@PathVariable Long id) {
         Optional<SalaResponse> response = salaService.findById(id);
         return response.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
@@ -87,7 +87,7 @@ public class SalaController {
     })
     @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<SalaResponse> atualizaSala(@PathVariable Long id,
-                                                             @RequestBody AtualizaSalaRequest request) {
+                                                     @RequestBody AtualizaSalaRequest request) {
 
         Optional<SalaResponse> response = salaService.atualizaSala(id, salaMapper.fromRequest(request));
         return response.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
@@ -106,7 +106,7 @@ public class SalaController {
         try {
             salaService.deletaSala(id);
             return ResponseEntity.ok("Sala deletado com sucesso");
-        }catch (EmptyResultDataAccessException e){
+        } catch (EmptyResultDataAccessException e) {
             return ResponseEntity.notFound().build();
         }
     }

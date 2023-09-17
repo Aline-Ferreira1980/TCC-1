@@ -18,7 +18,6 @@ public class Servico {
 
     @Column(unique = true)
     private String acronimo;
-
     private String nome;
     private String descricao;
 

@@ -2,11 +2,13 @@ package br.uscs.gestao_agenda_backend.domain.model;
 
 
 import br.uscs.gestao_agenda_backend.domain.model.enums.EstadoCivil;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
@@ -31,7 +33,7 @@ public class Paciente extends User {
     @Embedded
     private Endereco endereco;
 
-//    @OneToMany(mappedBy = "paciente", cascade = CascadeType.ALL, orphanRemoval = true)
+    //    @OneToMany(mappedBy = "paciente", cascade = CascadeType.ALL, orphanRemoval = true)
     @ElementCollection
     private Set<Telefone> telefone;
 

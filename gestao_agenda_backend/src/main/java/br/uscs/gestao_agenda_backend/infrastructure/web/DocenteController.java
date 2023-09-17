@@ -41,7 +41,7 @@ public class DocenteController {
     })
     @PostMapping(value = "/cadastrar", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<DocenteResponse> cadastrarDocente(@RequestBody CadastroDocenteRequest request,
-                                                      UriComponentsBuilder uriBuilder){
+                                                            UriComponentsBuilder uriBuilder) {
         DocenteResponse response = docenteService.cadastraDocente(docenteMapper.fromRequest(request));
         URI uri = uriBuilder.path("/docente/{id}").buildAndExpand(response.getId()).toUri();
         return ResponseEntity.created(uri).body(response);
@@ -71,7 +71,7 @@ public class DocenteController {
             @ApiResponse(responseCode = "500", description = "Erro ao realizar busca dos dados"),
     })
     @GetMapping(value = "/{id}")
-    public ResponseEntity<DocenteResponse> getDocenteById(@PathVariable Long id){
+    public ResponseEntity<DocenteResponse> getDocenteById(@PathVariable Long id) {
         Optional<DocenteResponse> response = docenteService.findById(id);
         return response.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
@@ -105,7 +105,7 @@ public class DocenteController {
         try {
             docenteService.deletaDocente(id);
             return ResponseEntity.ok("Docente deletado com sucesso");
-        }catch (EmptyResultDataAccessException e){
+        } catch (EmptyResultDataAccessException e) {
             return ResponseEntity.notFound().build();
         }
     }

@@ -1,6 +1,9 @@
 package br.uscs.gestao_agenda_backend.domain.model;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.DayOfWeek;
@@ -29,7 +32,7 @@ public class HorarioTrabalho {
     public HorarioTrabalho(Estagiario psicologo,
                            DayOfWeek diaSemana,
                            LocalTime horarioInicio,
-                           LocalTime horarioFim){
+                           LocalTime horarioFim) {
 
         this.estagiario = psicologo;
         this.diaSemana = diaSemana;

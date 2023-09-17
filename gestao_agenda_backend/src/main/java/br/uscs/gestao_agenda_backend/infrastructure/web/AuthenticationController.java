@@ -1,8 +1,8 @@
 package br.uscs.gestao_agenda_backend.infrastructure.web;
 
 
-import br.uscs.gestao_agenda_backend.application.request.AuthenticationRequest;
 import br.uscs.gestao_agenda_backend.application.dto.LoginResponse;
+import br.uscs.gestao_agenda_backend.application.request.AuthenticationRequest;
 import br.uscs.gestao_agenda_backend.domain.model.User;
 import br.uscs.gestao_agenda_backend.infrastructure.security.TokenService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +29,7 @@ public class AuthenticationController {
     private TokenService tokenService;
 
     @PostMapping("/login")
-    public ResponseEntity<LoginResponse> login(@RequestBody @Valid AuthenticationRequest request){
+    public ResponseEntity<LoginResponse> login(@RequestBody @Valid AuthenticationRequest request) {
         UsernamePasswordAuthenticationToken usernamePassword =
                 new UsernamePasswordAuthenticationToken(request.getEmail(), request.getSenha());
         Authentication auth = authenticationManager.authenticate(usernamePassword);

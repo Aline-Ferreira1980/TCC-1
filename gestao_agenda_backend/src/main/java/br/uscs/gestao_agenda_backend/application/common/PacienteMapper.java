@@ -1,19 +1,16 @@
 package br.uscs.gestao_agenda_backend.application.common;
 
 import br.uscs.gestao_agenda_backend.application.dto.PacientePropertyResponse;
+import br.uscs.gestao_agenda_backend.application.dto.PacienteResponse;
 import br.uscs.gestao_agenda_backend.application.request.AtualizaPacienteRequest;
 import br.uscs.gestao_agenda_backend.application.request.CadastroPacienteRequest;
-import br.uscs.gestao_agenda_backend.application.dto.PacienteResponse;
-import br.uscs.gestao_agenda_backend.domain.model.HorarioTrabalho;
 import br.uscs.gestao_agenda_backend.domain.model.Paciente;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.BeanUtils;
-import org.springframework.beans.PropertyAccessException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.*;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Component
@@ -42,14 +39,15 @@ public class PacienteMapper {
     private final EstagiarioMapper estagiarioMapper;
 
 
-    public Paciente fromRequest(CadastroPacienteRequest request){
-        return modelMapper.map(request, Paciente.class);
-    }
-    public Paciente fromRequest(AtualizaPacienteRequest request){
+    public Paciente fromRequest(CadastroPacienteRequest request) {
         return modelMapper.map(request, Paciente.class);
     }
 
-    public PacienteResponse toResponse(Paciente paciente){
+    public Paciente fromRequest(AtualizaPacienteRequest request) {
+        return modelMapper.map(request, Paciente.class);
+    }
+
+    public PacienteResponse toResponse(Paciente paciente) {
         AgendamentoMapper agendamentoMapper = new AgendamentoMapper(
                 new ModelMapper(), this.estagiarioMapper, this, new SalaMapper(this.modelMapper)
         );
@@ -62,12 +60,12 @@ public class PacienteMapper {
 //        return modelMapper.map(paciente, PacienteResponse.class);
     }
 
-    public PacientePropertyResponse toPropertyResponse(Paciente paciente){
+    public PacientePropertyResponse toPropertyResponse(Paciente paciente) {
         return modelMapper.map(paciente, PacientePropertyResponse.class);
     }
 
     public Set<PacientePropertyResponse> toPropertyResponseSet(Set<Paciente> pacientes) {
-        if(pacientes != null) {
+        if (pacientes != null) {
             return pacientes.stream()
                     .map(this::toPropertyResponse)
                     .collect(Collectors.toSet());

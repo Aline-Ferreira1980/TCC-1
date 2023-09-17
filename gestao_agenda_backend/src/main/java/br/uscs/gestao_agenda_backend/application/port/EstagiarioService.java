@@ -1,8 +1,8 @@
 package br.uscs.gestao_agenda_backend.application.port;
 
-import br.uscs.gestao_agenda_backend.application.request.CadastroEstagiarioRequest;
-import br.uscs.gestao_agenda_backend.application.request.AtualizaEstagiarioRequest;
 import br.uscs.gestao_agenda_backend.application.dto.EstagiarioResponse;
+import br.uscs.gestao_agenda_backend.application.request.AtualizaEstagiarioRequest;
+import br.uscs.gestao_agenda_backend.application.request.CadastroEstagiarioRequest;
 
 import java.time.LocalDate;
 import java.util.List;

@@ -8,7 +8,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 
-import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import java.time.LocalDate;
 import java.util.Set;
@@ -17,6 +16,7 @@ import java.util.Set;
 @NoArgsConstructor
 @Data
 public class AtualizaPacienteRequest {
+
     @NonNull
     @NotBlank
     private String nome;
@@ -24,7 +24,6 @@ public class AtualizaPacienteRequest {
     @NonNull
     @NotBlank
     private String sobrenome;
-
 
     @NonNull
     @NotBlank

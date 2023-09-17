@@ -16,11 +16,8 @@ public class AgendamentoResponse {
     private Long id;
 
     private EstagiarioPropertyResponse estagiario;
-
     private PacientePropertyResponse paciente;
-
     private SalaPropertyResponse sala;
-
     private LocalDateTime inicioAgendamento;
     private LocalDateTime fimAgendamento;
 }

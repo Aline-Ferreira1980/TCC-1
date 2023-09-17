@@ -16,10 +16,7 @@ public class DocenteResponse {
     private String nome;
     private String sobrenome;
     private String email;
-
     private String ruscs;
-
     private Set<ServicoPropertyResponse> servicos;
-
     private Set<EstagiarioPropertyResponse> estagiarios;
 }

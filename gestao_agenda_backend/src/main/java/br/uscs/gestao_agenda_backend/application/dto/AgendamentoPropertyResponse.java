@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
@@ -14,13 +15,9 @@ public class AgendamentoPropertyResponse {
 
 
     private Long id;
-
     private EstagiarioPropertyResponse estagiario;
-
     private PacientePropertyResponse paciente;
-
     private SalaPropertyResponse sala;
-
     private LocalDateTime inicioAgendamento;
     private LocalDateTime fimAgendamento;
 }

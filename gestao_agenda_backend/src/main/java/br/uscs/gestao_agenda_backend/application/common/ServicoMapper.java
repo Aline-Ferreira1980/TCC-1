@@ -16,16 +16,16 @@ import java.util.stream.Collectors;
 public class ServicoMapper {
     private final ModelMapper modelMapper;
 
-    public ServicoResponse toResponse(Servico servico){
+    public ServicoResponse toResponse(Servico servico) {
         return modelMapper.map(servico, ServicoResponse.class);
     }
 
-    public ServicoPropertyResponse toPropertyResponse(Servico servico){
+    public ServicoPropertyResponse toPropertyResponse(Servico servico) {
         return modelMapper.map(servico, ServicoPropertyResponse.class);
     }
 
     public Set<ServicoPropertyResponse> toPropertyResponseSet(Set<Servico> servicos) {
-        if(servicos != null) {
+        if (servicos != null) {
             return servicos.stream()
                     .map(this::toPropertyResponse)
                     .collect(Collectors.toSet());
