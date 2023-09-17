@@ -19,5 +19,5 @@ public interface EstagiarioService {
 
     Optional<EstagiarioResponse> findById(Long id);
 
-    void deletaPaciente(Long id);
+    void deletaEstagiario(Long id);
 }

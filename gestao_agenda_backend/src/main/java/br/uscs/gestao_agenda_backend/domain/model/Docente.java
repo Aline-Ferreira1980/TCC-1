@@ -18,7 +18,7 @@ public class Docente extends User {
     @Column(unique = true)
     private String ruscs;
 
-    @ManyToMany(mappedBy = "docentes")
+    @ManyToMany(mappedBy = "docentes", cascade = CascadeType.ALL)
     private Set<Servico> servicos;
 
     @OneToMany(mappedBy = "professorResponsavel")

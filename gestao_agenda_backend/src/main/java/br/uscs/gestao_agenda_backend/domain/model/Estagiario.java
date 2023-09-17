@@ -24,7 +24,7 @@ public class Estagiario extends User{
     private String turma;
     private Integer semestre;
 
-    @OneToMany(mappedBy = "estagiario")
+    @OneToMany(mappedBy = "estagiario", cascade = CascadeType.ALL)
     private Set<Paciente> pacientes;
 
     @ManyToMany(mappedBy = "estagiarios")

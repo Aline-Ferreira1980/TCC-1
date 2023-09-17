@@ -16,9 +16,12 @@ public class Servico {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(unique = true)
     private String acronimo;
+
     private String nome;
     private String descricao;
+
     @ManyToMany
     @JoinTable(name = "estagiarios_servicos",
             joinColumns = @JoinColumn(name = "servico_fk"),
@@ -30,4 +33,5 @@ public class Servico {
             joinColumns = @JoinColumn(name = "servico_fk"),
             inverseJoinColumns = @JoinColumn(name = "docente_fk"))
     private Set<Docente> docentes;
+
 }

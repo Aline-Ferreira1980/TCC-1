@@ -2,6 +2,7 @@ package br.uscs.gestao_agenda_backend.application.common;
 
 import br.uscs.gestao_agenda_backend.application.dto.ServicoPropertyResponse;
 import br.uscs.gestao_agenda_backend.application.dto.ServicoResponse;
+import br.uscs.gestao_agenda_backend.application.request.ServicoRequest;
 import br.uscs.gestao_agenda_backend.domain.model.Servico;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -30,5 +31,9 @@ public class ServicoMapper {
                     .collect(Collectors.toSet());
         }
         return null;
+    }
+
+    public Servico fromRequest(ServicoRequest request) {
+        return modelMapper.map(request, Servico.class);
     }
 }

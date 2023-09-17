@@ -83,17 +83,17 @@ public class EstagiarioController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    @Operation(summary = "Lista todos os Estagiatios na aplicação", method = "PUT")
+    @Operation(summary = "Atualiza Estagiário na aplicação", method = "PUT")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Estagiario cadastrado com sucesso"),
-            @ApiResponse(responseCode = "404", description = "Estagiario nao encontrado"),
+            @ApiResponse(responseCode = "200", description = "Estagiário atualizado com sucesso"),
+            @ApiResponse(responseCode = "404", description = "Estagiário nao encontrado"),
             @ApiResponse(responseCode = "422", description = "Dados de requisição inválida"),
-            @ApiResponse(responseCode = "401", description = "Usuario nao autenticado"),
-            @ApiResponse(responseCode = "400", description = "Parametros inválidos"),
+            @ApiResponse(responseCode = "401", description = "Usuário nao autenticado"),
+            @ApiResponse(responseCode = "400", description = "Parâmetros inválidos"),
             @ApiResponse(responseCode = "500", description = "Erro ao realizar busca dos dados"),
     })
     @PutMapping("/{id}")
-    public ResponseEntity<EstagiarioResponse> setHorarioTrabalho(
+    public ResponseEntity<EstagiarioResponse> updateEstagiario(
             @PathVariable Long id,
             @RequestBody AtualizaEstagiarioRequest request){
 
@@ -101,19 +101,19 @@ public class EstagiarioController {
         return response.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-    @Operation(summary = "Lista todos os Estagiatios na aplicação", method = "DELETE")
+    @Operation(summary = "Deleta Estagiário na aplicação", method = "DELETE")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Estagiario cadastrado com sucesso"),
-            @ApiResponse(responseCode = "404", description = "Estagiario nao encontrado"),
+            @ApiResponse(responseCode = "200", description = "Estagiário cadastrado com sucesso"),
+            @ApiResponse(responseCode = "404", description = "Estagiário nao encontrado"),
             @ApiResponse(responseCode = "422", description = "Dados de requisição inválida"),
-            @ApiResponse(responseCode = "401", description = "Usuario nao autenticado"),
-            @ApiResponse(responseCode = "400", description = "Parametros inválidos"),
+            @ApiResponse(responseCode = "401", description = "Usuário nao autenticado"),
+            @ApiResponse(responseCode = "400", description = "Parâmetros inválidos"),
             @ApiResponse(responseCode = "500", description = "Erro ao realizar busca dos dados"),
     })
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteEstagiario(@PathVariable Long id){
         try {
-            estagiarioService.deletaPaciente(id);
+            estagiarioService.deletaEstagiario(id);
             return ResponseEntity.ok("Estagiario deletado com sucesso");
         }catch (EmptyResultDataAccessException e){
             return ResponseEntity.notFound().build();

@@ -115,7 +115,7 @@ public class EstagiarioServiceImpl implements EstagiarioService {
     }
 
     @Override
-    public void deletaPaciente(Long id) {
+    public void deletaEstagiario(Long id) {
         estagiarioRepository.deleteById(id);
         estagiarioRepository.flush();
         // TODO: Mandar erro customizado
