@@ -1,0 +1,96 @@
+body {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-image: url("Fundo2.png");
+    background-size: cover;
+    background-position: center;
+    font-family: Arial;
+    font-size: 1.0416666666666667vw;
+  }
+  
+  .center-image {
+    width: 60vw;
+    height: auto;
+    text-align: center;
+    position: relative;
+    margin: 0 auto;
+  }
+  background-image: url("Retângulo3.png"); /* Imagem do retângulo */
+      background-size: cover;
+      background-position: center;
+      width: 100%;
+      height: 110vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: justify; /* Texto justificado */
+      color: 0x973439; /* Cor do texto */
+      font-family: Arial, sans-serif;
+    
+
+  .terms-text {
+      max-width: 60%; /* Largura máxima do texto */
+  }
+  
+  .arrow1 {
+    position: absolute;
+    top: 20px; /* Ajuste a posição vertical conforme necessário */
+    left: 20px; /* Ajuste a posição horizontal conforme necessário */
+    color: #973439; /* Defina a cor da seta como #973439 */
+    text-decoration: none;
+    font-size: 3.125vw; /* Tamanho maior para a seta */
+    font-family: Arial, sans-serif; /* Fonte Arial */
+}
+
+  /* Estilo para o retângulo */
+  .center-image {
+    position: relative;
+  }
+  .retangulo {
+    background-image: url("Retângulo3.png"); /* Imagem do retângulo */
+    background-size: contain; /* Evita que a imagem seja cortada */
+    background-repeat: no-repeat; /* Evita repetição da imagem */
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: justify; /* Texto justificado */
+    color: #973439; /* Cor do texto */
+    font-family: Arial, sans-serif; /* Fonte Arial */
+    padding: 20px; /* Espaçamento interno */
+    box-sizing: border-box; /* Inclui o espaçamento no tamanho total */
+  }
+  .terms-text {
+    max-width: 80%; /* Largura máxima do texto */
+    margin-top: 70px; /* Espaço entre a imagem e o texto */
+    margin-bottom: 5px; /* Espaço entre o texto e o botão */
+  }
+  .terms-text p {
+    margin: 0; /* Remova o espaçamento entre os parágrafos */
+  }
+  .terms-text strong {
+    font-weight: bold; /* Texto em negrito */
+  }
+  /* Estilo para o botão */
+  .accept-button {
+    background-color: #973439; /* Cor de fundo vermelha */
+    color: #fff; /* Cor do texto branca */
+    font-family: Arial, sans-serif; /* Fonte Arial */
+    font-weight: bold; /* Texto em negrito */
+    padding: 15px 30px; /* Espaçamento interno do botão */
+    border: none; /* Sem borda */
+    cursor: pointer; /* Cursor de ponteiro ao passar o mouse */
+    font-size: 18px; /* Tamanho da fonte */
+    border-radius: 20px; /* Borda arredondada */
+    margin-top: 20px; /* Espaço entre o botão e o texto */
+  }
+h2 {
+  text-align: center;
+}

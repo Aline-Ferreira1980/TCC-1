@@ -1,0 +1,84 @@
+/*Tela de Cadastro*/
+
+
+body {
+  margin: 30px;
+  padding: 0;
+  display: flex;
+  justify-content: center; /* Centraliza horizontalmente */
+  align-items: center;
+  height: 100vh;
+  background-image: url("Fundo2.png");
+  background-size: cover;
+  background-position: center;
+}
+
+.container {
+    display: flex;
+    justify-content: center;
+    position: relative; /* Para posicionar elementos filhos relativos a este container */
+}
+
+
+.image-text1 {
+    position: absolute;
+    top: -90px;
+    left: -490px;
+    color: #973439;
+    font-size: 20px;
+    font-weight: bold;
+  }
+  
+  .arrow1 {
+    font-size: 50px;
+    vertical-align: auto;
+    color: #973439;
+  }
+  
+  .imagem-formulario {
+    width: 540%; /* Aumentamos a largura da imagem para 80% da largura da tela */
+    height: auto; /* Mantém a proporção da imagem */
+    position: absolute;
+    top: -10px;
+    left: -580px;
+    right: 0;
+    bottom: 0;
+    margin: auto; /* Centraliza a imagem na tela */
+    z-index: -1; /* Coloca a imagem atrás do formulário */
+}
+
+.formulario {
+  
+    text-align: flex; /* Centraliza o conteúdo do formulário */
+    width: 100%; /* Definindo a largura do formulário */
+    max-width: 500px; /* Largura máxima do formulário */
+    position: absolute; /* Para posicionamento de campos relativos ao formulário */
+}
+
+.campo {
+    margin: 20px 0; /* Espaço entre os campos do formulário */
+    text-align: left; /* Alinha o texto do label à esquerda */
+}
+
+.campo label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+ /* Estilo para o botão */
+ .accept-button {
+  background-color: #973439; /* Cor de fundo vermelha */
+  color: #fff; /* Cor do texto branca */
+  font-family: Arial, sans-serif; /* Fonte Arial */
+  font-weight: bold; /* Texto em negrito */
+  padding: 15px 30px; /* Espaçamento interno do botão */
+  border: none; /* Sem borda */
+  cursor: pointer; /* Cursor de ponteiro ao passar o mouse */
+  font-size: 18px; /* Tamanho da fonte */
+  border-radius: 20px; /* Borda arredondada */
+  margin-top: 20px; /* Espaço entre o botão e o texto */
+}
+
+h2 {
+  text-align: center;
+}

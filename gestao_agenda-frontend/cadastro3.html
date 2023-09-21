@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="styles2.css">
+    <title>Sistema de Agendamento CESEP</title>
+</head>
+<body>
+    <div class="container">
+        <div class="formulario"></div>
+        <img src="Retângulo2.png" alt="Retângulo2" class="imagem-formulario">
+        <p class="image-text1"><span class="arrow1"><a href="cadastro2.html">↩</a></span></p>
+
+        
+        <h2>Contato</h2>
+        <form>
+        <div class="campo">
+            <label for="nomeCompleto">Nome Completo:</label>
+            <input type="text" id="nomeCompleto" name="nomeCompleto" required>
+        </div>
+
+        <div class="campo">
+            <label for="nomesocial">Nome Social:</label>
+            <input type="text" id="nomesocial" name="nomesocial">
+        </div>
+
+        <div class="campo">
+            <label for="dataNascimento">Data de Nascimento:</label>
+            <input type="date" id="dataNascimento" name="dataNascimento" required>
+        </div>
+
+        <div class="campo">
+            <label for="genero">Gênero:</label>
+            <select id="genero" name="genero">
+                <option value="Vazio"></option>
+                <option value="Masculino">Masculino</option>
+                <option value="Feminino">Feminino</option>
+                <option value="PrefiroNão">Prefiro não dizer</option>
+            </select>
+        </div>
+
+        <div class="campo">
+            <label for="etnia">Etnia Racial:</label>
+            <select id="etnia" name="etnia">
+                <option value="Vazio"></option>
+                <option value="Branco">Branco</option>
+                <option value="Amarelo">Amarelo</option>
+            </select>
+        </div>
+
+        <div class="campo">
+            <label for="estadoCivil">Estado Civil:</label>
+            <select id="estadoCivil" name="estadoCivil">
+                <option value="Vazio"></option>
+                <option value="Solteiro">Solteiro</option>
+                <option value="Casado">Casado</option>
+                <option value="Divorciado">Divorciado</option>
+                <option value="Viúvo">Viúvo</option>
+            </select>
+        </div>
+
+        <div class="campo">
+            <label for="temDeficiencia">Tem Deficiência?</label>
+            <select id="temDeficiencia" name="temDeficiencia">
+                <option value="Vazio"></option>
+                <option value="Sim">Sim</option>
+                <option value="Não">Não</option>
+            </select>
+        </div>
+
+        <div id="deficienciaOpcoes" class="campo" style="display: none;">
+            <label for="tipoDeficiencia">Tipo de Deficiência:</label>
+            <select id="tipoDeficiencia" name="tipoDeficiencia">
+                <option value="Visual">Visual</option>
+                <option value="Auditiva">Auditiva</option>
+                <option value="Outras">Outras</option>
+            </select>
+        </div>
+
+        <div id="outraDeficiencia" class="campo" style="display: none;">
+            <label for="outraDeficienciaTexto">Qual:</label>
+            <input type="text" id="outraDeficienciaTexto" name="outraDeficienciaTexto">
+        </div>
+
+
+        <button type="submit" id="avancar" style="background-color: #973439; color: white;">Cadastrar</button>
+        </form>
+    </div>
+    </div>
+    </div>
+
+    <script>
+        // Função para controlar a exibição do campo "Tipo de Deficiência"
+        document.addEventListener("DOMContentLoaded", function () {
+    var temDeficienciaSelect = document.getElementById("temDeficiencia");
+    var deficienciaOpcoes = document.getElementById("deficienciaOpcoes");
+    var tipoDeficienciaSelect = document.getElementById("tipoDeficiencia");
+    var outraDeficiencia = document.getElementById("outraDeficiencia");
+    var outraDeficienciaTexto = document.getElementById("outraDeficienciaTexto");
+
+    temDeficienciaSelect.addEventListener("change", function () {
+        if (this.value === "Sim") {
+            deficienciaOpcoes.style.display = "block";
+        } else {
+            deficienciaOpcoes.style.display = "none";
+            outraDeficiencia.style.display = "none";
+            outraDeficienciaTexto.value = "";
+        }
+    });
+
+    tipoDeficienciaSelect.addEventListener("change", function () {
+        if (this.value === "Outras") {
+            outraDeficiencia.style.display = "block";
+        } else {
+            outraDeficiencia.style.display = "none";
+            outraDeficienciaTexto.value = "";
+        }
+    });
+});
+
+    </script>
+
+</body>
+</html>

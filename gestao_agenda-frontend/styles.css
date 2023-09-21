@@ -1,0 +1,236 @@
+/*Tela Inicial*/
+
+body {
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center; /* Centraliza horizontalmente */
+  align-items: center;
+  height: 100vh;
+  background-image: url("Fundo.png");
+  background-size: cover;
+  background-position: center;
+  font-family: Arial;
+}
+
+.container {
+  margin-left: 50px; /* Espaço da margem esquerda */
+}
+
+.logo {
+  max-width: 80%; /* 20% a menos de tamanho */
+  height: auto;
+}
+
+.center-image {
+  max-width: 630px; /* Tamanho fixo */
+  height: auto;
+  left: -65px;
+  position: relative;
+  text-align: center;
+  margin: 0 auto; /* Centraliza a imagem */
+}
+
+.image-with-text {
+  position: relative;
+}
+
+.image-text {
+  position: absolute;
+  bottom: 30px;
+  right: 100px;
+  color: #973439;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.arrow {
+  font-size: 50px;
+  vertical-align: auto;
+}
+
+.button-container {
+  position: absolute;
+  bottom: 10px; /* Distância do botão para a parte inferior */
+  left: 40%;
+  transform: translateX(-50%);
+  text-align: center;
+  width: 100%;
+}
+
+.button1 {
+  background-color: #973439;
+  color: white;
+  font-weight: bold;
+  font-size: 250%; /* Tamanho da fonte reduzido para 40% */
+  padding: 20px 180px; /* Tamanho dos botões */
+  border: none;
+  border-radius: 30px;
+  cursor: pointer;
+  width: auto; /* Largura se ajusta ao conteúdo */
+  min-width: 240px; /* Mínimo de 20px a mais que o texto */
+  margin-top: 10px; /* Espaço entre os botões */
+  margin-bottom: 10px; /* Margem de 10px na parte inferior */
+}
+.button2 {
+  background-color: #973439;
+  color: white;
+  font-weight: bold;
+  font-size: 250%; /* Tamanho da fonte reduzido para 40% */
+  padding: 20px 100px; /* Tamanho dos botões */
+  border: none;
+  border-radius: 30px;
+  cursor: pointer;
+  width: auto; /* Largura se ajusta ao conteúdo */
+  min-width: 240px; /* Mínimo de 20px a mais que o texto */
+  margin-top: 10px; /* Espaço entre os botões */
+  margin-bottom: 180px; /* Margem de 10px na parte inferior */
+}
+
+.bottom-button {
+  background-color: #973439;
+  color: white;
+  font-weight: bold;
+  font-size: 16px;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 30px;
+  cursor: pointer;
+  position: absolute;
+  bottom: 0;
+  left: 40%;
+  transform: translateX(-50%);
+  margin-bottom: -10px; /* Margem de 10px na parte inferior */
+}
+
+/* Adicione este estilo para manter a cor do texto igual */
+.image-text a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/*Tela de Login*/
+
+.input-container {
+  background-color: #973439;
+  border-radius: 30px;
+  padding: 30px;
+  position: absolute;
+  bottom: 20px;
+  position: absolute;
+  bottom: 10px; /* Distância do botão para a parte inferior */
+  left: 50%;
+  transform: translateX(-50%);
+  text-align: center;
+  width: 80%;
+  left: 40%;
+  margin-bottom: 170px; /* Margem de 10px na parte inferior */
+  margin-top: 50px;
+}
+
+.input-box1 {
+  background-color: #973439;
+  border-radius: 35px;
+  padding: 20px 10px;
+  margin-top: 20px;
+  margin-top: 10px; /* Espaço entre os botões */
+  display: flex;
+  flex-direction: column;
+  margin: 1px;
+  border-radius: 5px;
+  padding: 5px;
+  
+}
+
+.input-box2 {
+  background-color: #973439;
+  border-radius: 30px;
+  padding: 20px 10px;
+  margin-top: 20px;
+  margin-top: 20px; /* Espaço entre os botões */
+  display: flex;
+  flex-direction: column;
+  margin: 1px;
+  border-radius: 5px;
+  padding: 5px;
+}
+
+.input-label {
+  color: white;
+  font-size: 20px;
+  font-family: Arial;
+  font-weight: bold;
+  text-align: left;
+  margin: 0;
+  margin-bottom: 0px;
+}
+
+.input-field {
+  background-color: white;
+  border: none;
+  color: black;
+  width: 100%;
+  padding: 15px 0;
+  font-size: 16px;
+  font-family: Arial;
+  max-width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 12px;
+  margin-top: 1px;
+}
+
+.forgot-password {
+  margin-top: 15px;
+  color: white;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.forgot-password a {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  color: #973439;
+  text-decoration: none;
+  font-weight: bold;
+  margin-bottom: -80px; /* Margem de 10px na parte inferior */
+}
+.image-text1 {
+  position: absolute;
+  top: 50px;
+  left: -10px;
+  color: #973439;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.arrow1 {
+    color: inherit;
+    text-decoration: none;
+    font-size: 60px; /* Tamanho maior para a seta */
+    position: relative;
+    top: 20px; /* Mova a seta um pouco para cima */
+    left: -5px; /* Mova a seta um pouco para a esquerda */
+  vertical-align: auto;
+  color: #973439;
+}
+ /* Estilo para o botão de login */
+  .login-button {
+    background-color: #e06268; /* Cor de fundo vermelha */
+    color: #fff; /* Cor do texto branca */
+    font-family: Arial, sans-serif; /* Fonte Arial */
+    font-weight: bold; /* Texto em negrito */
+    padding: 15px 30px; /* Espaçamento interno do botão */
+    border: 0px solid #fff; /* Sem borda */
+    cursor: pointer; /* Cursor de ponteiro ao passar o mouse */
+    font-size: 18px; /* Tamanho da fonte */
+    border-radius: 30px; /* Borda arredondada */
+    margin-top: 20px; /* Espaço entre o botão e o texto */
+    text-decoration: none; /* Remove o sublinhado */
+    transition: background-color 0.3s ease; /* Transição suave */
+  }
+  .login-button:hover {
+    background-color: #cc4249; /* Cor de fundo quando o mouse passa por cima */
+  }
+

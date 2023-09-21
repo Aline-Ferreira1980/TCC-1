@@ -1,0 +1,32 @@
+body {
+  margin: 0;
+  padding: 0;
+  background-image: url('Fundo2.png');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+.image-text1 {
+  position: absolute;
+  top: 90px;
+  left: 90px;
+  color: #973439;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.arrow1 {
+  font-size: 50px;
+  vertical-align: auto;
+  color: #973439;
+}
