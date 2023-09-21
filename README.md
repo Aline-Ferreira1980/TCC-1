@@ -26,7 +26,7 @@ Repositório para TCC 1
 - [x] Alterar agendamento
 - [x] Cadastrar serviço (CRUD)
 - [ ] Consultar alunos por serviço
-- [ ] Adiciona Estagiario a serviço
+- [x] Adiciona Estagiario a serviço
 - [ ] Remover Estagiario de serviço
 - [ ] Adiciona Docente a serviço
 - [ ] Remove Docente de serviço
