@@ -1,5 +1,6 @@
 package br.uscs.gestao_agenda_backend.application.port;
 
+import br.uscs.gestao_agenda_backend.application.dto.EstagiarioResponse;
 import br.uscs.gestao_agenda_backend.application.dto.ServicoResponse;
 import br.uscs.gestao_agenda_backend.application.request.ServicoRequest;
 
@@ -18,4 +19,7 @@ public interface ServicoService {
     void deletaServico(Long id);
 
     Optional<ServicoResponse> addEstagiarioToServico(Long servicoId, Long estagiarioId);
+
+
+    Optional<ServicoResponse> removeEstagiarioFromServico(Long idServico, Long idEstagiario);
 }

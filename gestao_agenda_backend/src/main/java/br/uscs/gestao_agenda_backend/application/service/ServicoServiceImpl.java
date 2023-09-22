@@ -3,6 +3,7 @@ package br.uscs.gestao_agenda_backend.application.service;
 import br.uscs.gestao_agenda_backend.application.common.AgendamentoMapper;
 import br.uscs.gestao_agenda_backend.application.common.ServicoMapper;
 import br.uscs.gestao_agenda_backend.application.dto.DocenteResponse;
+import br.uscs.gestao_agenda_backend.application.dto.EstagiarioResponse;
 import br.uscs.gestao_agenda_backend.application.dto.ServicoResponse;
 import br.uscs.gestao_agenda_backend.application.port.ServicoService;
 import br.uscs.gestao_agenda_backend.application.request.ServicoRequest;
@@ -94,6 +95,20 @@ public class ServicoServiceImpl implements ServicoService {
             return Optional.ofNullable(servicoMapper.toResponse(servicoRepository.save(servico)));
         }
 
+        return Optional.empty();
+    }
+
+    @Override
+    public Optional<ServicoResponse> removeEstagiarioFromServico(Long idServico, Long idEstagiario) {
+        Optional<Estagiario> rs_estag = estagiarioRepository.findById(idEstagiario);
+        Optional<Servico> rs_svc = servicoRepository.findById(idServico);
+        if(rs_estag.isPresent() && rs_svc.isPresent()){
+            Estagiario estagiario = rs_estag.get();
+            Servico servico = rs_svc.get();
+            servico.getEstagiarios().remove(estagiario);
+
+            return Optional.ofNullable(servicoMapper.toResponse(servicoRepository.save(servico)));
+        }
         return Optional.empty();
     }
 

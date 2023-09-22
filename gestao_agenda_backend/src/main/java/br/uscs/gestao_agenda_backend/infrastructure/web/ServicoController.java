@@ -1,5 +1,6 @@
 package br.uscs.gestao_agenda_backend.infrastructure.web;
 
+import br.uscs.gestao_agenda_backend.application.dto.EstagiarioResponse;
 import br.uscs.gestao_agenda_backend.application.dto.ServicoResponse;
 import br.uscs.gestao_agenda_backend.application.port.ServicoService;
 import br.uscs.gestao_agenda_backend.application.request.ServicoRequest;
@@ -128,7 +129,7 @@ public class ServicoController {
             @ApiResponse(responseCode = "400", description = "Parâmetros inválidos"),
             @ApiResponse(responseCode = "500", description = "Erro ao realizar busca dos dados"),
     })
-    @PostMapping(value = "/{id_servico}/addEstagiario", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+    @PostMapping(value = "/{id_servico}/add_estagiario", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     public ResponseEntity<ServicoResponse> addEstagiarioToService(@PathVariable Long id_servico,
                                                                   @RequestParam Long id_estagiario) {
 
@@ -137,6 +138,22 @@ public class ServicoController {
 
         return response.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
 
+    }
+
+    @Operation(summary = "Remove serviço de estagiaio na aplicação", method = "DELETE")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Estagiário cadastrado com sucesso"),
+            @ApiResponse(responseCode = "404", description = "Estagiário nao encontrado"),
+            @ApiResponse(responseCode = "422", description = "Dados de requisição inválida"),
+            @ApiResponse(responseCode = "401", description = "Usuário nao autenticado"),
+            @ApiResponse(responseCode = "400", description = "Parâmetros inválidos"),
+            @ApiResponse(responseCode = "500", description = "Erro ao realizar busca dos dados"),
+    })
+    @DeleteMapping("{id_servico}/remove_estagiario")
+    public ResponseEntity<ServicoResponse> removeServicoFromEstagiario(@PathVariable Long id_servico,
+                                                                          @RequestParam Long id_estagiario) {
+        Optional<ServicoResponse> response = servicoService.removeEstagiarioFromServico(id_servico, id_estagiario);
+        return response.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
 }
