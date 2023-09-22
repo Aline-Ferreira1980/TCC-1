@@ -27,11 +27,12 @@ Repositório para TCC 1
 - [x] Cadastrar serviço (CRUD)
 - [x] Consultar alunos por serviço
 - [x] Adiciona Estagiario a serviço
-- [ ] Remover Estagiario de serviço
+- [x] Remover Estagiario de serviço
 - [ ] Adiciona Docente a serviço
 - [ ] Remove Docente de serviço
 - [ ] Consultar Docentes por serviço
-- [ ] Consultar Estagiarios por serviço
+- [ ] adiciona docoente a estagiario
+- [ ] remove docente de estagiario
 - [ ] Deploy na AWS
 - [ ] Implementação de autenticação via oauth2
 ---
