@@ -90,11 +90,11 @@ public class ServicoServiceImpl implements ServicoService {
 
             Servico servico = svc.get();
             Optional<Estagiario> estag = estagiarioRepository.findById(estagiarioId);
-//            estag.ifPresent(servico.getEstagiarios()::add);
-            servico.getEstagiarios().add(estag.get());
-            return Optional.ofNullable(servicoMapper.toResponse(servicoRepository.save(servico)));
+            if (estag.isPresent()){
+                servico.getEstagiarios().add(estag.get());
+                return Optional.ofNullable(servicoMapper.toResponse(servicoRepository.save(servico)));
+            }
         }
-
         return Optional.empty();
     }
 

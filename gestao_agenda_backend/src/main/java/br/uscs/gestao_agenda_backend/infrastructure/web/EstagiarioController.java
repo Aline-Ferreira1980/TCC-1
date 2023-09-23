@@ -103,7 +103,7 @@ public class EstagiarioController {
 
     @Operation(summary = "Deleta Estagiário na aplicação", method = "DELETE")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Estagiário cadastrado com sucesso"),
+            @ApiResponse(responseCode = "200", description = "Estagiário deletado com sucesso"),
             @ApiResponse(responseCode = "404", description = "Estagiário nao encontrado"),
             @ApiResponse(responseCode = "422", description = "Dados de requisição inválida"),
             @ApiResponse(responseCode = "401", description = "Usuário nao autenticado"),
@@ -124,7 +124,7 @@ public class EstagiarioController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Busca realizada com sucesso"),
             @ApiResponse(responseCode = "422", description = "Dados de requisição inválida"),
-            @ApiResponse(responseCode = "404", description = "Docente não encontrado"),
+            @ApiResponse(responseCode = "404", description = "Servico não encontrado"),
             @ApiResponse(responseCode = "401", description = "Usuário nao autenticado"),
             @ApiResponse(responseCode = "400", description = "Parâmetros inválidos"),
             @ApiResponse(responseCode = "500", description = "Erro ao realizar busca dos dados"),
@@ -135,5 +135,19 @@ public class EstagiarioController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
+    @Operation(summary = "Vincula docente a estagiario", method = "POST")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "Docente vinculado com sucesso"),
+            @ApiResponse(responseCode = "422", description = "Dados de requisição inválida"),
+            @ApiResponse(responseCode = "401", description = "Usuario nao autenticado"),
+            @ApiResponse(responseCode = "400", description = "Parametros inválidos"),
+            @ApiResponse(responseCode = "500", description = "Erro ao realizar busca dos dados"),
+    })
+    @PostMapping(value = "{idEstagiario}/add_docente", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+    public ResponseEntity<EstagiarioResponse> addDocenteToEstagiario(@PathVariable Long idEstagiario,
+                                                                     @RequestParam(value = "id_docente") Long idDocente) {
+        Optional<EstagiarioResponse> response = estagiarioService.addDocente(idEstagiario, idDocente);
+        return response.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+    }
 
 }

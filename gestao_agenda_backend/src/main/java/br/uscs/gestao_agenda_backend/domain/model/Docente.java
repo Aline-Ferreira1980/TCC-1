@@ -22,6 +22,7 @@ public class Docente extends User {
     @ManyToMany(mappedBy = "docentes", cascade = CascadeType.ALL)
     private Set<Servico> servicos;
 
+    @EqualsAndHashCode.Exclude
     @OneToMany(mappedBy = "professorResponsavel")
     private Set<Estagiario> estagiarios;
 

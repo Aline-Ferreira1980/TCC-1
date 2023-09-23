@@ -22,4 +22,6 @@ public interface EstagiarioService {
     void deletaEstagiario(Long id);
 
     List<EstagiarioResponse> findByServico(String servicoAcronimo);
+
+    Optional<EstagiarioResponse> addDocente(Long idEstagiario, Long idDocente);
 }

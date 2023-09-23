@@ -7,9 +7,12 @@ import br.uscs.gestao_agenda_backend.application.port.EstagiarioService;
 import br.uscs.gestao_agenda_backend.application.request.AtualizaEstagiarioRequest;
 import br.uscs.gestao_agenda_backend.application.request.CadastroEstagiarioRequest;
 import br.uscs.gestao_agenda_backend.application.request.HorarioTrabalhoRequest;
+import br.uscs.gestao_agenda_backend.domain.model.Docente;
 import br.uscs.gestao_agenda_backend.domain.model.Estagiario;
 import br.uscs.gestao_agenda_backend.domain.model.HorarioTrabalho;
+import br.uscs.gestao_agenda_backend.domain.model.Servico;
 import br.uscs.gestao_agenda_backend.domain.model.enums.UserRole;
+import br.uscs.gestao_agenda_backend.domain.port.DocenteRepository;
 import br.uscs.gestao_agenda_backend.domain.port.EstagiarioRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.BeanUtils;
@@ -32,7 +35,7 @@ public class EstagiarioServiceImpl implements EstagiarioService {
     private final HorarioTrabalhoMapper horarioTrabalhoMapper;
 
     private final EstagiarioRepository estagiarioRepository;
-
+    private final DocenteRepository docenteRepository;
 
     @Override
     public EstagiarioResponse cadastrarEstagiario(CadastroEstagiarioRequest request) {
@@ -127,6 +130,20 @@ public class EstagiarioServiceImpl implements EstagiarioService {
                 .stream()
                 .map(estagiarioMapper::toResponse)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public Optional<EstagiarioResponse> addDocente(Long idEstagiario, Long idDocente) {
+        Optional<Estagiario> estag = estagiarioRepository.findById(idEstagiario);
+        Optional<Docente> doc = docenteRepository.findById(idDocente);
+
+
+        if(estag.isPresent() && doc.isPresent()){
+            Estagiario estagiario = estag.get();
+            estagiario.setProfessorResponsavel(doc.get());
+            return Optional.ofNullable(estagiarioMapper.toResponse(estagiarioRepository.save(estagiario)));
+        }
+        return Optional.empty();
     }
 
     @Override
