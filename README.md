@@ -31,7 +31,7 @@ Repositório para TCC 1
 - [ ] Adiciona Docente a serviço
 - [ ] Remove Docente de serviço
 - [ ] Consultar Docentes por serviço
-- [ ] adiciona docoente a estagiario
+- [x] adiciona docoente a estagiario
 - [ ] remove docente de estagiario
 - [ ] Deploy na AWS
 - [ ] Implementação de autenticação via oauth2
