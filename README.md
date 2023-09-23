@@ -28,11 +28,16 @@ Repositório para TCC 1
 - [x] Consultar alunos por serviço
 - [x] Adiciona Estagiario a serviço
 - [x] Remover Estagiario de serviço
-- [ ] Adiciona Docente a serviço
-- [ ] Remove Docente de serviço
-- [ ] Consultar Docentes por serviço
+- [x] Adiciona Docente a serviço
+- [x] Remove Docente de serviço
+- [x] Consultar Docentes por serviço
 - [x] adiciona docoente a estagiario
-- [ ] remove docente de estagiario
+- [x] remove docente de estagiario
+- [x] lista docente com serviço vazio
+- [x] lista estagiario com docente vazio
+- [x] lista estagiario com serviço vazio
+- [x] Adiciona Lista de Estagiario a serviço
+- [x] Adiciona Lista de Docente a serviço
 - [ ] Deploy na AWS
 - [ ] Implementação de autenticação via oauth2
 ---
