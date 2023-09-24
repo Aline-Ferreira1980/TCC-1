@@ -2,6 +2,7 @@ package br.uscs.gestao_agenda_backend.application.service;
 
 import br.uscs.gestao_agenda_backend.application.common.DocenteMapper;
 import br.uscs.gestao_agenda_backend.application.dto.DocenteResponse;
+import br.uscs.gestao_agenda_backend.application.dto.EstagiarioResponse;
 import br.uscs.gestao_agenda_backend.application.dto.SalaResponse;
 import br.uscs.gestao_agenda_backend.application.port.DocenteService;
 import br.uscs.gestao_agenda_backend.application.request.CadastroDocenteRequest;
@@ -80,6 +81,22 @@ public class DocenteServiceImpl implements DocenteService {
     public void deletaDocente(Long id) {
         docenteRepository.deleteById(id);
         docenteRepository.flush();
+    }
+
+    @Override
+    public List<DocenteResponse> findByServico(String acronimo) {
+        return docenteRepository.findByServicosAcronimo(acronimo)
+                .stream()
+                .map(docenteMapper::toResponse)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<DocenteResponse> findServicoEmpty() {
+        return docenteRepository.findByServicosEmpty()
+                .stream()
+                .map(docenteMapper::toResponse)
+                .collect(Collectors.toList());
     }
 
 

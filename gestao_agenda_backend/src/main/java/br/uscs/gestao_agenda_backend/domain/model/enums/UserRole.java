@@ -8,7 +8,8 @@ import lombok.Getter;
 @Getter
 public enum UserRole {
     PACIENTE("paciente"),
-    ESTAGIARIO("estagiario");
+    ESTAGIARIO("estagiario"),
+    DOCENTE("docente");
 
     private final String role;
 

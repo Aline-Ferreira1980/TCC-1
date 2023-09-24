@@ -22,4 +22,12 @@ public interface ServicoService {
 
 
     Optional<ServicoResponse> removeEstagiarioFromServico(Long idServico, Long idEstagiario);
+
+    Optional<ServicoResponse> addDocenteToServico(Long idServico, Long idDocente);
+
+    Optional<ServicoResponse> removeDocenteFromServico(Long idServico, Long idDocente);
+
+    Optional<ServicoResponse> addEstagiariosToServico(Long idServico, List<Long> idEstagiarios);
+
+    Optional<ServicoResponse> addDocentesToServico(Long idServico, List<Long> idDocentes);
 }

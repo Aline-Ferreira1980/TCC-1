@@ -2,6 +2,7 @@ package br.uscs.gestao_agenda_backend.application.service;
 
 import br.uscs.gestao_agenda_backend.application.common.EstagiarioMapper;
 import br.uscs.gestao_agenda_backend.application.common.HorarioTrabalhoMapper;
+import br.uscs.gestao_agenda_backend.application.dto.DocenteResponse;
 import br.uscs.gestao_agenda_backend.application.dto.EstagiarioResponse;
 import br.uscs.gestao_agenda_backend.application.port.EstagiarioService;
 import br.uscs.gestao_agenda_backend.application.request.AtualizaEstagiarioRequest;
@@ -144,6 +145,34 @@ public class EstagiarioServiceImpl implements EstagiarioService {
             return Optional.ofNullable(estagiarioMapper.toResponse(estagiarioRepository.save(estagiario)));
         }
         return Optional.empty();
+    }
+
+    @Override
+    public Optional<EstagiarioResponse> removeDocente(Long idEstagiario) {
+        Optional<Estagiario> estag = estagiarioRepository.findById(idEstagiario);
+
+        if(estag.isPresent()){
+            Estagiario estagiario = estag.get();
+            estagiario.setProfessorResponsavel(null);
+            return Optional.ofNullable(estagiarioMapper.toResponse(estagiarioRepository.save(estagiario)));
+        }
+        return Optional.empty();
+    }
+
+    @Override
+    public List<EstagiarioResponse> findServicoEmpty() {
+        return estagiarioRepository.findByServicosEmpty()
+                .stream()
+                .map(estagiarioMapper::toResponse)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<EstagiarioResponse> findDocenteNull() {
+        return estagiarioRepository.findByProfessorResponsavelIsNull()
+                .stream()
+                .map(estagiarioMapper::toResponse)
+                .collect(Collectors.toList());
     }
 
     @Override

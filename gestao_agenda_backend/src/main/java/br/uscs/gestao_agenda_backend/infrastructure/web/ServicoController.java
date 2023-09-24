@@ -156,4 +156,77 @@ public class ServicoController {
         return response.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
+    @Operation(summary = "Vincula docente a serviço", method = "POST")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Estagiário vinculado com sucesso"),
+            @ApiResponse(responseCode = "422", description = "Dados de requisição inválida"),
+            @ApiResponse(responseCode = "401", description = "Usuário nao autenticado"),
+            @ApiResponse(responseCode = "400", description = "Parâmetros inválidos"),
+            @ApiResponse(responseCode = "500", description = "Erro ao realizar busca dos dados"),
+    })
+    @PostMapping(value="/{id_servico}/add_docente", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+    public ResponseEntity<ServicoResponse> addDocenteToService(@PathVariable Long id_servico,
+                                                                  @RequestParam Long id_docente) {
+
+        Optional<ServicoResponse> response = servicoService.addDocenteToServico(
+                id_servico, id_docente);
+
+        return response.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+
+    }
+
+    @Operation(summary = "Remove serviço de Docente na aplicação", method = "DELETE")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Estagiário cadastrado com sucesso"),
+            @ApiResponse(responseCode = "404", description = "Estagiário nao encontrado"),
+            @ApiResponse(responseCode = "422", description = "Dados de requisição inválida"),
+            @ApiResponse(responseCode = "401", description = "Usuário nao autenticado"),
+            @ApiResponse(responseCode = "400", description = "Parâmetros inválidos"),
+            @ApiResponse(responseCode = "500", description = "Erro ao realizar busca dos dados"),
+    })
+    @DeleteMapping("{id_servico}/remove_docente")
+    public ResponseEntity<ServicoResponse> removeServicoFromDocente(@PathVariable Long id_servico,
+                                                                       @RequestParam Long id_docente) {
+        Optional<ServicoResponse> response = servicoService.removeDocenteFromServico(id_servico, id_docente);
+        return response.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
+    @Operation(summary = "Vincula Lista de estagiários a serviço", method = "POST")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Estagiário vinculado com sucesso"),
+            @ApiResponse(responseCode = "422", description = "Dados de requisição inválida"),
+            @ApiResponse(responseCode = "401", description = "Usuário nao autenticado"),
+            @ApiResponse(responseCode = "400", description = "Parâmetros inválidos"),
+            @ApiResponse(responseCode = "500", description = "Erro ao realizar busca dos dados"),
+    })
+    @PostMapping(value = "/{id_servico}/add_estagiarios")
+    public ResponseEntity<ServicoResponse> addEstagiariosToService(@PathVariable Long id_servico,
+                                                                  @RequestBody List<Long> id_estagiarios) {
+
+        Optional<ServicoResponse> response = servicoService.addEstagiariosToServico(
+                id_servico, id_estagiarios);
+
+        return response.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+
+    }
+
+    @Operation(summary = "Vincula Lista de Docentes a serviço", method = "POST")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Estagiário vinculado com sucesso"),
+            @ApiResponse(responseCode = "422", description = "Dados de requisição inválida"),
+            @ApiResponse(responseCode = "401", description = "Usuário nao autenticado"),
+            @ApiResponse(responseCode = "400", description = "Parâmetros inválidos"),
+            @ApiResponse(responseCode = "500", description = "Erro ao realizar busca dos dados"),
+    })
+    @PostMapping(value = "/{id_servico}/add_docentes")
+    public ResponseEntity<ServicoResponse> addDocentesToService(@PathVariable Long id_servico,
+                                                                   @RequestBody List<Long> id_docentes) {
+
+        Optional<ServicoResponse> response = servicoService.addDocentesToServico(
+                id_servico, id_docentes);
+
+        return response.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+
+    }
+
 }

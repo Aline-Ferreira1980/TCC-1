@@ -1,6 +1,7 @@
 package br.uscs.gestao_agenda_backend.application.port;
 
 import br.uscs.gestao_agenda_backend.application.dto.DocenteResponse;
+import br.uscs.gestao_agenda_backend.application.dto.EstagiarioResponse;
 import br.uscs.gestao_agenda_backend.domain.model.Docente;
 
 import java.util.List;
@@ -16,4 +17,8 @@ public interface DocenteService {
     Optional<DocenteResponse> atualizaDocente(Long id, Docente docente);
 
     void deletaDocente(Long id);
+
+    List<DocenteResponse> findByServico(String acronimo);
+
+    List<DocenteResponse> findServicoEmpty();
 }

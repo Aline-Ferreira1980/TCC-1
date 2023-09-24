@@ -7,16 +7,15 @@ import br.uscs.gestao_agenda_backend.application.dto.EstagiarioResponse;
 import br.uscs.gestao_agenda_backend.application.dto.ServicoResponse;
 import br.uscs.gestao_agenda_backend.application.port.ServicoService;
 import br.uscs.gestao_agenda_backend.application.request.ServicoRequest;
-import br.uscs.gestao_agenda_backend.domain.model.Docente;
-import br.uscs.gestao_agenda_backend.domain.model.Estagiario;
-import br.uscs.gestao_agenda_backend.domain.model.HorarioTrabalho;
-import br.uscs.gestao_agenda_backend.domain.model.Servico;
+import br.uscs.gestao_agenda_backend.domain.model.*;
+import br.uscs.gestao_agenda_backend.domain.port.DocenteRepository;
 import br.uscs.gestao_agenda_backend.domain.port.EstagiarioRepository;
 import br.uscs.gestao_agenda_backend.domain.port.ServicoRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
@@ -28,6 +27,8 @@ public class ServicoServiceImpl implements ServicoService {
 
     private final ServicoRepository servicoRepository;
     private final EstagiarioRepository estagiarioRepository;
+    private final DocenteRepository docenteRepository;
+
     private final ServicoMapper servicoMapper;
 
     @Transactional
@@ -110,6 +111,76 @@ public class ServicoServiceImpl implements ServicoService {
             return Optional.ofNullable(servicoMapper.toResponse(servicoRepository.save(servico)));
         }
         return Optional.empty();
+    }
+
+    @Override
+    public Optional<ServicoResponse> addDocenteToServico(Long idServico, Long idDocente) {
+        Optional<Servico> svc = servicoRepository.findById(idServico);
+        if(svc.isPresent()){
+            for(Estagiario e : svc.get().getEstagiarios()){
+                if(e.getId().equals(idDocente)){
+                    throw new IllegalArgumentException("O Docente ja foi vinculado a este Serviço");
+                }
+            }
+
+            Servico servico = svc.get();
+            Optional<Docente> doc = docenteRepository.findById(idDocente);
+            if (doc.isPresent()){
+                servico.getDocentes().add(doc.get());
+                return Optional.ofNullable(servicoMapper.toResponse(servicoRepository.save(servico)));
+            }
+        }
+
+       // TODO retornar um erro de docente ou estagiario nao encontrados
+        return Optional.empty();
+
+    }
+
+    @Override
+    public Optional<ServicoResponse> removeDocenteFromServico(Long idServico, Long idDocente) {
+        Optional<Docente> rs_docente = docenteRepository.findById(idDocente);
+        Optional<Servico> rs_svc = servicoRepository.findById(idServico);
+        if(rs_docente.isPresent() && rs_svc.isPresent()){
+            Docente docente = rs_docente.get();
+            Servico servico = rs_svc.get();
+            servico.getDocentes().remove(docente);
+
+            return Optional.ofNullable(servicoMapper.toResponse(servicoRepository.save(servico)));
+        }
+        return Optional.empty();
+    }
+
+    @Override
+    public Optional<ServicoResponse> addEstagiariosToServico(Long idServico, List<Long> idEstagiarios) {
+
+        // TODO implementar essa verificação erros em outros metodos
+        Servico servico = servicoRepository.findById(idServico)
+                .orElseThrow(() -> new EntityNotFoundException("Serviço não encontrado"));
+
+        // TODO implementar essa verificação erros em outros metodos
+        List<Estagiario> estagiarios = idEstagiarios.stream()
+                .map(estagiarioId -> estagiarioRepository.findById(estagiarioId)
+                        .orElseThrow(() -> new EntityNotFoundException("Estagiario não encontrado com ID: " + estagiarioId)))
+                .toList();
+
+        servico.getEstagiarios().addAll(estagiarios);
+
+        return Optional.ofNullable(servicoMapper.toResponse(servicoRepository.save(servico)));
+    }
+
+    @Override
+    public Optional<ServicoResponse> addDocentesToServico(Long idServico, List<Long> idDocentes) {
+        Servico servico = servicoRepository.findById(idServico)
+                .orElseThrow(() -> new EntityNotFoundException("Serviço não encontrado"));
+
+        List<Docente> docentes = idDocentes.stream()
+                .map(docenteId -> docenteRepository.findById(docenteId)
+                        .orElseThrow(() -> new EntityNotFoundException("Estagiario não encontrado com ID: " + docenteId)))
+                .toList();
+
+        servico.getDocentes().addAll(docentes);
+
+        return Optional.ofNullable(servicoMapper.toResponse(servicoRepository.save(servico)));
     }
 
 

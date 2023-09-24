@@ -2,6 +2,7 @@ package br.uscs.gestao_agenda_backend.infrastructure.web;
 
 import br.uscs.gestao_agenda_backend.application.common.DocenteMapper;
 import br.uscs.gestao_agenda_backend.application.dto.DocenteResponse;
+import br.uscs.gestao_agenda_backend.application.dto.EstagiarioResponse;
 import br.uscs.gestao_agenda_backend.application.port.DocenteService;
 import br.uscs.gestao_agenda_backend.application.request.AtualizaDocenteRequest;
 import br.uscs.gestao_agenda_backend.application.request.CadastroDocenteRequest;
@@ -11,6 +12,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -108,5 +110,34 @@ public class DocenteController {
         } catch (EmptyResultDataAccessException e) {
             return ResponseEntity.notFound().build();
         }
+    }
+
+    @Operation(summary = "Lista Docent por serviço", method = "GET")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Busca realizada com sucesso"),
+            @ApiResponse(responseCode = "422", description = "Dados de requisição inválida"),
+            @ApiResponse(responseCode = "404", description = "Servico não encontrado"),
+            @ApiResponse(responseCode = "401", description = "Usuário nao autenticado"),
+            @ApiResponse(responseCode = "400", description = "Parâmetros inválidos"),
+            @ApiResponse(responseCode = "500", description = "Erro ao realizar busca dos dados"),
+    })
+    @GetMapping("/servico")
+    public ResponseEntity<List<DocenteResponse>> listDocenteByServico(@RequestParam String acronimo) {
+        List<DocenteResponse> response = docenteService.findByServico(acronimo);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @Operation(summary = "Lista Docente com serviço vazio", method = "GET")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Busca realizada com sucesso"),
+            @ApiResponse(responseCode = "422", description = "Dados de requisição inválida"),
+            @ApiResponse(responseCode = "401", description = "Usuário nao autenticado"),
+            @ApiResponse(responseCode = "400", description = "Parâmetros inválidos"),
+            @ApiResponse(responseCode = "500", description = "Erro ao realizar busca dos dados"),
+    })
+    @GetMapping("/servico_vazio")
+    public ResponseEntity<List<DocenteResponse>> listDocenteServicoEmpty() {
+        List<DocenteResponse> response = docenteService.findServicoEmpty();
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 }

@@ -1,5 +1,6 @@
 package br.uscs.gestao_agenda_backend.infrastructure.web;
 
+import br.uscs.gestao_agenda_backend.application.dto.DocenteResponse;
 import br.uscs.gestao_agenda_backend.application.dto.EstagiarioResponse;
 import br.uscs.gestao_agenda_backend.application.port.EstagiarioService;
 import br.uscs.gestao_agenda_backend.application.request.AtualizaEstagiarioRequest;
@@ -150,4 +151,45 @@ public class EstagiarioController {
         return response.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
+    @Operation(summary = "Remove docente de estagiario", method = "POST")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "Docente vinculado com sucesso"),
+            @ApiResponse(responseCode = "422", description = "Dados de requisição inválida"),
+            @ApiResponse(responseCode = "401", description = "Usuario nao autenticado"),
+            @ApiResponse(responseCode = "400", description = "Parametros inválidos"),
+            @ApiResponse(responseCode = "500", description = "Erro ao realizar busca dos dados"),
+    })
+    @DeleteMapping(value = "{idEstagiario}/remove_docente")
+    public ResponseEntity<EstagiarioResponse> removeDocenteFromEstagiario(@PathVariable Long idEstagiario) {
+        Optional<EstagiarioResponse> response = estagiarioService.removeDocente(idEstagiario);
+        return response.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
+    @Operation(summary = "Lista Estagiario com serviço vazio", method = "GET")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Busca realizada com sucesso"),
+            @ApiResponse(responseCode = "422", description = "Dados de requisição inválida"),
+            @ApiResponse(responseCode = "401", description = "Usuário nao autenticado"),
+            @ApiResponse(responseCode = "400", description = "Parâmetros inválidos"),
+            @ApiResponse(responseCode = "500", description = "Erro ao realizar busca dos dados"),
+    })
+    @GetMapping("/servico_vazio")
+    public ResponseEntity<List<EstagiarioResponse>> listEstagiarioServicoEmpty() {
+        List<EstagiarioResponse> response = estagiarioService.findServicoEmpty();
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @Operation(summary = "Lista Estagiario com Docente vazio", method = "GET")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Busca realizada com sucesso"),
+            @ApiResponse(responseCode = "422", description = "Dados de requisição inválida"),
+            @ApiResponse(responseCode = "401", description = "Usuário nao autenticado"),
+            @ApiResponse(responseCode = "400", description = "Parâmetros inválidos"),
+            @ApiResponse(responseCode = "500", description = "Erro ao realizar busca dos dados"),
+    })
+    @GetMapping("/docente_vazio")
+    public ResponseEntity<List<EstagiarioResponse>> listEstagiarioDocenteEmpty() {
+        List<EstagiarioResponse> response = estagiarioService.findDocenteNull();
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
 }
