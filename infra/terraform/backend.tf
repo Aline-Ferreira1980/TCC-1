@@ -1,5 +1,5 @@
 terraform {
-  required_version = "1.3.6"
+  required_version = " >=1.2.2"
   required_providers {
     aws = {
       source  = "hashicorp/aws"
@@ -12,6 +12,7 @@ terraform {
     key            = "terraform.tfstate"
     region         = "sa-east-1"
     dynamodb_table = "terraform-state-lock"
-    profile        = "tcc-dev"
+      access_key = "AKIAWIVJRZRRS4CUOVMN"
+    secret_key = "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"
   }
 }
