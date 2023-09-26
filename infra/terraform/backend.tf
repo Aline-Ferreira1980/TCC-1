@@ -16,3 +16,7 @@ terraform {
     secret_key = "WKyp2XLURD0ioaclIBQ71D7m6SZcKWx6+TO+vBxt"
   }
 }
+
+provider "aws" {
+  region = "sa-east-1"
+}

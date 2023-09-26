@@ -45,24 +45,26 @@ resource "aws_codepipeline" "agenda_cesep_pipeline" {
     }
   }
 
-  stage {
+   stage {
     name = "Deploy"
 
     action {
-      name            = "DeployAction"
-      category        = "Deploy"
-      owner           = "AWS"
-      provider        = "ElasticBeanstalk"
-      version         = "1"
-      input_artifacts = ["build_output"]
+      name             = "DeployAction"
+      category         = "Deploy"
+      owner            = "AWS"
+      provider         = "CodeDeployToInstance"
+      input_artifacts  = ["source_artifact"]
+      version          = "1"
+
       configuration = {
-        ApplicationName  = aws_elastic_beanstalk_application.agenda_cesep.name
-        EnvironmentName  = aws_elastic_beanstalk_environment.agenda_cesep_environment.name
+        ApplicationName          = aws_codedeploy_deployment_group.cesep_agenda_deploygrup.app_name
+        DeploymentGroupName      = aws_codedeploy_deployment_group.cesep_agenda_deploygrup.deployment_group_name
+        S3Bucket                 = aws_s3_bucket.codepipeline_bucket.id
+        FileExistsBehavior       = "OVERWRITE"
+        DeploymentConfigName     = "CodeDeployDefault.OneAtATime"
       }
     }
   }
-
-
 }
 
 resource "aws_codestarconnections_connection" "git_connection" {
@@ -80,7 +82,6 @@ resource "aws_s3_bucket_ownership_controls" "controls_pipeline_bucket" {
     object_ownership = "BucketOwnerPreferred"
   }
 }
-
 
 resource "aws_s3_bucket_acl" "codepipeline_bucket_acl" {
   depends_on = [aws_s3_bucket_ownership_controls.controls_pipeline_bucket]
@@ -112,3 +113,23 @@ resource "aws_iam_role_policy" "codepipeline_policy" {
   policy = data.aws_iam_policy_document.codepipeline_policy.json
 }
 
+resource "aws_codedeploy_deployment_group" "cesep_agenda_deploygrup" {
+  app_name              = "cesep-agenda"             # Nome da sua aplicação no CodeDeploy
+  deployment_group_name = "cesep-agenda-deploygrup"       # Nome do grupo de implantação
+  service_role_arn      = aws_iam_role.codepipeline_role.arn # Papel de serviço do CodeDeploy
+
+  deployment_style {
+    deployment_option = "WITH_TRAFFIC_CONTROL"
+    deployment_type   = "BLUE_GREEN"
+  }
+
+  ec2_tag_set {
+    ec2_tag_filter {
+      key   = "Name"       # Substitua pela chave de tag que você usou para suas instâncias EC2
+      type  = "KEY_AND_VALUE"
+      value = aws_instance.app_instance.tags.Name # Substitua pelo valor da tag que identifica sua instância EC2
+    }
+  }
+  
+  # Configurações adicionais, como políticas de implantação, regras de implantação, podem ser adicionadas aqui.
+}
