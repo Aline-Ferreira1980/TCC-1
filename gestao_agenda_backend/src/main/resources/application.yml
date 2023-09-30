@@ -55,3 +55,7 @@ spring:
 api:
   security:
     token:
+
+agenda-cesep:
+  password:
+    client: ${CLIENT_PASS}
