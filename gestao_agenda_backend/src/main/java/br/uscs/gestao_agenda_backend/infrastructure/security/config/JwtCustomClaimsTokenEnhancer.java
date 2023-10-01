@@ -14,7 +14,7 @@ public class JwtCustomClaimsTokenEnhancer implements TokenEnhancer {
     public OAuth2AccessToken enhance(OAuth2AccessToken accessToken, OAuth2Authentication authentication) {
         if (authentication.getPrincipal() instanceof AuthUser authUser) {
 
-            Map<String, Object> info = new HashMap<String, Object>();
+            Map<String, Object> info = new HashMap<>();
             info.put("user_nome", authUser.getNome());
             info.put("user_id", authUser.getId());
 

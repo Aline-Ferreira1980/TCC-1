@@ -1,6 +1,5 @@
 package br.uscs.gestao_agenda_backend.infrastructure.web;
 
-import br.uscs.gestao_agenda_backend.application.dto.DocenteResponse;
 import br.uscs.gestao_agenda_backend.application.dto.EstagiarioResponse;
 import br.uscs.gestao_agenda_backend.application.port.EstagiarioService;
 import br.uscs.gestao_agenda_backend.application.request.AtualizaEstagiarioRequest;
@@ -18,6 +17,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import javax.validation.Valid;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.net.URI;
 import java.time.LocalDate;
 import java.util.List;
@@ -36,7 +39,7 @@ public class EstagiarioController {
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate) {
         List<EstagiarioResponse> response = estagiarioService.getAllAvailableInDataRange(startDate, endDate);
-        return new ResponseEntity<List<EstagiarioResponse>>(response, HttpStatus.OK);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @Operation(summary = "Cadastra novo Estagiatio na aplicação", method = "POST")
@@ -48,8 +51,10 @@ public class EstagiarioController {
             @ApiResponse(responseCode = "500", description = "Erro ao realizar busca dos dados"),
     })
     @PostMapping(value = "/cadastrar", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<EstagiarioResponse> cadastrarEstagiario(@RequestBody CadastroEstagiarioRequest request,
-                                                                  UriComponentsBuilder uriBuilder) {
+    public ResponseEntity<EstagiarioResponse> cadastrarEstagiario(
+            @Valid @RequestBody CadastroEstagiarioRequest request,
+            UriComponentsBuilder uriBuilder) {
+
         EstagiarioResponse response = estagiarioService.cadastrarEstagiario(request);
         URI uri = uriBuilder.path("/transacoes/{id}").buildAndExpand(response.getId()).toUri();
         return ResponseEntity.created(uri).body(response);
@@ -65,7 +70,11 @@ public class EstagiarioController {
             @ApiResponse(responseCode = "500", description = "Erro ao realizar busca dos dados"),
     })
     @GetMapping(value = "/{id}")
-    public ResponseEntity<EstagiarioResponse> getEstagiarioById(@PathVariable Long id) {
+    public ResponseEntity<EstagiarioResponse> getEstagiarioById(
+            @NotNull(message = "O parâmetro 'id' é obrigatório")
+            @Min(value = 1, message = "O campo 'id' deve ser maior ou igual a 1.")
+            @PathVariable Long id) {
+
         Optional<EstagiarioResponse> response = estagiarioService.findById(id);
         return response.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
@@ -95,7 +104,10 @@ public class EstagiarioController {
     })
     @PutMapping("/{id}")
     public ResponseEntity<EstagiarioResponse> updateEstagiario(
+            @NotNull(message = "O parâmetro 'id' é obrigatório")
+            @Min(value = 1, message = "O campo 'id' deve ser maior ou igual a 1.")
             @PathVariable Long id,
+            @Valid
             @RequestBody AtualizaEstagiarioRequest request) {
 
         Optional<EstagiarioResponse> response = estagiarioService.updateEstagiario(id, request);
@@ -112,7 +124,12 @@ public class EstagiarioController {
             @ApiResponse(responseCode = "500", description = "Erro ao realizar busca dos dados"),
     })
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteEstagiario(@PathVariable Long id) {
+    public ResponseEntity<String> deleteEstagiario(
+            @PathVariable
+            @NotNull(message = "O parâmetro 'id' é obrigatório")
+            @Min(value = 1, message = "O campo 'id' deve ser maior ou igual a 1.")
+            Long id) {
+
         try {
             estagiarioService.deletaEstagiario(id);
             return ResponseEntity.ok("Estagiario deletado com sucesso");
@@ -131,7 +148,12 @@ public class EstagiarioController {
             @ApiResponse(responseCode = "500", description = "Erro ao realizar busca dos dados"),
     })
     @GetMapping("/servico")
-    public ResponseEntity<List<EstagiarioResponse>> listEstagiariosByServico(@RequestParam String acronimo) {
+    public ResponseEntity<List<EstagiarioResponse>> listEstagiariosByServico(
+            @RequestParam
+            @NotNull(message = "O parâmetro 'acronimo' é obrigatório")
+            @NotBlank(message = "O parâmetro 'acronimo' é obrigatório")
+            String acronimo) {
+
         List<EstagiarioResponse> response = estagiarioService.findByServico(acronimo);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
@@ -145,8 +167,14 @@ public class EstagiarioController {
             @ApiResponse(responseCode = "500", description = "Erro ao realizar busca dos dados"),
     })
     @PostMapping(value = "{idEstagiario}/add_docente", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
-    public ResponseEntity<EstagiarioResponse> addDocenteToEstagiario(@PathVariable Long idEstagiario,
-                                                                     @RequestParam(value = "id_docente") Long idDocente) {
+    public ResponseEntity<EstagiarioResponse> addDocenteToEstagiario(
+            @NotNull(message = "O parâmetro 'idEstagiario' é obrigatório")
+            @Min(value = 1, message = "O campo 'idEstagiario' deve ser maior ou igual a 1.")
+            @PathVariable Long idEstagiario,
+            @NotNull(message = "O parâmetro 'id_docente' é obrigatório")
+            @Min(value = 1, message = "O campo 'id_docente' deve ser maior ou igual a 1.")
+            @RequestParam(value = "id_docente") Long idDocente) {
+
         Optional<EstagiarioResponse> response = estagiarioService.addDocente(idEstagiario, idDocente);
         return response.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
@@ -160,7 +188,12 @@ public class EstagiarioController {
             @ApiResponse(responseCode = "500", description = "Erro ao realizar busca dos dados"),
     })
     @DeleteMapping(value = "{idEstagiario}/remove_docente")
-    public ResponseEntity<EstagiarioResponse> removeDocenteFromEstagiario(@PathVariable Long idEstagiario) {
+    public ResponseEntity<EstagiarioResponse> removeDocenteFromEstagiario(
+            @PathVariable
+            @NotNull(message = "O parâmetro 'idEstagiario' é obrigatório")
+            @Min(value = 1, message = "O campo 'idEstagiario' deve ser maior ou igual a 1.")
+            Long idEstagiario) {
+
         Optional<EstagiarioResponse> response = estagiarioService.removeDocente(idEstagiario);
         return response.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }

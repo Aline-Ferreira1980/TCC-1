@@ -2,8 +2,10 @@ package br.uscs.gestao_agenda_backend.application.service;
 
 import br.uscs.gestao_agenda_backend.application.common.PacienteMapper;
 import br.uscs.gestao_agenda_backend.application.dto.PacienteResponse;
+import br.uscs.gestao_agenda_backend.application.port.ConfirmacaoService;
 import br.uscs.gestao_agenda_backend.application.port.PacienteService;
 import br.uscs.gestao_agenda_backend.domain.model.Paciente;
+import br.uscs.gestao_agenda_backend.domain.model.enums.UserRole;
 import br.uscs.gestao_agenda_backend.domain.port.PacienteRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.BeanUtils;
@@ -12,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 @AllArgsConstructor
@@ -19,6 +22,8 @@ public class PacienteServiceImpl implements PacienteService {
 
     private final PacienteRepository pacienteRepository;
     private final PacienteMapper pacienteMapper;
+
+    private final ConfirmacaoService confirmacaoService;
 
 
     @Override
@@ -30,6 +35,13 @@ public class PacienteServiceImpl implements PacienteService {
 
         String senhaCriptografada = new BCryptPasswordEncoder().encode(paciente.getSenha());
         paciente.setSenha(senhaCriptografada);
+
+        paciente.setRole(UserRole.PACIENTE);
+
+        paciente.setConfirmed(false);
+        String token = UUID.randomUUID().toString();
+        paciente.setToken(token);
+        confirmacaoService.enviarEmailConfirmacao(paciente.getEmail(), token);
 
         return pacienteMapper.toResponse(pacienteRepository.save(paciente));
     }

@@ -1,6 +1,5 @@
 package br.uscs.gestao_agenda_backend.application.port;
 
-import br.uscs.gestao_agenda_backend.application.dto.DocenteResponse;
 import br.uscs.gestao_agenda_backend.application.dto.EstagiarioResponse;
 import br.uscs.gestao_agenda_backend.application.request.AtualizaEstagiarioRequest;
 import br.uscs.gestao_agenda_backend.application.request.CadastroEstagiarioRequest;

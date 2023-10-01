@@ -17,24 +17,6 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class PacienteMapper {
 
-//    static public Paciente fromRequest(CadastroPacienteRequest request){
-//        return Paciente.builder()
-//                .nome(request.getNome())
-//                .email(request.getEmail())
-//                .senha(request.getSenha())
-//                .queixa(request.getQueixa())
-//                .role(UserRole.PACIENTE)
-//                .build();
-//    }
-//
-//    static public PacienteResponse toResponse(Paciente paciente){
-//        return PacienteResponse.builder()
-//                .nome(paciente.getNome())
-//                .email(paciente.getEmail())
-//                .queixa(paciente.getQueixa())
-//                .build();
-//    }
-
     private final ModelMapper modelMapper;
     private final EstagiarioMapper estagiarioMapper;
 

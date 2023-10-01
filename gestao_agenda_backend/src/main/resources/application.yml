@@ -1,15 +1,28 @@
 server:
   port: 8080
+  apiUrl: http://localhost:8080
 
 spring:
-  profiles:
-    active: dev
+  profiles.active: dev
+
+  mail:
+    host: smtp.sendgrid.net
+    port: 587
+    username: ${SMTP_USER}
+    password: ${SMTP_PASS}
+    properties.mail:
+      debug: true
+      smtp:
+        auth: true
+        starttls.enable: true
+
+agenda:
+  email:
+    sender: Agenda-CESEP <agenda.cesep@gmail.com>
 
 logging:
-  level:
-    org:
-      springframework:
-        security: DEBUG
+  level.org.springframework:
+    security: DEBUG
 
 
 agenda-cesep:
@@ -17,13 +30,11 @@ agenda-cesep:
     client: ${CLIENT_PASS:teste}
 
 springdoc:
-  swagger-ui:
-    oauth:
+  swagger-ui.oauth:
       clientId: newClient
       clientSecret: newClientSecret
-  oAuthFlow:
-    tokenUrl: ${OAUTH2_SERVER:http://localhost:8080}/oauth/token
 
+  oAuthFlow.tokenUrl: ${OAUTH2_SERVER:http://localhost:8080}/oauth/token
 
 
 

@@ -13,20 +13,6 @@ import org.springframework.stereotype.Component;
 @AllArgsConstructor
 public class SalaMapper {
 
-//    static public Sala fromRequest(SalaRequest request){
-//        return Sala.builder()
-//                .nome(request.getNome())
-//                .local(request.getLocal())
-//                .build();
-//    }
-//
-//    static public SalaResponse toResponse(Sala sala){
-//        return SalaResponse.builder()
-//                .nome(sala.getNome())
-//                .local(sala.getLocal())
-//                .build();
-//    }
-
     private final ModelMapper modelMapper;
 
     public Sala fromRequest(SalaRequest request) {

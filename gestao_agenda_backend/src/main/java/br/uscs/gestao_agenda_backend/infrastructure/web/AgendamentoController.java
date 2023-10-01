@@ -16,6 +16,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import javax.validation.Valid;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 import java.net.URI;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -28,7 +31,6 @@ import java.util.Optional;
 public class AgendamentoController {
 
     private final AgendamentoService agendamentoService;
-    private AgendamentoMapper agendamentoMapper;
 
     @Operation(summary = "Cria novo agendamento na aplicação", method = "POST")
     @ApiResponses(value = {
@@ -39,7 +41,7 @@ public class AgendamentoController {
             @ApiResponse(responseCode = "500", description = "Erro ao realizar busca dos dados"),
     })
     @PostMapping(value = "/agendar", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> cadastrarPaciente(@RequestBody AgendamentoRequest request,
+    public ResponseEntity<?> cadastrarPaciente(@Valid @RequestBody AgendamentoRequest request,
                                                UriComponentsBuilder uriBuilder) {
 
         try {
@@ -65,7 +67,11 @@ public class AgendamentoController {
             @ApiResponse(responseCode = "500", description = "Erro ao realizar busca dos dados"),
     })
     @GetMapping(value = "/user/{id}")
-    public ResponseEntity<List<AgendamentoResponse>> findAgendamentoByUserId(@PathVariable Long id) {
+    public ResponseEntity<List<AgendamentoResponse>> findAgendamentoByUserId(
+            @PathVariable
+            @Min(value = 1, message = "O campo 'id' deve ser maior ou igual a 1.")
+            @NotNull(message = "O parâmetro 'id' é obrigatório")
+            Long id) {
         List<AgendamentoResponse> response = agendamentoService.findAgendamentosByUserId(id);
         return (response != null) ? ResponseEntity.ok(response) : ResponseEntity.notFound().build();
 
@@ -81,7 +87,11 @@ public class AgendamentoController {
             @ApiResponse(responseCode = "500", description = "Erro ao realizar busca dos dados"),
     })
     @GetMapping(value = "/sala/{id}")
-    public ResponseEntity<List<AgendamentoResponse>> findAgendamentoBySalaId(@PathVariable Long id) {
+    public ResponseEntity<List<AgendamentoResponse>> findAgendamentoBySalaId(
+            @PathVariable
+            @NotNull(message = "O parâmetro 'id' é obrigatório")
+            @Min(value = 1, message = "O campo 'id' deve ser maior ou igual a 1.")
+            Long id) {
         List<AgendamentoResponse> response = agendamentoService.findAgendamentosBySalaId(id);
         return (response != null) ? ResponseEntity.ok(response) : ResponseEntity.notFound().build();
     }
@@ -132,8 +142,12 @@ public class AgendamentoController {
             @ApiResponse(responseCode = "500", description = "Erro ao realizar atualização do Docente"),
     })
     @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<AgendamentoResponse> atualizaAgendamento(@PathVariable Long id,
-                                                                   @RequestBody AgendamentoRequest request) {
+    public ResponseEntity<AgendamentoResponse> atualizaAgendamento(
+            @PathVariable
+            @NotNull(message = "O parâmetro 'id' é obrigatório")
+            @Min(value = 1, message = "O campo 'id' deve ser maior ou igual a 1.")
+            Long id,
+            @Valid @RequestBody AgendamentoRequest request) {
 
         Optional<AgendamentoResponse> response = agendamentoService.atualizaAgendamento(id, request);
         return response.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
@@ -148,7 +162,11 @@ public class AgendamentoController {
             @ApiResponse(responseCode = "500", description = "Erro ao realizar atualização do Docente"),
     })
     @DeleteMapping(value = "/{id}")
-    public ResponseEntity<String> deleteAgendamento(@PathVariable Long id) {
+    public ResponseEntity<String> deleteAgendamento(
+            @PathVariable
+            @NotNull(message = "O parâmetro 'id' é obrigatório")
+            @Min(value = 1, message = "O campo 'id' deve ser maior ou igual a 1.")
+            Long id) {
         try {
             agendamentoService.deleteAgendamento(id);
             return ResponseEntity.ok("Agendamento deletado com sucesso");

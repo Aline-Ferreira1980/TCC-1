@@ -2,7 +2,6 @@ package br.uscs.gestao_agenda_backend.domain.model.enums;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 
 @AllArgsConstructor
 @Getter

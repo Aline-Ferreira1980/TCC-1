@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 public class TokenController {
     @DeleteMapping("/revoke")
     public void revoke(HttpServletRequest req, HttpServletResponse resp) {
-
+        System.out.println("ping");
         Cookie cookie = new Cookie("refreshToken", null);
         cookie.setHttpOnly(true);
         cookie.setSecure(false); // TODO: Em producao sera true
@@ -24,5 +24,4 @@ public class TokenController {
         resp.addCookie(cookie);
         resp.setStatus(HttpStatus.NO_CONTENT.value());
     }
-
 }

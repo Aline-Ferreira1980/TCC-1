@@ -5,6 +5,7 @@ import br.uscs.gestao_agenda_backend.application.dto.PacienteResponse;
 import br.uscs.gestao_agenda_backend.application.port.PacienteService;
 import br.uscs.gestao_agenda_backend.application.request.AtualizaPacienteRequest;
 import br.uscs.gestao_agenda_backend.application.request.CadastroPacienteRequest;
+import br.uscs.gestao_agenda_backend.infrastructure.security.permissions.CheckSecurity;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -16,6 +17,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import javax.validation.Valid;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 import java.net.URI;
 import java.util.List;
 import java.util.Optional;
@@ -38,7 +42,7 @@ public class PacienteContoller {
             @ApiResponse(responseCode = "500", description = "Erro ao realizar busca dos dados"),
     })
     @PostMapping(value = "/cadastrar", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<PacienteResponse> cadastrarPaciente(@RequestBody CadastroPacienteRequest request,
+    public ResponseEntity<PacienteResponse> cadastrarPaciente(@Valid @RequestBody CadastroPacienteRequest request,
                                                               UriComponentsBuilder uriBuilder) {
         PacienteResponse response = pacienteService.cadastraPaciente(pacienteMapper.fromRequest(request));
         URI uri = uriBuilder.path("/paciente/{id}").buildAndExpand(response.getId()).toUri();
@@ -53,6 +57,7 @@ public class PacienteContoller {
             @ApiResponse(responseCode = "400", description = "Parametros inválidos"),
             @ApiResponse(responseCode = "500", description = "Erro ao realizar busca dos dados"),
     })
+    @CheckSecurity.User.CanViewAllPacientesProfiles
     @GetMapping("/listar")
     public ResponseEntity<List<PacienteResponse>> getAllPacientes() {
         List<PacienteResponse> response = pacienteService.findAll();
@@ -70,7 +75,12 @@ public class PacienteContoller {
             @ApiResponse(responseCode = "500", description = "Erro ao realizar busca dos dados"),
     })
     @GetMapping(value = "/{id}")
-    public ResponseEntity<PacienteResponse> getPaciente(@PathVariable Long id) {
+    public ResponseEntity<PacienteResponse> getPaciente(
+            @PathVariable
+            @NotNull(message = "O parâmetro 'id' é obrigatório")
+            @Min(value = 1, message = "O campo 'id' deve ser maior ou igual a 1.")
+            Long id) {
+
         Optional<PacienteResponse> response = pacienteService.findById(id);
         return response.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
@@ -84,8 +94,13 @@ public class PacienteContoller {
             @ApiResponse(responseCode = "500", description = "Erro ao realizar atualização do Paciente"),
     })
     @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<PacienteResponse> atualizaPaciente(@PathVariable Long id,
-                                                             @RequestBody AtualizaPacienteRequest request) {
+    public ResponseEntity<PacienteResponse> atualizaPaciente(
+            @PathVariable
+            @NotNull(message = "O parâmetro 'id' é obrigatório")
+            @Min(value = 1, message = "O campo 'id' deve ser maior ou igual a 1.")
+            Long id,
+            @Valid
+            @RequestBody AtualizaPacienteRequest request) {
 
         Optional<PacienteResponse> response = pacienteService.atualizaPaciente(id, pacienteMapper.fromRequest(request));
         return response.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
@@ -100,7 +115,12 @@ public class PacienteContoller {
             @ApiResponse(responseCode = "500", description = "Erro ao realizar atualização do Paciente"),
     })
     @DeleteMapping(value = "/{id}")
-    public ResponseEntity<String> deletaPaciente(@PathVariable Long id) {
+    public ResponseEntity<String> deletaPaciente(
+            @PathVariable
+            @NotNull(message = "O parâmetro 'id' é obrigatório")
+            @Min(value = 1, message = "O campo 'id' deve ser maior ou igual a 1.")
+            Long id) {
+
         try {
             pacienteService.deletaPaciente(id);
             return ResponseEntity.ok("Usuário deletado com sucesso");

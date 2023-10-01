@@ -16,6 +16,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import javax.validation.Valid;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 import java.net.URI;
 import java.util.List;
 import java.util.Optional;
@@ -40,7 +43,7 @@ public class SalaController {
             @ApiResponse(responseCode = "500", description = "Erro ao realizar busca dos dados"),
     })
     @PostMapping(value = "/cadastrar", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<SalaResponse> cadastrarSala(@RequestBody SalaRequest request,
+    public ResponseEntity<SalaResponse> cadastrarSala(@Valid @RequestBody SalaRequest request,
                                                       UriComponentsBuilder uriBuilder) {
         SalaResponse response = salaService.cadastraSala(salaMapper.fromRequest(request));
         URI uri = uriBuilder.path("/sala/{id}").buildAndExpand(response.getId()).toUri();
@@ -71,7 +74,12 @@ public class SalaController {
             @ApiResponse(responseCode = "500", description = "Erro ao realizar busca dos dados"),
     })
     @GetMapping(value = "/{id}")
-    public ResponseEntity<SalaResponse> getSalaById(@PathVariable Long id) {
+    public ResponseEntity<SalaResponse> getSalaById(
+            @PathVariable
+            @NotNull(message = "O parâmetro 'id' é obrigatório")
+            @Min(value = 1, message = "O campo 'id' deve ser maior ou igual a 1.")
+            Long id) {
+
         Optional<SalaResponse> response = salaService.findById(id);
         return response.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
@@ -86,8 +94,13 @@ public class SalaController {
             @ApiResponse(responseCode = "500", description = "Erro ao realizar atualização do Sala"),
     })
     @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<SalaResponse> atualizaSala(@PathVariable Long id,
-                                                     @RequestBody AtualizaSalaRequest request) {
+    public ResponseEntity<SalaResponse> atualizaSala(
+            @PathVariable
+            @NotNull(message = "O parâmetro 'id' é obrigatório")
+            @Min(value = 1, message = "O campo 'id' deve ser maior ou igual a 1.")
+            Long id,
+            @Valid
+            @RequestBody AtualizaSalaRequest request) {
 
         Optional<SalaResponse> response = salaService.atualizaSala(id, salaMapper.fromRequest(request));
         return response.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
@@ -102,7 +115,12 @@ public class SalaController {
             @ApiResponse(responseCode = "500", description = "Erro ao realizar atualização do Sala"),
     })
     @DeleteMapping(value = "/{id}")
-    public ResponseEntity<String> deletaSala(@PathVariable Long id) {
+    public ResponseEntity<String> deletaSala(
+            @PathVariable
+            @NotNull(message = "O parâmetro 'id' é obrigatório")
+            @Min(value = 1, message = "O campo 'id' deve ser maior ou igual a 1.")
+            Long id) {
+
         try {
             salaService.deletaSala(id);
             return ResponseEntity.ok("Sala deletado com sucesso");

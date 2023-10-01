@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.NonNull;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
 
 @AllArgsConstructor
@@ -15,6 +16,7 @@ public class AtualizaDocenteRequest {
 
     @NonNull
     @NotBlank
+    @Size(min = 6, message = "A senha deve conter pelo menos 6 caracteres.")
     private String senha;
 
     @NonNull

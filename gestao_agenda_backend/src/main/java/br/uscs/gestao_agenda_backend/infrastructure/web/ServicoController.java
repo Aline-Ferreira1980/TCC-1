@@ -1,6 +1,5 @@
 package br.uscs.gestao_agenda_backend.infrastructure.web;
 
-import br.uscs.gestao_agenda_backend.application.dto.EstagiarioResponse;
 import br.uscs.gestao_agenda_backend.application.dto.ServicoResponse;
 import br.uscs.gestao_agenda_backend.application.port.ServicoService;
 import br.uscs.gestao_agenda_backend.application.request.ServicoRequest;
@@ -15,6 +14,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import javax.validation.Valid;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.net.URI;
 import java.util.List;
 import java.util.Optional;
@@ -36,7 +39,7 @@ public class ServicoController {
             @ApiResponse(responseCode = "500", description = "Erro ao realizar busca dos dados"),
     })
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<ServicoResponse> cadastrarSerico(@RequestBody ServicoRequest request,
+    public ResponseEntity<ServicoResponse> cadastrarSerico(@Valid @RequestBody ServicoRequest request,
                                                            UriComponentsBuilder uriBuilder) {
 
         try {
@@ -63,7 +66,12 @@ public class ServicoController {
             @ApiResponse(responseCode = "500", description = "Erro ao realizar busca dos dados"),
     })
     @GetMapping(value = "/{id}")
-    public ResponseEntity<ServicoResponse> getServicoById(@PathVariable Long id) {
+    public ResponseEntity<ServicoResponse> getServicoById(
+            @PathVariable
+            @NotNull(message = "O parâmetro 'id' é obrigatório")
+            @Min(value = 1, message = "O campo 'id' deve ser maior ou igual a 1.")
+            Long id) {
+
         Optional<ServicoResponse> response = servicoService.findById(id);
         return response.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
@@ -95,7 +103,11 @@ public class ServicoController {
     })
     @PutMapping("/{id}")
     public ResponseEntity<ServicoResponse> updateServico(
-            @PathVariable Long id,
+            @PathVariable
+            @NotNull(message = "O parâmetro 'id' é obrigatório")
+            @Min(value = 1, message = "O campo 'id' deve ser maior ou igual a 1.")
+            Long id,
+            @Valid
             @RequestBody ServicoRequest request) {
 
         Optional<ServicoResponse> response = servicoService.udpateServico(id, request);
@@ -112,7 +124,12 @@ public class ServicoController {
             @ApiResponse(responseCode = "500", description = "Erro ao realizar busca dos dados"),
     })
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteServico(@PathVariable Long id) {
+    public ResponseEntity<String> deleteServico(
+            @PathVariable
+            @NotNull(message = "O parâmetro 'id' é obrigatório")
+            @Min(value = 1, message = "O campo 'id' deve ser maior ou igual a 1.")
+            Long id) {
+
         try {
             servicoService.deletaServico(id);
             return ResponseEntity.ok("Serviço deletado com sucesso");
@@ -130,8 +147,15 @@ public class ServicoController {
             @ApiResponse(responseCode = "500", description = "Erro ao realizar busca dos dados"),
     })
     @PostMapping(value = "/{id_servico}/add_estagiario", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
-    public ResponseEntity<ServicoResponse> addEstagiarioToService(@PathVariable Long id_servico,
-                                                                  @RequestParam Long id_estagiario) {
+    public ResponseEntity<ServicoResponse> addEstagiarioToService(
+            @PathVariable
+            @NotNull(message = "O parâmetro 'id_servico' é obrigatório")
+            @Min(value = 1, message = "O campo 'id_servico' deve ser maior ou igual a 1.")
+            Long id_servico,
+            @RequestParam
+            @NotNull(message = "O parâmetro 'id_estagiario' é obrigatório")
+            @Min(value = 1, message = "O campo 'id_estagiario' deve ser maior ou igual a 1.")
+            Long id_estagiario) {
 
         Optional<ServicoResponse> response = servicoService.addEstagiarioToServico(
                 id_servico, id_estagiario);
@@ -150,8 +174,16 @@ public class ServicoController {
             @ApiResponse(responseCode = "500", description = "Erro ao realizar busca dos dados"),
     })
     @DeleteMapping("{id_servico}/remove_estagiario")
-    public ResponseEntity<ServicoResponse> removeServicoFromEstagiario(@PathVariable Long id_servico,
-                                                                          @RequestParam Long id_estagiario) {
+    public ResponseEntity<ServicoResponse> removeServicoFromEstagiario(
+            @PathVariable
+            @NotNull(message = "O parâmetro 'id_servico' é obrigatório")
+            @Min(value = 1, message = "O campo 'id_servico' deve ser maior ou igual a 1.")
+            Long id_servico,
+            @RequestParam
+            @NotNull(message = "O parâmetro 'id_estagiario' é obrigatório")
+            @Min(value = 1, message = "O campo 'id_estagiario' deve ser maior ou igual a 1.")
+            Long id_estagiario) {
+
         Optional<ServicoResponse> response = servicoService.removeEstagiarioFromServico(id_servico, id_estagiario);
         return response.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
@@ -165,8 +197,15 @@ public class ServicoController {
             @ApiResponse(responseCode = "500", description = "Erro ao realizar busca dos dados"),
     })
     @PostMapping(value="/{id_servico}/add_docente", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
-    public ResponseEntity<ServicoResponse> addDocenteToService(@PathVariable Long id_servico,
-                                                                  @RequestParam Long id_docente) {
+    public ResponseEntity<ServicoResponse> addDocenteToService(
+            @PathVariable
+            @NotNull(message = "O parâmetro 'id_servico' é obrigatório")
+            @Min(value = 1, message = "O campo 'id_servico' deve ser maior ou igual a 1.")
+            Long id_servico,
+            @RequestParam
+            @NotNull(message = "O parâmetro 'id_docente' é obrigatório")
+            @Min(value = 1, message = "O campo 'id_docente' deve ser maior ou igual a 1.")
+            Long id_docente) {
 
         Optional<ServicoResponse> response = servicoService.addDocenteToServico(
                 id_servico, id_docente);
@@ -185,8 +224,16 @@ public class ServicoController {
             @ApiResponse(responseCode = "500", description = "Erro ao realizar busca dos dados"),
     })
     @DeleteMapping("{id_servico}/remove_docente")
-    public ResponseEntity<ServicoResponse> removeServicoFromDocente(@PathVariable Long id_servico,
-                                                                       @RequestParam Long id_docente) {
+    public ResponseEntity<ServicoResponse> removeServicoFromDocente(
+            @PathVariable
+            @NotNull(message = "O parâmetro 'id_servico' é obrigatório")
+            @Min(value = 1, message = "O campo 'id_servico' deve ser maior ou igual a 1.")
+            Long id_servico,
+            @RequestParam
+            @NotNull(message = "O parâmetro 'id_docente' é obrigatório")
+            @Min(value = 1, message = "O campo 'id_docente' deve ser maior ou igual a 1.")
+            Long id_docente) {
+
         Optional<ServicoResponse> response = servicoService.removeDocenteFromServico(id_servico, id_docente);
         return response.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
@@ -200,8 +247,13 @@ public class ServicoController {
             @ApiResponse(responseCode = "500", description = "Erro ao realizar busca dos dados"),
     })
     @PostMapping(value = "/{id_servico}/add_estagiarios")
-    public ResponseEntity<ServicoResponse> addEstagiariosToService(@PathVariable Long id_servico,
-                                                                  @RequestBody List<Long> id_estagiarios) {
+    public ResponseEntity<ServicoResponse> addEstagiariosToService(
+            @PathVariable
+            @NotNull(message = "O parâmetro 'id_servico' é obrigatório")
+            @Min(value = 1, message = "O campo 'id_servico' deve ser maior ou igual a 1.")
+            Long id_servico,
+            @NotEmpty
+            @RequestBody List<Long> id_estagiarios) {
 
         Optional<ServicoResponse> response = servicoService.addEstagiariosToServico(
                 id_servico, id_estagiarios);
@@ -219,8 +271,13 @@ public class ServicoController {
             @ApiResponse(responseCode = "500", description = "Erro ao realizar busca dos dados"),
     })
     @PostMapping(value = "/{id_servico}/add_docentes")
-    public ResponseEntity<ServicoResponse> addDocentesToService(@PathVariable Long id_servico,
-                                                                   @RequestBody List<Long> id_docentes) {
+    public ResponseEntity<ServicoResponse> addDocentesToService(
+            @PathVariable
+            @NotNull(message = "O parâmetro 'id_servico' é obrigatório")
+            @Min(value = 1, message = "O campo 'id_servico' deve ser maior ou igual a 1.")
+            Long id_servico,
+            @NotEmpty
+            @RequestBody List<Long> id_docentes) {
 
         Optional<ServicoResponse> response = servicoService.addDocentesToServico(
                 id_servico, id_docentes);

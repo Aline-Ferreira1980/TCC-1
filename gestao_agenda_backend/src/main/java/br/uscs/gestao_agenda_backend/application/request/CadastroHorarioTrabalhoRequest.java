@@ -1,11 +1,10 @@
 package br.uscs.gestao_agenda_backend.application.request;
 
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotEmpty;
 import java.util.List;
 
 @AllArgsConstructor
@@ -14,7 +13,11 @@ import java.util.List;
 @Builder
 public class CadastroHorarioTrabalhoRequest {
 
+    @NonNull
+    @Min(value = 1, message = "O campo 'psicologoId' deve ser maior ou igual a 1.")
     private Long psicologoId;
+
+    @NotEmpty
     private List<HorarioTrabalhoRequest> horariosTrabalho;
 
 }

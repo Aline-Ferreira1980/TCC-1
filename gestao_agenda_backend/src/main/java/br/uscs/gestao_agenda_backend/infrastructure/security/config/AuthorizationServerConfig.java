@@ -35,7 +35,6 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 
     @Override
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
-        System.out.println("Password do cliente: " + passwordEncoder.encode(clientPassw));
         clients
                 .inMemory()
                 .withClient("cesep-agenda-frontend")
@@ -46,13 +45,13 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
                 .refreshTokenValiditySeconds(24 * 60 * 60); // 24 horas
     }
 
-    public void configure(AuthorizationServerSecurityConfigurer security) throws Exception {
+    public void configure(AuthorizationServerSecurityConfigurer security){
         security.checkTokenAccess("permitAll()");
     }
 
 
     @Override
-    public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
+    public void configure(AuthorizationServerEndpointsConfigurer endpoints) {
 
         TokenEnhancerChain enhancerChain = new TokenEnhancerChain();
         enhancerChain.setTokenEnhancers(

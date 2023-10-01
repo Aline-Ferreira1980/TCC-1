@@ -2,10 +2,8 @@ package br.uscs.gestao_agenda_backend.application.service;
 
 import br.uscs.gestao_agenda_backend.application.common.DocenteMapper;
 import br.uscs.gestao_agenda_backend.application.dto.DocenteResponse;
-import br.uscs.gestao_agenda_backend.application.dto.EstagiarioResponse;
-import br.uscs.gestao_agenda_backend.application.dto.SalaResponse;
+import br.uscs.gestao_agenda_backend.application.port.ConfirmacaoService;
 import br.uscs.gestao_agenda_backend.application.port.DocenteService;
-import br.uscs.gestao_agenda_backend.application.request.CadastroDocenteRequest;
 import br.uscs.gestao_agenda_backend.domain.model.*;
 import br.uscs.gestao_agenda_backend.domain.model.enums.UserRole;
 import br.uscs.gestao_agenda_backend.domain.port.DocenteRepository;
@@ -14,18 +12,17 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
 public class DocenteServiceImpl implements DocenteService {
-    DocenteRepository docenteRepository;
-    DocenteMapper docenteMapper;
+    private final DocenteRepository docenteRepository;
+    private final DocenteMapper docenteMapper;
+    private final ConfirmacaoService confirmacaoService;
 
 
     @Override
@@ -37,7 +34,14 @@ public class DocenteServiceImpl implements DocenteService {
 
         String senhaCriptografada = new BCryptPasswordEncoder().encode(request.getSenha());
         request.setSenha(senhaCriptografada);
+
         request.setRole(UserRole.DOCENTE);
+
+        request.setConfirmed(false);
+        String token = UUID.randomUUID().toString();
+        request.setToken(token);
+//        confirmacaoService.enviarEmailConfirmacao(request.getEmail(), token);
+
 
         return docenteMapper.toResponse(docenteRepository.save(request));
     }
@@ -54,7 +58,7 @@ public class DocenteServiceImpl implements DocenteService {
     @Override
     public Optional<DocenteResponse> findById(Long id) {
         Optional<Docente> rs = docenteRepository.findById(id);
-        return rs.map(docente -> docenteMapper.toResponse(docente));
+        return rs.map(docenteMapper::toResponse);
     }
 
     @Override

@@ -1,6 +1,5 @@
 package br.uscs.gestao_agenda_backend.application.port;
 
-import br.uscs.gestao_agenda_backend.application.dto.EstagiarioResponse;
 import br.uscs.gestao_agenda_backend.application.dto.ServicoResponse;
 import br.uscs.gestao_agenda_backend.application.request.ServicoRequest;
 

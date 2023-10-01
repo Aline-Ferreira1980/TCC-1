@@ -2,7 +2,6 @@ package br.uscs.gestao_agenda_backend.application.service;
 
 import br.uscs.gestao_agenda_backend.application.common.AgendamentoMapper;
 import br.uscs.gestao_agenda_backend.application.dto.AgendamentoResponse;
-import br.uscs.gestao_agenda_backend.application.dto.DocenteResponse;
 import br.uscs.gestao_agenda_backend.application.port.AgendamentoService;
 import br.uscs.gestao_agenda_backend.application.request.AgendamentoRequest;
 import br.uscs.gestao_agenda_backend.domain.model.*;
@@ -19,7 +18,6 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor

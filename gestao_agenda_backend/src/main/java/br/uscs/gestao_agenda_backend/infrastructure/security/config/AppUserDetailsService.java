@@ -2,15 +2,14 @@ package br.uscs.gestao_agenda_backend.infrastructure.security.config;
 
 import br.uscs.gestao_agenda_backend.domain.model.User;
 import br.uscs.gestao_agenda_backend.domain.port.UserRepository;
-import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.stereotype.Service;
 
 import java.util.Collection;
 import java.util.HashSet;
@@ -24,17 +23,18 @@ public class AppUserDetailsService implements UserDetailsService {
     private UserRepository userRepository;
 
 
-//    @Transactional(readOnly = true)
+    @Transactional(readOnly = true)
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
 
         if(userRepository.findByEmail(email).isPresent()){
             User user = userRepository.findByEmail(email).get();
-            return new AuthUser(user, getAuthorities(user));
+            if(user.getConfirmed()){
+                return new AuthUser(user, getAuthorities(user));
+            }
+            throw new UsernameNotFoundException("Usuário com e-mail nao confirmado");
         }
         throw new UsernameNotFoundException("Usuário não encontrado com e-mail informado");
-//        return null;
-
     }
 
 

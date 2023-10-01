@@ -29,4 +29,7 @@ public class User {
     private String sobrenome;
     private String senha;
 
+    private String token;
+    private Boolean confirmed;
+
 }

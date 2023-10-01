@@ -15,23 +15,6 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class HorarioTrabalhoMapper {
 
-
-//    public static HorarioTrabalho fromRequest(HorarioTrabalhoRequest request){
-//        return HorarioTrabalho.builder()
-//                .diaSemana(request.getDiaSemana())
-//                .horarioInicio(request.getHorarioInicio())
-//                .horarioFim(request.getHorarioFim())
-//                .build();
-//    }
-//
-//    public static HorarioTrabalhoResponse toReponse(HorarioTrabalho horarioTrabalho){
-//        return HorarioTrabalhoResponse.builder()
-//                .diaSemana(horarioTrabalho.getDiaSemana())
-//                .horarioInicio(horarioTrabalho.getHorarioInicio())
-//                .horarioFim(horarioTrabalho.getHorarioFim())
-//                .build();
-//    }
-
     private ModelMapper modelMapper;
 
     public HorarioTrabalho fromRequest(HorarioTrabalhoRequest request) {

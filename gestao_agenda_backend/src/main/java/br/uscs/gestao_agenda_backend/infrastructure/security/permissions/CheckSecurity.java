@@ -7,21 +7,21 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
 public @interface CheckSecurity {
-    public @interface User{
+    @interface User{
 
 
         @PreAuthorize("isAuthenticated() and " +
                 "hasAnyAuthority('docente', 'estagiario')")
         @Retention(RUNTIME)
         @Target(METHOD)
-        public @interface canViewAllPacientesProfiles{
+        @interface CanViewAllPacientesProfiles{
         }
 
         @PreAuthorize("isAuthenticated() and " +
                 "(hasAnyAuthority('docente', 'estagiario') or #id == authentication.principal.id)")
         @Retention(RUNTIME)
         @Target(METHOD)
-        public @interface canViewPacienteProfile{
+        @interface CanViewPacienteProfile{
             String id() default "id";
         }
 
@@ -29,7 +29,7 @@ public @interface CheckSecurity {
                 "(hasAuthority('docente') or #id == authentication.principal.id)")
         @Retention(RUNTIME)
         @Target(METHOD)
-        public @interface canEditProfiles{
+        @interface CanEditProfiles{
             String id() default "id";
         }
 
@@ -37,8 +37,15 @@ public @interface CheckSecurity {
                 "(hasAuthority('docente') or #id == authentication.principal.id)")
         @Retention(RUNTIME)
         @Target(METHOD)
-        public @interface canDeleteProfile{
+        @interface CanDeleteProfile{
             String id() default "id";
+        }
+
+        @PreAuthorize("isAuthenticated() and " +
+                "hasAuthority('DOCENTE')")
+        @Retention(RUNTIME)
+        @Target(METHOD)
+        @interface CanCreateAndDeleteDocente{
         }
 
 

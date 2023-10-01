@@ -27,6 +27,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .csrf().disable()
                 .cors().and()
+                .authorizeHttpRequests(authorize -> authorize
+                        .anyRequest().authenticated())
                 .oauth2ResourceServer().jwt()
                 .jwtAuthenticationConverter(jwtAuthenticationConverter());
     }
@@ -67,13 +69,15 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Override
-    public void configure(WebSecurity web) throws Exception {
-        web.ignoring().antMatchers("/h2-console/**")
-                .antMatchers("/swagger-ui/**")
-                .antMatchers("/v3/api-docs/**")
-                .antMatchers("/configuration/**")
-                .antMatchers("/v3/api-docs/**")
-                .antMatchers("/docente/cadastrar");
+    public void configure(WebSecurity web){
+        web.ignoring().antMatchers("/h2-console/**");
+        web.ignoring().antMatchers("/swagger-ui/**");
+        web.ignoring().antMatchers("/v3/api-docs/**");
+        web.ignoring().antMatchers("/configuration/**");
+        web.ignoring().antMatchers("/v3/api-docs/**");
+        web.ignoring().antMatchers("/pacient/cadastrar");
+        web.ignoring().antMatchers("/estagiario/cadastrar");
+        web.ignoring().antMatchers("/confirm");
 
     }
 }

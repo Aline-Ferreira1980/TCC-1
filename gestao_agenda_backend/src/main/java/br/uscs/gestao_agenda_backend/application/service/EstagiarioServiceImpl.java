@@ -2,8 +2,8 @@ package br.uscs.gestao_agenda_backend.application.service;
 
 import br.uscs.gestao_agenda_backend.application.common.EstagiarioMapper;
 import br.uscs.gestao_agenda_backend.application.common.HorarioTrabalhoMapper;
-import br.uscs.gestao_agenda_backend.application.dto.DocenteResponse;
 import br.uscs.gestao_agenda_backend.application.dto.EstagiarioResponse;
+import br.uscs.gestao_agenda_backend.application.port.ConfirmacaoService;
 import br.uscs.gestao_agenda_backend.application.port.EstagiarioService;
 import br.uscs.gestao_agenda_backend.application.request.AtualizaEstagiarioRequest;
 import br.uscs.gestao_agenda_backend.application.request.CadastroEstagiarioRequest;
@@ -11,7 +11,6 @@ import br.uscs.gestao_agenda_backend.application.request.HorarioTrabalhoRequest;
 import br.uscs.gestao_agenda_backend.domain.model.Docente;
 import br.uscs.gestao_agenda_backend.domain.model.Estagiario;
 import br.uscs.gestao_agenda_backend.domain.model.HorarioTrabalho;
-import br.uscs.gestao_agenda_backend.domain.model.Servico;
 import br.uscs.gestao_agenda_backend.domain.model.enums.UserRole;
 import br.uscs.gestao_agenda_backend.domain.port.DocenteRepository;
 import br.uscs.gestao_agenda_backend.domain.port.EstagiarioRepository;
@@ -25,6 +24,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -37,6 +37,7 @@ public class EstagiarioServiceImpl implements EstagiarioService {
 
     private final EstagiarioRepository estagiarioRepository;
     private final DocenteRepository docenteRepository;
+    private final ConfirmacaoService confirmacaoService;
 
     @Override
     public EstagiarioResponse cadastrarEstagiario(CadastroEstagiarioRequest request) {
@@ -55,6 +56,10 @@ public class EstagiarioServiceImpl implements EstagiarioService {
         List<HorarioTrabalho> horariosTrabalho = createHorariosTrabalho(estagiario, request.getHorariosTrabalho());
         estagiario.setHorariosTrabalho(horariosTrabalho);
 
+        estagiario.setConfirmed(false);
+        String token = UUID.randomUUID().toString();
+        estagiario.setToken(token);
+        confirmacaoService.enviarEmailConfirmacao(estagiario.getEmail(), token);
 
         return estagiarioMapper.toResponse(estagiarioRepository.save(estagiario));
     }

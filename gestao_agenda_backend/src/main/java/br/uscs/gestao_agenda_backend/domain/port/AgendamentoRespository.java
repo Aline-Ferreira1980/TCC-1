@@ -14,7 +14,7 @@ public interface AgendamentoRespository extends JpaRepository<Agendamento, Long>
     @Query("SELECT a FROM Agendamento a " +
             "JOIN a.estagiario e " +
             "WHERE e.email = :emailEstagiario AND a.inicioAgendamento = :dataAgendamento")
-    public Optional<Agendamento> findByEstagiarioEmailAndDataAgendamento (
+    Optional<Agendamento> findByEstagiarioEmailAndDataAgendamento (
             @Param("emailEstagiario") String emailEstagiario,
             @Param("dataAgendamento") LocalDateTime dataAgendamento
     );
@@ -27,7 +27,7 @@ public interface AgendamentoRespository extends JpaRepository<Agendamento, Long>
             "AND (e.email = :emailEstagiario " +
             "OR p.email = :emailPaciete " +
             "OR s.id = :idSala )")
-    public Optional<Agendamento> findByDataAgendamentoIndependenteIntegrantes (
+    Optional<Agendamento> findByDataAgendamentoIndependenteIntegrantes (
             @Param("emailEstagiario") String emailEstagiario,
             @Param("emailPaciete") String emailPaciete,
             @Param("idSala") Long idSala,

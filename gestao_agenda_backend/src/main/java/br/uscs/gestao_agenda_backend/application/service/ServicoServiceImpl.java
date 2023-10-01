@@ -1,9 +1,6 @@
 package br.uscs.gestao_agenda_backend.application.service;
 
-import br.uscs.gestao_agenda_backend.application.common.AgendamentoMapper;
 import br.uscs.gestao_agenda_backend.application.common.ServicoMapper;
-import br.uscs.gestao_agenda_backend.application.dto.DocenteResponse;
-import br.uscs.gestao_agenda_backend.application.dto.EstagiarioResponse;
 import br.uscs.gestao_agenda_backend.application.dto.ServicoResponse;
 import br.uscs.gestao_agenda_backend.application.port.ServicoService;
 import br.uscs.gestao_agenda_backend.application.request.ServicoRequest;

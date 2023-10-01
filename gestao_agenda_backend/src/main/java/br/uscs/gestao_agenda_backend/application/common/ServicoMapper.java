@@ -38,7 +38,7 @@ public class ServicoMapper {
             }
         }
 
-        ServicoResponse response = ServicoResponse.builder()
+        return ServicoResponse.builder()
                 .id(servico.getId())
                 .acronimo(servico.getAcronimo())
                 .nome(servico.getNome())
@@ -47,7 +47,7 @@ public class ServicoMapper {
                 .docentes(docentesResponse)
                 .build();
 
-        return response;
+
     }
 
     public ServicoPropertyResponse toPropertyResponse(Servico servico) {

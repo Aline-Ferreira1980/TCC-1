@@ -17,17 +17,13 @@ public class ServicoRequest {
     @NotBlank
     @NotNull
     private String acronimo;
+
     @NotBlank
     @NotNull
     private String nome;
+
     @NotBlank
     @NotNull
     private String descricao;
-
-//    @NotEmpty
-//    private Set<EstagiarioPropertyResponse> estagiarios;
-//
-//    @NotEmpty
-//    private Set<DocentePropertyResponse> docentes;
 
 }

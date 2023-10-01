@@ -126,14 +126,29 @@
 			<artifactId>modelmapper</artifactId>
 			<version>3.1.0</version>
 		</dependency>
-
+<!--Documentação / swagger-->
 		<dependency>
 			<groupId>org.springdoc</groupId>
 			<artifactId>springdoc-openapi-ui</artifactId>
 			<version>1.7.0</version>
 		</dependency>
-
-
+<!--Email-->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-mail</artifactId>
+		</dependency>
+        <dependency>
+            <groupId>org.jetbrains</groupId>
+            <artifactId>annotations</artifactId>
+            <version>RELEASE</version>
+            <scope>compile</scope>
+        </dependency>
+		<dependency>
+			<groupId>org.jetbrains</groupId>
+			<artifactId>annotations</artifactId>
+			<version>24.0.1</version>
+			<scope>compile</scope>
+		</dependency>
 
 	</dependencies>
 
