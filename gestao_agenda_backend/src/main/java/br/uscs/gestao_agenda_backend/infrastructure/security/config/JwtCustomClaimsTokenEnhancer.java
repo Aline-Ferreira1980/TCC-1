@@ -1,4 +1,4 @@
-package br.uscs.gestao_agenda_backend.infrastructure.security;
+package br.uscs.gestao_agenda_backend.infrastructure.security.config;
 
 import org.springframework.security.oauth2.provider.token.TokenEnhancer;
 

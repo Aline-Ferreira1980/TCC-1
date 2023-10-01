@@ -1,4 +1,4 @@
-package br.uscs.gestao_agenda_backend.infrastructure.security;
+package br.uscs.gestao_agenda_backend.infrastructure.security.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -20,6 +20,7 @@ import java.util.Arrays;
 @Configuration
 @EnableAuthorizationServer
 public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdapter {
+
     @Autowired
     private PasswordEncoder passwordEncoder;
 
@@ -29,11 +30,12 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     @Autowired
     private UserDetailsService userDetailsService;
 
-    @Value("${agenda-cesep.password.client:testes}")
+    @Value("${agenda-cesep.password.client}")
     private String clientPassw;
 
     @Override
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
+        System.out.println("Password do cliente: " + passwordEncoder.encode(clientPassw));
         clients
                 .inMemory()
                 .withClient("cesep-agenda-frontend")
@@ -67,7 +69,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     @Bean
     public JwtAccessTokenConverter jwtAccessTokenConverter() {
         JwtAccessTokenConverter jwtAccessTokenConverter = new JwtAccessTokenConverter();
-        jwtAccessTokenConverter.setSigningKey("tcc7anturma2023projtoagendacesep");
+        jwtAccessTokenConverter.setSigningKey("tcc7anturma2023projtoagendacesep"); // TODO: Mudar para variavel de ambiente
 
         return jwtAccessTokenConverter;
     }

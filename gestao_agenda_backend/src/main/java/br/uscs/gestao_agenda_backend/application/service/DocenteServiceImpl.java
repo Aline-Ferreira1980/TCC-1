@@ -6,10 +6,8 @@ import br.uscs.gestao_agenda_backend.application.dto.EstagiarioResponse;
 import br.uscs.gestao_agenda_backend.application.dto.SalaResponse;
 import br.uscs.gestao_agenda_backend.application.port.DocenteService;
 import br.uscs.gestao_agenda_backend.application.request.CadastroDocenteRequest;
-import br.uscs.gestao_agenda_backend.domain.model.Docente;
-import br.uscs.gestao_agenda_backend.domain.model.Estagiario;
-import br.uscs.gestao_agenda_backend.domain.model.HorarioTrabalho;
-import br.uscs.gestao_agenda_backend.domain.model.Servico;
+import br.uscs.gestao_agenda_backend.domain.model.*;
+import br.uscs.gestao_agenda_backend.domain.model.enums.UserRole;
 import br.uscs.gestao_agenda_backend.domain.port.DocenteRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.BeanUtils;
@@ -39,6 +37,7 @@ public class DocenteServiceImpl implements DocenteService {
 
         String senhaCriptografada = new BCryptPasswordEncoder().encode(request.getSenha());
         request.setSenha(senhaCriptografada);
+        request.setRole(UserRole.DOCENTE);
 
         return docenteMapper.toResponse(docenteRepository.save(request));
     }

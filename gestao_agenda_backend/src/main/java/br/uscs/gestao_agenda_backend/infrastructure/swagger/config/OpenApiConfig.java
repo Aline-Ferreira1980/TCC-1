@@ -1,7 +1,6 @@
 package br.uscs.gestao_agenda_backend.infrastructure.swagger.config;
 
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
-import io.swagger.v3.oas.annotations.enums.SecuritySchemeIn;
 import io.swagger.v3.oas.annotations.enums.SecuritySchemeType;
 import io.swagger.v3.oas.annotations.info.Info;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
@@ -13,6 +12,9 @@ import org.springdoc.core.customizers.OpenApiCustomiser;
 import org.springdoc.core.customizers.OperationCustomizer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import io.swagger.v3.oas.annotations.security.OAuthFlow;
+import io.swagger.v3.oas.annotations.security.OAuthFlows;
+import io.swagger.v3.oas.annotations.security.OAuthScope;
 
 
 @OpenAPIDefinition(
@@ -27,16 +29,33 @@ import org.springframework.context.annotation.Configuration;
                         url = "http://localhost:8080"
                 )
         },
-        security = {@SecurityRequirement(name = "BearerAuth")}
+        security = {@SecurityRequirement(name = "OAuth2")}
 )
-@SecurityScheme(
-        name = "BearerAuth",
-        description = "Autenticação com JWT",
-        scheme = "bearer",
-        type = SecuritySchemeType.HTTP,
-        bearerFormat = "JWT",
-        in = SecuritySchemeIn.HEADER
-)
+//@SecurityScheme(
+//        name = "BearerAuth",
+//        description = "Autenticação com JWT",
+//        scheme = "bearer",
+//        type = SecuritySchemeType.HTTP,
+//        bearerFormat = "JWT",
+//        in = SecuritySchemeIn.HEADER
+//)
+
+//@SecurityScheme(name = "OAuth2.old", type = SecuritySchemeType.OAUTH2,
+//        flows = @OAuthFlows(authorizationCode = @OAuthFlow(
+//                authorizationUrl = "${springdoc.oAuthFlow.authorizationUrl}"
+//                , tokenUrl = "${springdoc.oAuthFlow.tokenUrl}", scopes = {
+//                @OAuthScope(name = "read", description = "read scope"),
+//                @OAuthScope(name = "write", description = "write scope") })))
+
+@SecurityScheme(name = "OAuth2",  type = SecuritySchemeType.OAUTH2,
+        flows = @OAuthFlows(password = @OAuthFlow(
+                tokenUrl = "${springdoc.oAuthFlow.tokenUrl}",
+                scopes = {
+                        @OAuthScope(name = "read", description = "Acesso de leitura"),
+                        @OAuthScope(name = "write", description = "Acesso de escrita")
+                }
+        ) ) )
+
 
 @Configuration
 public class OpenApiConfig {

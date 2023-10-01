@@ -1,4 +1,4 @@
-package br.uscs.gestao_agenda_backend.infrastructure.security;
+package br.uscs.gestao_agenda_backend.infrastructure.security.config;
 
 import java.util.Collections;
 
