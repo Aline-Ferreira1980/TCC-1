@@ -1,24 +1,16 @@
 package br.uscs.gestao_agenda_backend.infrastructure.web;
 
-import br.uscs.gestao_agenda_backend.application.common.AgendamentoMapper;
 import br.uscs.gestao_agenda_backend.application.dto.AgendamentoResponse;
 import br.uscs.gestao_agenda_backend.application.port.AgendamentoService;
 import br.uscs.gestao_agenda_backend.application.request.AgendamentoRequest;
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.responses.ApiResponses;
-import io.swagger.v3.oas.annotations.tags.Tag;
+import br.uscs.gestao_agenda_backend.infrastructure.web.openapi.AgendamentoControllerOpenApi;
 import lombok.AllArgsConstructor;
 import org.springframework.dao.EmptyResultDataAccessException;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import javax.validation.Valid;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotNull;
 import java.net.URI;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -27,21 +19,13 @@ import java.util.Optional;
 @RestController
 @AllArgsConstructor
 @RequestMapping("agendamento")
-@Tag(name = "Agendamento")
-public class AgendamentoController {
+public class AgendamentoController implements AgendamentoControllerOpenApi {
 
     private final AgendamentoService agendamentoService;
 
-    @Operation(summary = "Cria novo agendamento na aplicação", method = "POST")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "201", description = "Agendamento criado com sucesso"),
-            @ApiResponse(responseCode = "422", description = "Dados de requisição inválida"),
-            @ApiResponse(responseCode = "401", description = "Usuario nao autenticado"),
-            @ApiResponse(responseCode = "400", description = "Parametros inválidos"),
-            @ApiResponse(responseCode = "500", description = "Erro ao realizar busca dos dados"),
-    })
+    @Override
     @PostMapping(value = "/agendar", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> cadastrarPaciente(@Valid @RequestBody AgendamentoRequest request,
+    public ResponseEntity<?> cadastrarPaciente(AgendamentoRequest request,
                                                UriComponentsBuilder uriBuilder) {
 
         try {
@@ -57,116 +41,51 @@ public class AgendamentoController {
         }
     }
 
-    @Operation(summary = "Busca agendamento pelo id do usuário", method = "GET")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Busca realizada com sucesso"),
-            @ApiResponse(responseCode = "404", description = "Agendamento nao encontrados"),
-            @ApiResponse(responseCode = "422", description = "Dados de requisição inválida"),
-            @ApiResponse(responseCode = "401", description = "Usuário nao autenticado"),
-            @ApiResponse(responseCode = "400", description = "Parametros inválidos"),
-            @ApiResponse(responseCode = "500", description = "Erro ao realizar busca dos dados"),
-    })
+    @Override
     @GetMapping(value = "/user/{id}")
-    public ResponseEntity<List<AgendamentoResponse>> findAgendamentoByUserId(
-            @PathVariable
-            @Min(value = 1, message = "O campo 'id' deve ser maior ou igual a 1.")
-            @NotNull(message = "O parâmetro 'id' é obrigatório")
-            Long id) {
+    public ResponseEntity<List<AgendamentoResponse>> findAgendamentoByUserId(Long id) {
         List<AgendamentoResponse> response = agendamentoService.findAgendamentosByUserId(id);
         return (response != null) ? ResponseEntity.ok(response) : ResponseEntity.notFound().build();
 
     }
 
-    @Operation(summary = "Busca agendamento pelo id da sala", method = "POST")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Busca realizada com sucesso"),
-            @ApiResponse(responseCode = "404", description = "Agendamento nao encontrados"),
-            @ApiResponse(responseCode = "422", description = "Dados de requisição inválida"),
-            @ApiResponse(responseCode = "401", description = "Usuário nao autenticado"),
-            @ApiResponse(responseCode = "400", description = "Parâmetros inválidos"),
-            @ApiResponse(responseCode = "500", description = "Erro ao realizar busca dos dados"),
-    })
+    @Override
     @GetMapping(value = "/sala/{id}")
-    public ResponseEntity<List<AgendamentoResponse>> findAgendamentoBySalaId(
-            @PathVariable
-            @NotNull(message = "O parâmetro 'id' é obrigatório")
-            @Min(value = 1, message = "O campo 'id' deve ser maior ou igual a 1.")
-            Long id) {
+    public ResponseEntity<List<AgendamentoResponse>> findAgendamentoBySalaId(Long id) {
         List<AgendamentoResponse> response = agendamentoService.findAgendamentosBySalaId(id);
         return (response != null) ? ResponseEntity.ok(response) : ResponseEntity.notFound().build();
     }
 
-    @Operation(summary = "Busca agendamento pelo range de data", method = "POST")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Busca realizada com sucesso"),
-            @ApiResponse(responseCode = "404", description = "Agendamento nao encontrados"),
-            @ApiResponse(responseCode = "422", description = "Dados de requisição inválida"),
-            @ApiResponse(responseCode = "401", description = "Usuário nao autenticado"),
-            @ApiResponse(responseCode = "400", description = "Parâmetros inválidos"),
-            @ApiResponse(responseCode = "500", description = "Erro ao realizar busca dos dados"),
-    })
+    @Override
     @GetMapping("/findByDate")
-    public ResponseEntity<List<AgendamentoResponse>> findAgendamentoByDateRange(
-            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime inicio,
-            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime fim) {
+    public ResponseEntity<List<AgendamentoResponse>> findAgendamentoByDateRange(LocalDateTime inicio,
+                                                                                LocalDateTime fim) {
         List<AgendamentoResponse> response = agendamentoService.findAgendamentosByDateRange(inicio, fim);
         return (response != null) ? ResponseEntity.ok(response) : ResponseEntity.notFound().build();
     }
 
-    @Operation(summary = "Busca agendamento pelo ID do usuário e range de data", method = "POST")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Busca realizada com sucesso"),
-            @ApiResponse(responseCode = "404", description = "Agendamento nao encontrados"),
-            @ApiResponse(responseCode = "422", description = "Dados de requisição inválida"),
-            @ApiResponse(responseCode = "401", description = "Usuário nao autenticado"),
-            @ApiResponse(responseCode = "400", description = "Parâmetros inválidos"),
-            @ApiResponse(responseCode = "500", description = "Erro ao realizar busca dos dados"),
-    })
+    @Override
     @GetMapping("/user/{userId}/findByDate")
-    public ResponseEntity<List<AgendamentoResponse>> findAgendamentoByUserIdAndDateRange(
-            @PathVariable Long userId,
-            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime inicio,
-            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime fim) {
+    public ResponseEntity<List<AgendamentoResponse>> findAgendamentoByUserIdAndDateRange(Long userId,
+                                                                                         LocalDateTime inicio,
+                                                                                         LocalDateTime fim) {
         List<AgendamentoResponse> response = agendamentoService
                 .findAgendamentoByUserIdAndDateRange(userId, inicio, fim);
 
         return (response != null) ? ResponseEntity.ok(response) : ResponseEntity.notFound().build();
     }
 
-    @Operation(summary = "Atualiza Agendamento na aplicação", method = "PUT")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Agendamento atualizado com sucesso"),
-            @ApiResponse(responseCode = "422", description = "Dados de requisição inválida"),
-            @ApiResponse(responseCode = "401", description = "Usuário nao autenticado"),
-            @ApiResponse(responseCode = "400", description = "Parâmetros inválidos"),
-            @ApiResponse(responseCode = "500", description = "Erro ao realizar atualização do Docente"),
-    })
+    @Override
     @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<AgendamentoResponse> atualizaAgendamento(
-            @PathVariable
-            @NotNull(message = "O parâmetro 'id' é obrigatório")
-            @Min(value = 1, message = "O campo 'id' deve ser maior ou igual a 1.")
-            Long id,
-            @Valid @RequestBody AgendamentoRequest request) {
+    public ResponseEntity<AgendamentoResponse> atualizaAgendamento(Long id, AgendamentoRequest request) {
 
         Optional<AgendamentoResponse> response = agendamentoService.atualizaAgendamento(id, request);
         return response.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-    @Operation(summary = "Deleta agendamento na aplicação", method = "DELETE")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Docente deletado com sucesso"),
-            @ApiResponse(responseCode = "422", description = "Dados de requisição inválida"),
-            @ApiResponse(responseCode = "401", description = "Usuario nao autenticado"),
-            @ApiResponse(responseCode = "400", description = "Parametros inválidos"),
-            @ApiResponse(responseCode = "500", description = "Erro ao realizar atualização do Docente"),
-    })
+    @Override
     @DeleteMapping(value = "/{id}")
-    public ResponseEntity<String> deleteAgendamento(
-            @PathVariable
-            @NotNull(message = "O parâmetro 'id' é obrigatório")
-            @Min(value = 1, message = "O campo 'id' deve ser maior ou igual a 1.")
-            Long id) {
+    public ResponseEntity<String> deleteAgendamento(Long id) {
         try {
             agendamentoService.deleteAgendamento(id);
             return ResponseEntity.ok("Agendamento deletado com sucesso");

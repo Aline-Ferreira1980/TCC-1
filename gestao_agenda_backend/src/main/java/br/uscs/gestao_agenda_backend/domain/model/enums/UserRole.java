@@ -10,7 +10,6 @@ public enum UserRole {
     PACIENTE("paciente"),
     ESTAGIARIO("estagiario"),
     DOCENTE("docente");
-
     private final String role;
 
 }

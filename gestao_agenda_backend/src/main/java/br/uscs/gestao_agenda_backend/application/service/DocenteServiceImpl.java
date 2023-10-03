@@ -40,7 +40,7 @@ public class DocenteServiceImpl implements DocenteService {
         request.setConfirmed(false);
         String token = UUID.randomUUID().toString();
         request.setToken(token);
-//        confirmacaoService.enviarEmailConfirmacao(request.getEmail(), token);
+        confirmacaoService.enviarEmailConfirmacao(request.getEmail(), token);
 
 
         return docenteMapper.toResponse(docenteRepository.save(request));

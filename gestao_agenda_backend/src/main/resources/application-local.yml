@@ -30,18 +30,12 @@ spring:
             hibernate:
 
 
-
   # Console do H2 (opcional, para acessar o console do H2 no navegador)
   h2:
     console:
       enabled: true
       path: /h2-console
 
-
-
-#api:
-#  security:
-#    token:
 
 agenda-cesep:
   password:
@@ -50,27 +44,8 @@ agenda-cesep:
 springdoc:
   swagger-ui:
     oauth:
-      clientId: newClient
-      clientSecret: newClientSecret
+      clientId: cesep-agenda-frontend
+      clientSecret: teste
+
   oAuthFlow:
     tokenUrl: ${OAUTH2_SERVER:http://localhost:8080}/oauth/token
-
-
-
-
-    #management:
-    #  endpoints:
-    #    web:
-    #      exposure:
-    #        include: prometheus
-    #  endpoint:
-    #    prometheus:
-    #      enabled: true
-    #
-    #aws:
-    #  cloudwatch:
-    #    enabled: true
-    #    region: us-west-2
-    #    namespace: gestao_agenda_backend
-    #  metrics:
-    #    enabled: false
