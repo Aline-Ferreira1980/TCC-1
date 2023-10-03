@@ -48,6 +48,14 @@ public @interface CheckSecurity {
         @interface CanCreateAndDeleteDocente{
         }
 
+        @PreAuthorize("isAuthenticated() and " +
+                "(hasAnyAuthority('docente', 'estagiario') or #id == authentication.principal.id)")
+        @Retention(RUNTIME)
+        @Target(METHOD)
+        @interface CanViewListAgendamento{
+            String id() default "id";
+        }
+
 
     }
 

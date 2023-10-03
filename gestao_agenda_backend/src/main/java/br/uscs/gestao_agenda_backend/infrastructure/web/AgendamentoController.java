@@ -3,6 +3,7 @@ package br.uscs.gestao_agenda_backend.infrastructure.web;
 import br.uscs.gestao_agenda_backend.application.dto.AgendamentoResponse;
 import br.uscs.gestao_agenda_backend.application.port.AgendamentoService;
 import br.uscs.gestao_agenda_backend.application.request.AgendamentoRequest;
+import br.uscs.gestao_agenda_backend.infrastructure.security.permissions.CheckSecurity;
 import br.uscs.gestao_agenda_backend.infrastructure.web.openapi.AgendamentoControllerOpenApi;
 import lombok.AllArgsConstructor;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -42,6 +43,7 @@ public class AgendamentoController implements AgendamentoControllerOpenApi {
     }
 
     @Override
+    @CheckSecurity.User.CanViewListAgendamento
     @GetMapping(value = "/user/{id}")
     public ResponseEntity<List<AgendamentoResponse>> findAgendamentoByUserId(Long id) {
         List<AgendamentoResponse> response = agendamentoService.findAgendamentosByUserId(id);
