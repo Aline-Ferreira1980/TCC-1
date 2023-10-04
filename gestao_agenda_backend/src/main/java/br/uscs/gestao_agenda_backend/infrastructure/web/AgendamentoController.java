@@ -4,6 +4,7 @@ import br.uscs.gestao_agenda_backend.application.dto.AgendamentoResponse;
 import br.uscs.gestao_agenda_backend.application.port.AgendamentoService;
 import br.uscs.gestao_agenda_backend.application.request.AgendamentoRequest;
 import br.uscs.gestao_agenda_backend.infrastructure.security.facade.AuthenticationFacade;
+import br.uscs.gestao_agenda_backend.infrastructure.security.permissions.AppSecurity;
 import br.uscs.gestao_agenda_backend.infrastructure.security.permissions.CheckSecurity;
 import br.uscs.gestao_agenda_backend.infrastructure.web.openapi.AgendamentoControllerOpenApi;
 import lombok.AllArgsConstructor;
@@ -32,6 +33,7 @@ public class AgendamentoController implements AgendamentoControllerOpenApi {
 
     private final AgendamentoService agendamentoService;
     private final AuthenticationFacade authenticationFacade;
+    private final AppSecurity appSecurity;
 
     @Override
     @CheckSecurity.Agendamento.CanCreateAgendamento
@@ -105,17 +107,19 @@ public class AgendamentoController implements AgendamentoControllerOpenApi {
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<String> deleteAgendamento(Long id) {
 
-        Authentication authentication = authenticationFacade.getAuthentication();
-        Jwt jwt = (Jwt) authentication.getPrincipal();
-        String email = jwt.getClaim("user_name");
-        Long userId = jwt.getClaim("user_id");
+//        Authentication authentication = authenticationFacade.getAuthentication();
+//        Jwt jwt = (Jwt) authentication.getPrincipal();
+//        Long ids = jwt.getClaim("user_id");
+//        Long userId = appSecurity.getUserId();
+//
+//        List<String> roles = appSecurity.getRoles();
 
-        try {
-            agendamentoService.deleteAgendamento(id);
-            return ResponseEntity.ok("Agendamento deletado com sucesso");
-        } catch (EmptyResultDataAccessException e) {
-            return ResponseEntity.notFound().build();
-        }
+        agendamentoService.deleteAgendamento(id);
+        return ResponseEntity.ok("Agendamento deletado com sucesso");
+//        try {
+//        } catch (EmptyResultDataAccessException e) {
+//            return ResponseEntity.notFound().build();
+//        }
     }
 
 }

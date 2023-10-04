@@ -3,7 +3,7 @@ server:
   apiUrl: http://localhost:8080
 
 spring:
-  profiles.active: dev
+  profiles.active: local
 
   mail:
     host: smtp.sendgrid.net

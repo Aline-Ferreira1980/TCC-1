@@ -9,7 +9,9 @@ import br.uscs.gestao_agenda_backend.domain.port.AgendamentoRespository;
 import br.uscs.gestao_agenda_backend.domain.port.EstagiarioRepository;
 import br.uscs.gestao_agenda_backend.domain.port.PacienteRepository;
 import br.uscs.gestao_agenda_backend.domain.port.SalaRepository;
+import br.uscs.gestao_agenda_backend.infrastructure.security.permissions.AppSecurity;
 import lombok.AllArgsConstructor;
+import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.oauth2.common.exceptions.UnauthorizedUserException;
@@ -32,6 +34,7 @@ public class AgendamentoServiceImpl implements AgendamentoService {
     private final SalaRepository salaRepository;
 
     private final AgendamentoMapper agendamentoMapper;
+    private final AppSecurity appSecurity;
 
     @Transactional
     @Override
@@ -226,6 +229,15 @@ public class AgendamentoServiceImpl implements AgendamentoService {
 
     @Override
     public void deleteAgendamento(Long id) {
+        Long requestUserId = appSecurity.getUserId();
+        List<String> roles = appSecurity.getRoles();
+        Agendamento agendamento =  agendamentoRepository.findById(id).orElseThrow(() ->
+                new EntityNotFoundException("Nao foi possivel encontrar o agendamento a ser deletado")
+        );
+
+        if(roles.contains("paciente") && (!agendamento.getPaciente().getId().equals(requestUserId))){
+          throw new UnauthorizedUserException("Paciente somente tem permissão para deletar os proprios agendamentos");
+        }
         agendamentoRepository.deleteById(id);
         agendamentoRepository.flush();
     }

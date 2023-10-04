@@ -25,9 +25,6 @@ spring:
       hibernate:
         format_sql: true
 
-        spring:
-          jpa:
-            hibernate:
 
 
   # Console do H2 (opcional, para acessar o console do H2 no navegador)

@@ -9,6 +9,7 @@ import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.oauth2.common.exceptions.UnauthorizedUserException;
 import org.springframework.validation.BindException;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
@@ -23,6 +24,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 
 import com.fasterxml.jackson.databind.JsonMappingException.Reference;
 
+import javax.persistence.EntityNotFoundException;
 import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -100,6 +102,32 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
         return handleExceptionInternal(ex, problem, headers, status, request);
     }
 
+    @ExceptionHandler(EntityNotFoundException.class)
+    public ResponseEntity<?> handleNotFound(EntityNotFoundException ex, WebRequest request) {
+        HttpStatus status = HttpStatus.NOT_FOUND;
+        ProblemType problemType = ProblemType.ENTIDADE_NAO_ENCONTRADA;
+        String detail = ex.getMessage();
+
+        Problem problem = createProblemBuilder(status, problemType, detail)
+                .userMessage(detail)
+                .build();
+
+        return handleExceptionInternal(ex, problem, new HttpHeaders(), status, request);
+    }
+
+
+    @ExceptionHandler(UnauthorizedUserException.class)
+    public ResponseEntity<?> handleUnauthorizedUser(EntityNotFoundException ex, WebRequest request) {
+        HttpStatus status = HttpStatus.UNAUTHORIZED;
+        ProblemType problemType = ProblemType.ACESSO_NEGADO;
+        String detail = ex.getMessage();
+
+        Problem problem = createProblemBuilder(status, problemType, detail)
+                .userMessage(detail)
+                .build();
+
+        return handleExceptionInternal(ex, problem, new HttpHeaders(), status, request);
+    }
     @ExceptionHandler(Exception.class)
     public ResponseEntity<Object> handleUncaught(Exception ex, WebRequest request) {
         HttpStatus status = HttpStatus.INTERNAL_SERVER_ERROR;
