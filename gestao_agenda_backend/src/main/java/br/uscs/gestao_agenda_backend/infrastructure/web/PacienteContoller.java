@@ -22,8 +22,9 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping(value = "paciente", produces = {"application/json"})
+@CrossOrigin
 @AllArgsConstructor
+@RequestMapping(value = "paciente", produces = {"application/json"})
 public class PacienteContoller implements PacienteContollerOpenApi {
 
     private PacienteService pacienteService;
@@ -76,3 +77,4 @@ public class PacienteContoller implements PacienteContollerOpenApi {
     }
 
 }
+

@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @AllArgsConstructor
+@CrossOrigin
 @RequestMapping("confirm")
 public class ConfirmacaoController implements ConfirmacaoControllerOpenApi {
 

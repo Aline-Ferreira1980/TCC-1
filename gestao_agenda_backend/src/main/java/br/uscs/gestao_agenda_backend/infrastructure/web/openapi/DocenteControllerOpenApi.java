@@ -6,6 +6,7 @@ import br.uscs.gestao_agenda_backend.application.request.CadastroDocenteRequest;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,6 +20,7 @@ import java.util.List;
 
 
 @Tag(name = "Docente")
+@SecurityRequirement(name = "OAuth2")
 public interface DocenteControllerOpenApi {
 
     @Operation(summary = "Cadastra nova docente na aplicação", method = "POST")

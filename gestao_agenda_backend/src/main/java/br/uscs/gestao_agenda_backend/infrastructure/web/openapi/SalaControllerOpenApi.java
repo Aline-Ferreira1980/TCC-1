@@ -6,6 +6,7 @@ import br.uscs.gestao_agenda_backend.application.request.SalaRequest;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,6 +18,7 @@ import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @Tag(name = "Sala")
+@SecurityRequirement(name = "OAuth2")
 public interface SalaControllerOpenApi {
     @Operation(summary = "Cadastra nova sala na aplicação", method = "POST")
     @ApiResponses(value = {

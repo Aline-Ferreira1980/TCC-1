@@ -25,7 +25,6 @@ import java.util.Optional;
 @AllArgsConstructor
 @RequestMapping("docente")
 @CrossOrigin
-@SecurityRequirement(name = "OAuth2")
 public class DocenteController implements DocenteControllerOpenApi {
 
     private final DocenteService docenteService;

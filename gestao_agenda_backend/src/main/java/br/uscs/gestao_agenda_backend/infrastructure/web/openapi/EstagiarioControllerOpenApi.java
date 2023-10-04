@@ -6,6 +6,7 @@ import br.uscs.gestao_agenda_backend.application.request.CadastroEstagiarioReque
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.MediaType;
@@ -21,6 +22,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 @Tag(name = "Estagiario")
+@SecurityRequirement(name = "OAuth2")
 public interface EstagiarioControllerOpenApi {
 
     ResponseEntity<List<EstagiarioResponse>> getAvailabilityByDateRange(

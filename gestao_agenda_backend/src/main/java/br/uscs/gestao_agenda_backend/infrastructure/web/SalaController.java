@@ -5,6 +5,7 @@ import br.uscs.gestao_agenda_backend.application.dto.SalaResponse;
 import br.uscs.gestao_agenda_backend.application.port.SalaService;
 import br.uscs.gestao_agenda_backend.application.request.AtualizaSalaRequest;
 import br.uscs.gestao_agenda_backend.application.request.SalaRequest;
+import br.uscs.gestao_agenda_backend.infrastructure.security.permissions.CheckSecurity;
 import br.uscs.gestao_agenda_backend.infrastructure.web.openapi.SalaControllerOpenApi;
 import lombok.AllArgsConstructor;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -22,6 +23,7 @@ import java.util.Optional;
 
 @RestController
 @AllArgsConstructor
+@CrossOrigin
 @RequestMapping("sala")
 //@SecurityRequirement(name = "BearerAuth") swagger
 public class SalaController implements SalaControllerOpenApi {
@@ -31,6 +33,7 @@ public class SalaController implements SalaControllerOpenApi {
 
 
     @Override
+    @CheckSecurity.Sala.CanCreateAndDeleteSala
     @PostMapping(value = "/cadastrar", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<SalaResponse> cadastrarSala(SalaRequest request, UriComponentsBuilder uriBuilder) {
         SalaResponse response = salaService.cadastraSala(salaMapper.fromRequest(request));
@@ -56,6 +59,7 @@ public class SalaController implements SalaControllerOpenApi {
 
 
     @Override
+    @CheckSecurity.Sala.CanCreateAndDeleteSala
     @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<SalaResponse> atualizaSala(Long id, AtualizaSalaRequest request) {
 
@@ -64,6 +68,7 @@ public class SalaController implements SalaControllerOpenApi {
     }
 
     @Override
+    @CheckSecurity.Sala.CanCreateAndDeleteSala
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<String> deletaSala(Long id) {
 

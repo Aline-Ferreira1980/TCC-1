@@ -48,15 +48,43 @@ public @interface CheckSecurity {
         @interface CanCreateAndDeleteDocente{
         }
 
+
+
+
+    }
+
+    @interface Agendamento {
+
         @PreAuthorize("isAuthenticated() and " +
                 "(hasAnyAuthority('docente', 'estagiario') or #id == authentication.principal.id)")
         @Retention(RUNTIME)
         @Target(METHOD)
-        @interface CanViewListAgendamento{
+        @interface CanViewSelfAgendamento{
             String id() default "id";
         }
 
+        @PreAuthorize("isAuthenticated() and " +
+                "hasAnyAuthority('docente', 'estagiario')")
+        @Retention(RUNTIME)
+        @Target(METHOD)
+        @interface CanViewAgendamento{
+            String id() default "id";
+        }
 
+        @PreAuthorize("isAuthenticated()")
+        @Retention(RUNTIME)
+        @Target(METHOD)
+        @interface CanCreateAgendamento{
+            String id() default "id";
+        }
+    }
+
+    @interface Sala{
+        @PreAuthorize("isAuthenticated() and " +
+                "hasAnyAuthority('docente', 'estagiario')")
+        @Retention(RUNTIME)
+        @Target(METHOD)
+        @interface CanCreateAndDeleteSala{}
     }
 
 }

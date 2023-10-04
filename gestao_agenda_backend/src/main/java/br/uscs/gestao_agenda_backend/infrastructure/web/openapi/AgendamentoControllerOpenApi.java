@@ -3,12 +3,16 @@ package br.uscs.gestao_agenda_backend.infrastructure.web.openapi;
 import br.uscs.gestao_agenda_backend.application.dto.AgendamentoResponse;
 import br.uscs.gestao_agenda_backend.application.request.AgendamentoRequest;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -18,6 +22,7 @@ import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.List;
 @Tag(name = "Agendamento")
+@SecurityRequirement(name = "OAuth2")
 public interface AgendamentoControllerOpenApi {
 
     @Operation(summary = "Cria novo agendamento na aplicação", method = "POST")
@@ -28,7 +33,7 @@ public interface AgendamentoControllerOpenApi {
             @ApiResponse(responseCode = "400", description = "Parametros inválidos"),
             @ApiResponse(responseCode = "500", description = "Erro ao realizar busca dos dados"),
     })
-    ResponseEntity<?> cadastrarPaciente(@Valid @RequestBody AgendamentoRequest request,
+    ResponseEntity<?> cadastrarAgendamento(@Valid @RequestBody AgendamentoRequest request,
                                         UriComponentsBuilder uriBuilder);
 
 

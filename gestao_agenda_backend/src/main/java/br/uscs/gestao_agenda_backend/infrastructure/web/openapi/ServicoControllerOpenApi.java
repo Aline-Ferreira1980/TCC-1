@@ -5,6 +5,8 @@ import br.uscs.gestao_agenda_backend.application.request.ServicoRequest;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,6 +18,8 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 
+@Tag(name = "Serviço")
+@SecurityRequirement(name = "OAuth2")
 public interface ServicoControllerOpenApi {
     @Operation(summary = "Cria novo serviço na aplicação", method = "POST")
     @ApiResponses(value = {

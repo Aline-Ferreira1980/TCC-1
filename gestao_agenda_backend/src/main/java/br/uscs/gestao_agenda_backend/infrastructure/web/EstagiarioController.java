@@ -20,6 +20,7 @@ import java.util.Optional;
 
 @RestController
 @AllArgsConstructor
+@CrossOrigin
 @RequestMapping(value = "estagiario", produces = {"application/json"})
 public class EstagiarioController implements EstagiarioControllerOpenApi {
 

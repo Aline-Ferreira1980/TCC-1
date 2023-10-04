@@ -1,5 +1,6 @@
 package br.uscs.gestao_agenda_backend.application.request;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -20,11 +21,13 @@ public class AgendamentoRequest {
     @Email(message = "O e-mail deve estar no formato válido.")
     @Pattern(regexp = "^[a-zA-Z0-9_.+-]+@uscsonline\\.com\\.br$",
             message = "O e-mail deve estar no formato <usuário>@uscsonline.com.br")
+    @Schema(example = "estagiario@uscsonline.com.br")
     private String estagiarioEmail;
 
     @NonNull
     @NotBlank
     @Email(message = "O e-mail deve estar no formato válido.")
+    @Schema(example = "paciente@dominio.com.br")
     private String pacienteEmail;
 
     @NotNull(message = "O campo 'id' não pode ser nulo.")

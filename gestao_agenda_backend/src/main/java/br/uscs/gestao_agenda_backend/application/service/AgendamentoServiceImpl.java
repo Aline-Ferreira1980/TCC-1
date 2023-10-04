@@ -10,8 +10,12 @@ import br.uscs.gestao_agenda_backend.domain.port.EstagiarioRepository;
 import br.uscs.gestao_agenda_backend.domain.port.PacienteRepository;
 import br.uscs.gestao_agenda_backend.domain.port.SalaRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.oauth2.common.exceptions.UnauthorizedUserException;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
 import java.time.DayOfWeek;
 import java.time.LocalDateTime;
@@ -65,7 +69,7 @@ public class AgendamentoServiceImpl implements AgendamentoService {
 
         if (!(estag.get().trabalhaNoDia(diaSemanaAgendamento))){
             throw new IllegalArgumentException("Estagiario informado nao trabalha no dia da semana informado.");
-        }else if(estag.get().trabalhaNoRangeDeHorario(inicioAgendamento, fimAgendamento)){
+        }else if(!(estag.get().trabalhaNoRangeDeHorario(inicioAgendamento, fimAgendamento))){
             // TODO criar erro para estagiario nao trabalha no dia da semana ou horario informado
             throw new IllegalArgumentException("Estagiario informado nao trabalha no horario informado.");
 //            return Optional.empty();

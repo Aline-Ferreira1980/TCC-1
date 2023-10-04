@@ -2,6 +2,7 @@ package br.uscs.gestao_agenda_backend.application.port;
 
 import br.uscs.gestao_agenda_backend.application.dto.AgendamentoResponse;
 import br.uscs.gestao_agenda_backend.application.request.AgendamentoRequest;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.LocalDateTime;
 import java.util.List;

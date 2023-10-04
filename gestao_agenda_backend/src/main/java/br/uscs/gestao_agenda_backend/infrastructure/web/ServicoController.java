@@ -25,8 +25,8 @@ import java.util.Optional;
 
 @RestController
 @AllArgsConstructor
+@CrossOrigin
 @RequestMapping("servico")
-@Tag(name = "Serviço")
 public class ServicoController implements ServicoControllerOpenApi {
 
     private final ServicoService servicoService;
