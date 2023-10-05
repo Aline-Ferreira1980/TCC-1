@@ -3,24 +3,16 @@ package br.uscs.gestao_agenda_backend.infrastructure.web;
 import br.uscs.gestao_agenda_backend.application.dto.AgendamentoResponse;
 import br.uscs.gestao_agenda_backend.application.port.AgendamentoService;
 import br.uscs.gestao_agenda_backend.application.request.AgendamentoRequest;
-import br.uscs.gestao_agenda_backend.infrastructure.security.facade.AuthenticationFacade;
 import br.uscs.gestao_agenda_backend.infrastructure.security.permissions.AppSecurity;
 import br.uscs.gestao_agenda_backend.infrastructure.security.permissions.CheckSecurity;
 import br.uscs.gestao_agenda_backend.infrastructure.web.openapi.AgendamentoControllerOpenApi;
 import lombok.AllArgsConstructor;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
-import java.security.Principal;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -32,11 +24,9 @@ import java.util.Optional;
 public class AgendamentoController implements AgendamentoControllerOpenApi {
 
     private final AgendamentoService agendamentoService;
-    private final AuthenticationFacade authenticationFacade;
-    private final AppSecurity appSecurity;
 
     @Override
-    @CheckSecurity.Agendamento.CanCreateAgendamento
+    @CheckSecurity.Agendamento.CanManageAgendamento
     @PostMapping(value = "/agendar", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> cadastrarAgendamento(AgendamentoRequest request,
                                                UriComponentsBuilder uriBuilder) {
@@ -55,7 +45,7 @@ public class AgendamentoController implements AgendamentoControllerOpenApi {
     }
 
     @Override
-    @CheckSecurity.Agendamento.CanViewSelfAgendamento
+    @CheckSecurity.Agendamento.CanManageAgendamento
     @GetMapping(value = "/user/{id}")
     public ResponseEntity<List<AgendamentoResponse>> findAgendamentoByUserId(Long id) {
         List<AgendamentoResponse> response = agendamentoService.findAgendamentosByUserId(id);
@@ -64,7 +54,7 @@ public class AgendamentoController implements AgendamentoControllerOpenApi {
     }
 
     @Override
-    @CheckSecurity.Agendamento.CanViewAgendamento
+    @CheckSecurity.Agendamento.CanViewAgendamentoAdmin
     @GetMapping(value = "/sala/{id}")
     public ResponseEntity<List<AgendamentoResponse>> findAgendamentoBySalaId(Long id) {
         List<AgendamentoResponse> response = agendamentoService.findAgendamentosBySalaId(id);
@@ -72,7 +62,7 @@ public class AgendamentoController implements AgendamentoControllerOpenApi {
     }
 
     @Override
-    @CheckSecurity.Agendamento.CanViewAgendamento
+    @CheckSecurity.Agendamento.CanViewAgendamentoAdmin
     @GetMapping("/findByDate")
     public ResponseEntity<List<AgendamentoResponse>> findAgendamentoByDateRange(LocalDateTime inicio,
                                                                                 LocalDateTime fim) {
@@ -81,7 +71,7 @@ public class AgendamentoController implements AgendamentoControllerOpenApi {
     }
 
     @Override
-    @CheckSecurity.Agendamento.CanViewSelfAgendamento
+    @CheckSecurity.Agendamento.CanManageAgendamento
     @GetMapping("/user/{userId}/findByDate")
     public ResponseEntity<List<AgendamentoResponse>> findAgendamentoByUserIdAndDateRange(Long userId,
                                                                                          LocalDateTime inicio,
@@ -93,9 +83,7 @@ public class AgendamentoController implements AgendamentoControllerOpenApi {
     }
 
     @Override
-    @PreAuthorize("isAuthenticated() and " +
-            "(hasAnyAuthority('docente', 'estagiario') or " +
-            "#request.estagiarioEmail == authentication.principal.usename)")
+    @CheckSecurity.Agendamento.CanManageAgendamento
     @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<AgendamentoResponse> atualizaAgendamento(Long id, AgendamentoRequest request) {
 
@@ -104,22 +92,13 @@ public class AgendamentoController implements AgendamentoControllerOpenApi {
     }
 
     @Override
+    @CheckSecurity.Agendamento.CanManageAgendamento
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<String> deleteAgendamento(Long id) {
 
-//        Authentication authentication = authenticationFacade.getAuthentication();
-//        Jwt jwt = (Jwt) authentication.getPrincipal();
-//        Long ids = jwt.getClaim("user_id");
-//        Long userId = appSecurity.getUserId();
-//
-//        List<String> roles = appSecurity.getRoles();
-
         agendamentoService.deleteAgendamento(id);
         return ResponseEntity.ok("Agendamento deletado com sucesso");
-//        try {
-//        } catch (EmptyResultDataAccessException e) {
-//            return ResponseEntity.notFound().build();
-//        }
+
     }
 
 }

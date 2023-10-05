@@ -7,7 +7,6 @@ import br.uscs.gestao_agenda_backend.application.request.AtualizaDocenteRequest;
 import br.uscs.gestao_agenda_backend.application.request.CadastroDocenteRequest;
 import br.uscs.gestao_agenda_backend.infrastructure.security.permissions.CheckSecurity;
 import br.uscs.gestao_agenda_backend.infrastructure.web.openapi.DocenteControllerOpenApi;
-import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.AllArgsConstructor;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
@@ -32,7 +31,7 @@ public class DocenteController implements DocenteControllerOpenApi {
 
 
     @Override
-    @CheckSecurity.User.CanCreateAndDeleteDocente
+    @CheckSecurity.Docente.CanManageDocente
     @PostMapping(value = "/cadastrar", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<DocenteResponse> cadastrarDocente(CadastroDocenteRequest request,
                                                             UriComponentsBuilder uriBuilder) {
@@ -56,7 +55,7 @@ public class DocenteController implements DocenteControllerOpenApi {
     }
 
     @Override
-    @CheckSecurity.User.CanCreateAndDeleteDocente
+    @CheckSecurity.Docente.CanManageDocente
     @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<DocenteResponse> atualizaDocente(Long id, AtualizaDocenteRequest request) {
         Optional<DocenteResponse> response = docenteService.atualizaDocente(id, docenteMapper.fromRequest(request));
@@ -64,7 +63,7 @@ public class DocenteController implements DocenteControllerOpenApi {
     }
 
     @Override
-    @CheckSecurity.User.CanCreateAndDeleteDocente
+    @CheckSecurity.Docente.CanManageDocente
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<String> deletaDocente(Long id) {
         try {

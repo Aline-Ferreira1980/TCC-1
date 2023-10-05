@@ -117,7 +117,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 
 
     @ExceptionHandler(UnauthorizedUserException.class)
-    public ResponseEntity<?> handleUnauthorizedUser(EntityNotFoundException ex, WebRequest request) {
+    public ResponseEntity<?> handleUnauthorizedUser(UnauthorizedUserException ex, WebRequest request) {
         HttpStatus status = HttpStatus.UNAUTHORIZED;
         ProblemType problemType = ProblemType.ACESSO_NEGADO;
         String detail = ex.getMessage();

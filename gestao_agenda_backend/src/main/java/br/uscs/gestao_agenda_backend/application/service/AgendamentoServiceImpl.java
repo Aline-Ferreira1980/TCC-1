@@ -39,6 +39,10 @@ public class AgendamentoServiceImpl implements AgendamentoService {
     @Transactional
     @Override
     public Optional<AgendamentoResponse> cadastraAgendametno(AgendamentoRequest request) {
+        // Verifica se paciente esta criando agendamento para ele mesmo
+        this.validatePacienteAuthority(request.getPacienteEmail(),
+                "Paciente tem acesso somente para criação de agendamentos para si próprio");
+
         // Verifica disponibilidade
         // Valida se existe agendamento marcado em uma data e hora especifica,
         // independentemente do estagiario, paciente ou sala
@@ -60,7 +64,7 @@ public class AgendamentoServiceImpl implements AgendamentoService {
 
         if (estag.isEmpty()) {
             // TODO criar erro para usuario nao encontrado
-            throw new IllegalArgumentException("Estagiario informado nao existe.");
+            throw new EntityNotFoundException("Estagiario informado nao existe.");
 //            return Optional.empty();
         }
 
@@ -82,7 +86,7 @@ public class AgendamentoServiceImpl implements AgendamentoService {
         Optional<Paciente> paciente = pacienteRepository.findByEmail(request.getPacienteEmail());
         if (paciente.isEmpty()){
             // TODO criar erro para paciente nao encontrado
-            throw new IllegalArgumentException("Paciente informado nao existe.");
+            throw new EntityNotFoundException("Paciente informado nao existe.");
 //            return Optional.empty();
         }
 
@@ -90,7 +94,7 @@ public class AgendamentoServiceImpl implements AgendamentoService {
         // busca sala por id
         if (sala.isEmpty()) {
             // TODO criar erro para sala nao encontrada
-            throw new IllegalArgumentException("Sala informada nao existe.");
+            throw new EntityNotFoundException("Sala informada nao existe.");
 //            return Optional.empty();
         }
 
@@ -110,6 +114,8 @@ public class AgendamentoServiceImpl implements AgendamentoService {
 
     @Override
     public List<AgendamentoResponse> findAgendamentosByUserId(Long id) {
+        this.validatePacienteAuthority(id);
+
         Optional<List<Agendamento>> agendamentos = agendamentoRepository.findAgendamentosByUserId(id);
 
         return agendamentos.map(agendamentoList -> agendamentoList.stream()
@@ -138,6 +144,8 @@ public class AgendamentoServiceImpl implements AgendamentoService {
                                                                          LocalDateTime inicio,
                                                                          LocalDateTime fim) {
 
+        this.validatePacienteAuthority(userId);
+
         Optional<List<Agendamento>> agendamentos = agendamentoRepository
                 .findAgendamentoByEstagiarioIdAndDateRange(userId, inicio, fim);
 
@@ -148,12 +156,14 @@ public class AgendamentoServiceImpl implements AgendamentoService {
 
     @Override
     public Optional<AgendamentoResponse> atualizaAgendamento(Long id, AgendamentoRequest request) {
-        Optional<Agendamento> rs = agendamentoRepository.findById(id);
-        if(rs.isEmpty()){
-            // TODO criar erro para um item não encontrado.
-            throw new IllegalArgumentException("Nao foi encontrado agendamento com o ID informado.");
-        }
-        Agendamento agendamentoAtual = rs.get();
+
+        Agendamento agendamentoAtual =  agendamentoRepository.findById(id).orElseThrow(() ->
+                new EntityNotFoundException("Nao foi possível encontrar o agendamento a ser deletado")
+        );
+
+        this.validatePacienteAuthority(agendamentoAtual.getPaciente().getId());
+
+//        Agendamento agendamentoAtual = rs.get();
 
         // Verifica disponibilidade
         // Valida se existe agendamento marcado em uma data e hora especifica,
@@ -178,7 +188,6 @@ public class AgendamentoServiceImpl implements AgendamentoService {
         if (estag.isEmpty()) {
             // TODO criar erro para usuario nao encontrado
             throw new IllegalArgumentException("Estagiario informado nao existe.");
-//            return Optional.empty();
         }
 
         //Verifica se estagiário trabalha na data e hora marcada.
@@ -189,7 +198,7 @@ public class AgendamentoServiceImpl implements AgendamentoService {
 
         if (!(estag.get().trabalhaNoDia(diaSemanaAgendamento))){
             throw new IllegalArgumentException("Estagiario informado nao trabalha no dia da semana informado.");
-        }else if(estag.get().trabalhaNoRangeDeHorario(inicioAgendamento, fimAgendamento)){
+        }else if(!(estag.get().trabalhaNoRangeDeHorario(inicioAgendamento, fimAgendamento))){
             // TODO criar erro para estagiario nao trabalha no dia da semana ou horario informado
             throw new IllegalArgumentException("Estagiario informado nao trabalha no horario informado.");
         }
@@ -214,12 +223,6 @@ public class AgendamentoServiceImpl implements AgendamentoService {
         agendamentoAtual.setSala(sala.get());
         agendamentoAtual.setInicioAgendamento(request.getInicioAgendamento());
         agendamentoAtual.setFimAgendamento(request.getFimAgendamento());
-//        Agendamento agendamento = Agendamento.builder()
-//                .estagiario(estag.get())
-//                .paciente(paciente.get())
-//                .sala(sala.get())
-//                .inicioAgendamento(request.getInicioAgendamento())
-//                .fimAgendamento(request.getFimAgendamento()).build();
 
         // salva agendamento
         AgendamentoResponse response = agendamentoMapper.toResponse(agendamentoRepository.save(agendamentoAtual));
@@ -229,16 +232,39 @@ public class AgendamentoServiceImpl implements AgendamentoService {
 
     @Override
     public void deleteAgendamento(Long id) {
-        Long requestUserId = appSecurity.getUserId();
-        List<String> roles = appSecurity.getRoles();
-        Agendamento agendamento =  agendamentoRepository.findById(id).orElseThrow(() ->
-                new EntityNotFoundException("Nao foi possivel encontrar o agendamento a ser deletado")
-        );
 
-        if(roles.contains("paciente") && (!agendamento.getPaciente().getId().equals(requestUserId))){
-          throw new UnauthorizedUserException("Paciente somente tem permissão para deletar os proprios agendamentos");
-        }
+        Agendamento agendamento =  agendamentoRepository.findById(id).orElseThrow(() ->
+                new EntityNotFoundException("Nao foi possível encontrar o agendamento a ser deletado")
+        );
+        this.validatePacienteAuthority(agendamento.getPaciente().getId());
+
         agendamentoRepository.deleteById(id);
         agendamentoRepository.flush();
     }
+
+
+    private void validatePacienteAuthority(Long userId, String...errorMessage){
+        String message = errorMessage.length > 0 ?
+                errorMessage[0] : "Paciente somente tem permissão eu seus próprios agendamentos";
+
+        Long tokneUserId= appSecurity.getUserId();
+        List<String> roles = appSecurity.getRoles();
+
+        if(roles.contains("paciente") && (!userId.equals(tokneUserId))){
+            throw new UnauthorizedUserException(message);
+        }
+    }
+    private void validatePacienteAuthority(String userEmail, String...errorMessage){
+        String message = errorMessage.length > 0 ?
+                errorMessage[0] : "Paciente somente tem permissão eu seus próprios agendamentos";
+
+        String tokenUserEmail= appSecurity.getEmail();
+        List<String> roles = appSecurity.getRoles();
+
+        if(roles.contains("paciente") && (!userEmail.equals(tokenUserEmail))){
+            throw new UnauthorizedUserException("Paciente somente tem permissão eu seus próprios agendamentos");
+        }
+    }
+
+
 }

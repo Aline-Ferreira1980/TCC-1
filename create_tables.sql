@@ -199,19 +199,6 @@ insert into user (email, nome, role, senha, sobrenome, token, confirmed)
 
 insert into docente (ruscs, id) values ("0000000", 1);
 
--- select
---     docente.id as id,
---     user.email as email,
---     user.nome as nome,
---     user.role as role,
---     user.senha as senha,
---     user.sobrenome as sobrenome,
---     user.ruscs as ruscs
--- from
---     docente docente
--- inner join
---     user user on docente.id = user.id
-
 
 -- Insere Paciente de teste
 -- SENHA = teste1

@@ -13,7 +13,7 @@ spring:
     driver-class-name: com.mysql.jdbc.Driver
     username: cesep
     password: 124578*-
-#  sql.init.mode: never
+  sql.init.mode: never
 
   jpa:
     database-platform: org.hibernate.dialect.MySQL57Dialect

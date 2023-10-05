@@ -22,4 +22,9 @@ public class AppSecurity {
     public List<String> getRoles(){
         return getAuthentication().getAuthorities().stream().map(GrantedAuthority::getAuthority).toList();
     }
+
+    public String getEmail() {
+        Jwt jwt = (Jwt) getAuthentication().getPrincipal();
+        return jwt.getClaim("user_name");
+    }
 }
