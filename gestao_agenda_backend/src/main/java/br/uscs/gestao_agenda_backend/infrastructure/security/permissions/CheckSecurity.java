@@ -7,47 +7,6 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
 public @interface CheckSecurity {
-    @interface User{
-
-
-        @PreAuthorize("isAuthenticated() and " +
-                "hasAnyAuthority('docente', 'estagiario')")
-        @Retention(RUNTIME)
-        @Target(METHOD)
-        @interface CanViewAllPacientesProfiles{
-        }
-
-        @PreAuthorize("isAuthenticated() and " +
-                "(hasAnyAuthority('docente', 'estagiario') or #id == authentication.principal.id)")
-        @Retention(RUNTIME)
-        @Target(METHOD)
-        @interface CanViewPacienteProfile{
-            String id() default "id";
-        }
-
-        @PreAuthorize("isAuthenticated() and " +
-                "(hasAuthority('docente') or #id == authentication.principal.id)")
-        @Retention(RUNTIME)
-        @Target(METHOD)
-        @interface CanEditProfiles{
-            String id() default "id";
-        }
-
-        @PreAuthorize("isAuthenticated() and " +
-                "(hasAuthority('docente') or #id == authentication.principal.id)")
-        @Retention(RUNTIME)
-        @Target(METHOD)
-        @interface CanDeleteProfile{
-            String id() default "id";
-        }
-
-        @PreAuthorize("isAuthenticated() and " +
-                "hasAuthority('DOCENTE')")
-        @Retention(RUNTIME)
-        @Target(METHOD)
-        @interface CanCreateAndDeleteDocente{
-        }
-    }
 
     @interface Agendamento {
 
@@ -75,6 +34,39 @@ public @interface CheckSecurity {
         @interface CanManageDocente {
         }
 
+        @PreAuthorize("isAuthenticated() and " +
+                "hasAnyAuthority('docente', 'estagiario')")
+        @Retention(RUNTIME)
+        @Target(METHOD)
+        @interface CanViewDocente {
+        }
+
+
+    }
+
+    @interface Estagiario{
+        @PreAuthorize("isAuthenticated() and " +
+                "hasAnyAuthority('docente', 'estagiario')")
+        @Retention(RUNTIME)
+        @Target(METHOD)
+        @interface CanManageEstagiario {
+        }
+    }
+
+    @interface Paciente{
+        @PreAuthorize("isAuthenticated() and " +
+                "hasAnyAuthority('docente', 'estagiario', 'paciente')")
+        @Retention(RUNTIME)
+        @Target(METHOD)
+        @interface CanManagePaciente {
+        }
+
+        @PreAuthorize("isAuthenticated() and " +
+                "hasAnyAuthority('docente', 'estagiario')")
+        @Retention(RUNTIME)
+        @Target(METHOD)
+        @interface CanViewPacienteAdmin{
+        }
 
     }
 
@@ -83,7 +75,36 @@ public @interface CheckSecurity {
                 "hasAnyAuthority('docente', 'estagiario')")
         @Retention(RUNTIME)
         @Target(METHOD)
-        @interface CanCreateAndDeleteSala{}
+        @interface CanManageSala {}
     }
+
+    @interface Servico{
+        @PreAuthorize("isAuthenticated() and " +
+                "hasAnyAuthority('docente')")
+        @Retention(RUNTIME)
+        @Target(METHOD)
+        @interface CanCreateDeleteServico {}
+
+        @PreAuthorize("isAuthenticated() and " +
+                "hasAnyAuthority('docente', 'estagiario')")
+        @Retention(RUNTIME)
+        @Target(METHOD)
+        @interface CanViewServico {}
+
+        @PreAuthorize("isAuthenticated() and " +
+                "hasAnyAuthority('docente', 'estagiario')")
+        @Retention(RUNTIME)
+        @Target(METHOD)
+        @interface CanAddRemoveServicoToUser {}
+
+        @PreAuthorize("isAuthenticated() and " +
+                "hasAnyAuthority('docente')")
+        @Retention(RUNTIME)
+        @Target(METHOD)
+        @interface CanAddRemoveServicoToUserAdmin {}
+
+
+    }
+
 
 }

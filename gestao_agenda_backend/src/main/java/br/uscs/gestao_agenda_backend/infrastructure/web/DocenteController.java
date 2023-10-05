@@ -41,6 +41,7 @@ public class DocenteController implements DocenteControllerOpenApi {
     }
 
     @Override
+    @CheckSecurity.Docente.CanViewDocente
     @GetMapping("/listar")
     public ResponseEntity<List<DocenteResponse>> getAllDocente() {
         List<DocenteResponse> response = docenteService.findAll();
@@ -48,6 +49,7 @@ public class DocenteController implements DocenteControllerOpenApi {
     }
 
     @Override
+    @CheckSecurity.Docente.CanViewDocente
     @GetMapping(value = "/{id}")
     public ResponseEntity<DocenteResponse> getDocenteById(Long id) {
         Optional<DocenteResponse> response = docenteService.findById(id);
@@ -76,6 +78,7 @@ public class DocenteController implements DocenteControllerOpenApi {
 
 
     @Override
+    @CheckSecurity.Docente.CanViewDocente
     @GetMapping("/servico")
     public ResponseEntity<List<DocenteResponse>> listDocenteByServico(String acronimo) {
         List<DocenteResponse> response = docenteService.findByServico(acronimo);
@@ -84,6 +87,7 @@ public class DocenteController implements DocenteControllerOpenApi {
 
 
     @Override
+    @CheckSecurity.Docente.CanViewDocente
     @GetMapping("/servico_vazio")
     public ResponseEntity<List<DocenteResponse>> listDocenteServicoEmpty() {
         List<DocenteResponse> response = docenteService.findServicoEmpty();

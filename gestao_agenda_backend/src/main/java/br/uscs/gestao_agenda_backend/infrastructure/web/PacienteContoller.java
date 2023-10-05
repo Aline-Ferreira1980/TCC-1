@@ -11,6 +11,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -31,6 +32,7 @@ public class PacienteContoller implements PacienteContollerOpenApi {
     private final PacienteMapper pacienteMapper;
 
     @Override
+    @PreAuthorize("isAuthenticated() or isAnonymous()")
     @PostMapping(value = "/cadastrar", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<PacienteResponse> cadastrarPaciente(CadastroPacienteRequest request,
                                                               UriComponentsBuilder uriBuilder) {
@@ -40,7 +42,7 @@ public class PacienteContoller implements PacienteContollerOpenApi {
     }
 
     @Override
-    @CheckSecurity.User.CanViewAllPacientesProfiles
+    @CheckSecurity.Paciente.CanViewPacienteAdmin
     @GetMapping("/listar")
     public ResponseEntity<List<PacienteResponse>> getAllPacientes() {
         List<PacienteResponse> response = pacienteService.findAll();
@@ -49,6 +51,7 @@ public class PacienteContoller implements PacienteContollerOpenApi {
 
 
     @Override
+    @CheckSecurity.Paciente.CanManagePaciente
     @GetMapping(value = "/{id}")
     public ResponseEntity<PacienteResponse> getPaciente(Long id) {
 
@@ -57,6 +60,7 @@ public class PacienteContoller implements PacienteContollerOpenApi {
     }
 
     @Override
+    @CheckSecurity.Paciente.CanManagePaciente
     @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<PacienteResponse> atualizaPaciente(Long id, AtualizaPacienteRequest request) {
 
@@ -65,6 +69,7 @@ public class PacienteContoller implements PacienteContollerOpenApi {
     }
 
     @Override
+    @CheckSecurity.Paciente.CanManagePaciente
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<String> deletaPaciente(Long id) {
 

@@ -262,7 +262,7 @@ public class AgendamentoServiceImpl implements AgendamentoService {
         List<String> roles = appSecurity.getRoles();
 
         if(roles.contains("paciente") && (!userEmail.equals(tokenUserEmail))){
-            throw new UnauthorizedUserException("Paciente somente tem permissão eu seus próprios agendamentos");
+            throw new UnauthorizedUserException(message);
         }
     }
 

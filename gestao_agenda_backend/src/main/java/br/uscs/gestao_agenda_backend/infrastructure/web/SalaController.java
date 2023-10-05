@@ -14,9 +14,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import javax.validation.Valid;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotNull;
 import java.net.URI;
 import java.util.List;
 import java.util.Optional;
@@ -33,7 +30,7 @@ public class SalaController implements SalaControllerOpenApi {
 
 
     @Override
-    @CheckSecurity.Sala.CanCreateAndDeleteSala
+    @CheckSecurity.Sala.CanManageSala
     @PostMapping(value = "/cadastrar", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<SalaResponse> cadastrarSala(SalaRequest request, UriComponentsBuilder uriBuilder) {
         SalaResponse response = salaService.cadastraSala(salaMapper.fromRequest(request));
@@ -42,6 +39,7 @@ public class SalaController implements SalaControllerOpenApi {
     }
 
     @Override
+    @CheckSecurity.Sala.CanManageSala
     @GetMapping("/listar")
     public ResponseEntity<List<SalaResponse>> getAllSala() {
         List<SalaResponse> response = salaService.findAll();
@@ -49,6 +47,7 @@ public class SalaController implements SalaControllerOpenApi {
     }
 
     @Override
+    @CheckSecurity.Sala.CanManageSala
     @GetMapping(value = "/{id}")
     public ResponseEntity<SalaResponse> getSalaById(
             Long id) {
@@ -59,7 +58,7 @@ public class SalaController implements SalaControllerOpenApi {
 
 
     @Override
-    @CheckSecurity.Sala.CanCreateAndDeleteSala
+    @CheckSecurity.Sala.CanManageSala
     @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<SalaResponse> atualizaSala(Long id, AtualizaSalaRequest request) {
 
@@ -68,7 +67,7 @@ public class SalaController implements SalaControllerOpenApi {
     }
 
     @Override
-    @CheckSecurity.Sala.CanCreateAndDeleteSala
+    @CheckSecurity.Sala.CanManageSala
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<String> deletaSala(Long id) {
 

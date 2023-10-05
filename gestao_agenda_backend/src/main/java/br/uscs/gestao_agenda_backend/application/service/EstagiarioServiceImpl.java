@@ -8,17 +8,21 @@ import br.uscs.gestao_agenda_backend.application.port.EstagiarioService;
 import br.uscs.gestao_agenda_backend.application.request.AtualizaEstagiarioRequest;
 import br.uscs.gestao_agenda_backend.application.request.CadastroEstagiarioRequest;
 import br.uscs.gestao_agenda_backend.application.request.HorarioTrabalhoRequest;
+import br.uscs.gestao_agenda_backend.domain.model.Agendamento;
 import br.uscs.gestao_agenda_backend.domain.model.Docente;
 import br.uscs.gestao_agenda_backend.domain.model.Estagiario;
 import br.uscs.gestao_agenda_backend.domain.model.HorarioTrabalho;
 import br.uscs.gestao_agenda_backend.domain.model.enums.UserRole;
 import br.uscs.gestao_agenda_backend.domain.port.DocenteRepository;
 import br.uscs.gestao_agenda_backend.domain.port.EstagiarioRepository;
+import br.uscs.gestao_agenda_backend.infrastructure.security.permissions.AppSecurity;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.oauth2.common.exceptions.UnauthorizedUserException;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -38,6 +42,8 @@ public class EstagiarioServiceImpl implements EstagiarioService {
     private final EstagiarioRepository estagiarioRepository;
     private final DocenteRepository docenteRepository;
     private final ConfirmacaoService confirmacaoService;
+
+    private final AppSecurity appSecurity;
 
     @Override
     public EstagiarioResponse cadastrarEstagiario(CadastroEstagiarioRequest request) {
@@ -64,14 +70,14 @@ public class EstagiarioServiceImpl implements EstagiarioService {
         return estagiarioMapper.toResponse(estagiarioRepository.save(estagiario));
     }
 
-    private List<HorarioTrabalho> createHorariosTrabalho(Estagiario psicologo,
+    private List<HorarioTrabalho> createHorariosTrabalho(Estagiario estagiario,
                                                          List<HorarioTrabalhoRequest> horariosRequest) {
 
         if (horariosRequest != null) {
             List<HorarioTrabalho> horariosTrabalho = new ArrayList<>();
             for (HorarioTrabalhoRequest horarioRequest : horariosRequest) {
                 horariosTrabalho.add(new HorarioTrabalho(
-                        psicologo,
+                        estagiario,
                         horarioRequest.getDiaSemana(),
                         horarioRequest.getHorarioInicio(),
                         horarioRequest.getHorarioFim()));
@@ -95,6 +101,8 @@ public class EstagiarioServiceImpl implements EstagiarioService {
     @Transactional
     @Override
     public Optional<EstagiarioResponse> updateEstagiario(Long id, AtualizaEstagiarioRequest request) {
+        this.validateEstagiarioAuthority(id);
+
         Optional<Estagiario> rs = estagiarioRepository.findById(id);
 
         if (rs.isPresent()) {
@@ -124,6 +132,11 @@ public class EstagiarioServiceImpl implements EstagiarioService {
 
     @Override
     public void deletaEstagiario(Long id) {
+        this.validateEstagiarioAuthority(id);
+
+        Estagiario estagiario =  estagiarioRepository.findById(id).orElseThrow(() ->
+                new EntityNotFoundException("Nao foi possível encontrar o estagiario a ser deletado")
+        );
         estagiarioRepository.deleteById(id);
         estagiarioRepository.flush();
         // TODO: Mandar erro customizado
@@ -140,6 +153,7 @@ public class EstagiarioServiceImpl implements EstagiarioService {
 
     @Override
     public Optional<EstagiarioResponse> addDocente(Long idEstagiario, Long idDocente) {
+        this.validateEstagiarioAuthority(idEstagiario);
         Optional<Estagiario> estag = estagiarioRepository.findById(idEstagiario);
         Optional<Docente> doc = docenteRepository.findById(idDocente);
 
@@ -154,6 +168,7 @@ public class EstagiarioServiceImpl implements EstagiarioService {
 
     @Override
     public Optional<EstagiarioResponse> removeDocente(Long idEstagiario) {
+        this.validateEstagiarioAuthority(idEstagiario);
         Optional<Estagiario> estag = estagiarioRepository.findById(idEstagiario);
 
         if(estag.isPresent()){
@@ -183,5 +198,29 @@ public class EstagiarioServiceImpl implements EstagiarioService {
     @Override
     public List<EstagiarioResponse> getAllAvailableInDataRange(LocalDate startDate, LocalDate endDate) {
         return null;
+    }
+
+
+    private void validateEstagiarioAuthority(Long userId, String...errorMessage){
+        String message = errorMessage.length > 0 ?
+                errorMessage[0] : "Estagiario somente tem permissão em seu proprio perfil";
+
+        Long tokneUserId= appSecurity.getUserId();
+        List<String> roles = appSecurity.getRoles();
+
+        if(roles.contains("estagiario") && (!userId.equals(tokneUserId))){
+            throw new UnauthorizedUserException(message);
+        }
+    }
+    private void validateEstagiarioAuthority(String userEmail, String...errorMessage){
+        String message = errorMessage.length > 0 ?
+                errorMessage[0] : "Estagiario somente tem permissão em seu proprio perfil";
+
+        String tokenUserEmail= appSecurity.getEmail();
+        List<String> roles = appSecurity.getRoles();
+
+        if(roles.contains("estagiario") && (!userEmail.equals(tokenUserEmail))){
+            throw new UnauthorizedUserException(message);
+        }
     }
 }

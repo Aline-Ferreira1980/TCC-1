@@ -3,6 +3,7 @@ package br.uscs.gestao_agenda_backend.infrastructure.web;
 import br.uscs.gestao_agenda_backend.application.dto.ServicoResponse;
 import br.uscs.gestao_agenda_backend.application.port.ServicoService;
 import br.uscs.gestao_agenda_backend.application.request.ServicoRequest;
+import br.uscs.gestao_agenda_backend.infrastructure.security.permissions.CheckSecurity;
 import br.uscs.gestao_agenda_backend.infrastructure.web.openapi.ServicoControllerOpenApi;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -32,6 +33,7 @@ public class ServicoController implements ServicoControllerOpenApi {
     private final ServicoService servicoService;
 
     @Override
+    @CheckSecurity.Servico.CanCreateDeleteServico
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ServicoResponse> cadastrarSerico(ServicoRequest request, UriComponentsBuilder uriBuilder) {
 
@@ -50,6 +52,7 @@ public class ServicoController implements ServicoControllerOpenApi {
     }
 
     @Override
+    @CheckSecurity.Servico.CanViewServico
     @GetMapping(value = "/{id}")
     public ResponseEntity<ServicoResponse> getServicoById(Long id) {
 
@@ -59,6 +62,7 @@ public class ServicoController implements ServicoControllerOpenApi {
 
 
     @Override
+    @CheckSecurity.Servico.CanViewServico
     @GetMapping(value = "/listar")
     public ResponseEntity<List<ServicoResponse>> getAllServico() {
         List<ServicoResponse> response = servicoService.findAll();
@@ -66,6 +70,7 @@ public class ServicoController implements ServicoControllerOpenApi {
     }
 
     @Override
+    @CheckSecurity.Servico.CanCreateDeleteServico
     @PutMapping("/{id}")
     public ResponseEntity<ServicoResponse> updateServico(Long id, ServicoRequest request) {
 
@@ -74,6 +79,7 @@ public class ServicoController implements ServicoControllerOpenApi {
     }
 
     @Override
+    @CheckSecurity.Servico.CanCreateDeleteServico
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteServico(Long id) {
 
@@ -86,6 +92,7 @@ public class ServicoController implements ServicoControllerOpenApi {
     }
 
     @Override
+    @CheckSecurity.Servico.CanAddRemoveServicoToUser
     @PostMapping(value = "/{id_servico}/add_estagiario", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     public ResponseEntity<ServicoResponse> addEstagiarioToService(Long id_servico, Long id_estagiario) {
 
@@ -97,6 +104,7 @@ public class ServicoController implements ServicoControllerOpenApi {
     }
 
     @Override
+    @CheckSecurity.Servico.CanAddRemoveServicoToUser
     @DeleteMapping("{id_servico}/remove_estagiario")
     public ResponseEntity<ServicoResponse> removeServicoFromEstagiario(Long id_servico, Long id_estagiario) {
 
@@ -105,6 +113,7 @@ public class ServicoController implements ServicoControllerOpenApi {
     }
 
     @Override
+    @CheckSecurity.Servico.CanAddRemoveServicoToUserAdmin
     @PostMapping(value="/{id_servico}/add_docente", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     public ResponseEntity<ServicoResponse> addDocenteToService(Long id_servico, Long id_docente) {
 
@@ -116,6 +125,7 @@ public class ServicoController implements ServicoControllerOpenApi {
     }
 
     @Override
+    @CheckSecurity.Servico.CanAddRemoveServicoToUserAdmin
     @DeleteMapping("{id_servico}/remove_docente")
     public ResponseEntity<ServicoResponse> removeServicoFromDocente(Long id_servico, Long id_docente) {
 
@@ -124,6 +134,7 @@ public class ServicoController implements ServicoControllerOpenApi {
     }
 
     @Override
+    @CheckSecurity.Servico.CanAddRemoveServicoToUserAdmin
     @PostMapping(value = "/{id_servico}/add_estagiarios")
     public ResponseEntity<ServicoResponse> addEstagiariosToService(Long id_servico, List<Long> id_estagiarios) {
 
@@ -135,6 +146,7 @@ public class ServicoController implements ServicoControllerOpenApi {
     }
 
     @Override
+    @CheckSecurity.Servico.CanAddRemoveServicoToUserAdmin
     @PostMapping(value = "/{id_servico}/add_docentes")
     public ResponseEntity<ServicoResponse> addDocentesToService(Long id_servico, List<Long> id_docentes) {
 

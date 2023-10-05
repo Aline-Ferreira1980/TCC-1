@@ -7,11 +7,14 @@ import br.uscs.gestao_agenda_backend.application.port.PacienteService;
 import br.uscs.gestao_agenda_backend.domain.model.Paciente;
 import br.uscs.gestao_agenda_backend.domain.model.enums.UserRole;
 import br.uscs.gestao_agenda_backend.domain.port.PacienteRepository;
+import br.uscs.gestao_agenda_backend.infrastructure.security.permissions.AppSecurity;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.oauth2.common.exceptions.UnauthorizedUserException;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -24,6 +27,7 @@ public class PacienteServiceImpl implements PacienteService {
     private final PacienteMapper pacienteMapper;
 
     private final ConfirmacaoService confirmacaoService;
+    private final AppSecurity appSecurity;
 
 
     @Override
@@ -53,13 +57,20 @@ public class PacienteServiceImpl implements PacienteService {
 
     @Override
     public Optional<PacienteResponse> findById(Long id) {
-        Optional<Paciente> paciente = pacienteRepository.findById(id);
-        return paciente.map(pacienteMapper::toResponse);
+        if(appSecurity.validateUserAuthority("paciente",id)){
+            Optional<Paciente> paciente = pacienteRepository.findById(id);
+            return paciente.map(pacienteMapper::toResponse);
+        }
+        throw new UnauthorizedUserException("Usuário nao possui acesso para visualizar o perfil informado");
 
     }
 
     @Override
     public Optional<PacienteResponse> atualizaPaciente(Long id, Paciente request) {
+        if(!appSecurity.validateUserAuthority("paciente",id)){
+            throw new UnauthorizedUserException("Usuário nao possui acesso para atualizar o perfil informado");
+        }
+
         Optional<Paciente> rs = pacienteRepository.findById(id);
 
         if (rs.isPresent()){
@@ -72,8 +83,14 @@ public class PacienteServiceImpl implements PacienteService {
 
     @Override
     public void deletaPaciente(Long id) {
-        // TODO: Mandar erro customizado
-        pacienteRepository.deleteById(id);
+        Paciente paciente = pacienteRepository.findById(id).orElseThrow(() ->
+                new EntityNotFoundException("Nao foi possivel encontrar o Paciente a ser deletado")
+        );
+        if(!appSecurity.validateUserAuthority("paciente",id)){
+            throw new UnauthorizedUserException("Usuário nao possui acesso para atualizar o perfil informado");
+        }
+
+        pacienteRepository.delete(paciente);
         pacienteRepository.flush();
     }
 }

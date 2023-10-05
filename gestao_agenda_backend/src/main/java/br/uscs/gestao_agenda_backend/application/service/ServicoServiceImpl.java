@@ -8,8 +8,10 @@ import br.uscs.gestao_agenda_backend.domain.model.*;
 import br.uscs.gestao_agenda_backend.domain.port.DocenteRepository;
 import br.uscs.gestao_agenda_backend.domain.port.EstagiarioRepository;
 import br.uscs.gestao_agenda_backend.domain.port.ServicoRepository;
+import br.uscs.gestao_agenda_backend.infrastructure.security.permissions.AppSecurity;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.BeanUtils;
+import org.springframework.security.oauth2.common.exceptions.UnauthorizedUserException;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
@@ -27,6 +29,7 @@ public class ServicoServiceImpl implements ServicoService {
     private final DocenteRepository docenteRepository;
 
     private final ServicoMapper servicoMapper;
+    private final AppSecurity appSecurity;
 
     @Transactional
     @Override
@@ -78,6 +81,10 @@ public class ServicoServiceImpl implements ServicoService {
 
     @Override
     public Optional<ServicoResponse> addEstagiarioToServico(Long servicoId, Long estagiarioId) {
+        if(!appSecurity.validateUserAuthority("estagiario", estagiarioId)){
+            throw new UnauthorizedUserException("Usuário nao possui acesso para alteração do serviço");
+        }
+
         Optional<Servico> svc = servicoRepository.findById(servicoId);
         if(svc.isPresent()){
             for(Estagiario e : svc.get().getEstagiarios()){
@@ -98,6 +105,10 @@ public class ServicoServiceImpl implements ServicoService {
 
     @Override
     public Optional<ServicoResponse> removeEstagiarioFromServico(Long idServico, Long idEstagiario) {
+        if(!appSecurity.validateUserAuthority("estagiario", idEstagiario)){
+            throw new UnauthorizedUserException("Usuário nao possui acesso para alteração do serviço");
+        }
+
         Optional<Estagiario> rs_estag = estagiarioRepository.findById(idEstagiario);
         Optional<Servico> rs_svc = servicoRepository.findById(idServico);
         if(rs_estag.isPresent() && rs_svc.isPresent()){
