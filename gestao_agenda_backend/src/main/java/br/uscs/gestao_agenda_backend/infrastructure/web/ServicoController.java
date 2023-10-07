@@ -11,6 +11,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -37,18 +38,13 @@ public class ServicoController implements ServicoControllerOpenApi {
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ServicoResponse> cadastrarSerico(ServicoRequest request, UriComponentsBuilder uriBuilder) {
 
-        try {
-            Optional<ServicoResponse> response = servicoService.cadastrarServico(request);
-            if (response.isPresent()) {
 
-                URI uri = uriBuilder.path("/{id}").buildAndExpand(response.get().getId()).toUri();
-                return ResponseEntity.created(uri).body(response.get());
-            }
-            return ResponseEntity.badRequest().build();
-        } catch (Exception ex) {
-            // TODO: Levantar um erro especifico
-            return ResponseEntity.badRequest().build();
-        }
+        Optional<ServicoResponse> response = servicoService.cadastrarServico(request);
+        return response.map(servicoResponse -> {
+            URI uri = uriBuilder.path("/{id}").buildAndExpand(servicoResponse.getId()).toUri();
+            return ResponseEntity.created(uri).body(servicoResponse);
+        }).orElseGet(() -> ResponseEntity.status(HttpStatus.CONFLICT).build());
+
     }
 
     @Override

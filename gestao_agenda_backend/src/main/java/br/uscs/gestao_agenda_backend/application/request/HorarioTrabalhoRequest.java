@@ -21,8 +21,6 @@ public class HorarioTrabalhoRequest {
     @Schema(type = "integer", example = "1")
     private DayOfWeek diaSemana;
 
-
-    // TODO:  Veremos se funciona
     @Schema(type = "string", example = "08:00:00")
     @NotNull
     @DateTimeFormat(pattern = "HH:mm:ss")

@@ -1,5 +1,6 @@
 package br.uscs.gestao_agenda_backend.infrastructure.security.config;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -23,6 +24,9 @@ import java.util.stream.Collectors;
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
+    @Value("${agenda-cesep.jwt.secret}")
+    private String secretKey;
+
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .csrf().disable()
@@ -34,8 +38,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     }
     @Bean
     public JwtDecoder jwtDecoder(){
-        // TODO: Mudar para variavel de ambiente
-        SecretKeySpec secretKeySpec = new SecretKeySpec("tcc7anturma2023projtoagendacesep".getBytes(),"HmacSHA256");
+
+        SecretKeySpec secretKeySpec = new SecretKeySpec(this.secretKey.getBytes(),"HmacSHA256");
         return NimbusJwtDecoder.withSecretKey(secretKeySpec).build();
     }
 

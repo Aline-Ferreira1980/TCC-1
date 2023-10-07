@@ -33,6 +33,9 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     @Value("${agenda-cesep.password.client}")
     private String clientPassw;
 
+    @Value("${agenda-cesep.jwt.secret}")
+    private String secretKey;
+
     @Override
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
         clients
@@ -68,8 +71,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     @Bean
     public JwtAccessTokenConverter jwtAccessTokenConverter() {
         JwtAccessTokenConverter jwtAccessTokenConverter = new JwtAccessTokenConverter();
-        jwtAccessTokenConverter.setSigningKey("tcc7anturma2023projtoagendacesep"); // TODO: Mudar para variavel de ambiente
-
+        jwtAccessTokenConverter.setSigningKey(this.secretKey);
         return jwtAccessTokenConverter;
     }
 

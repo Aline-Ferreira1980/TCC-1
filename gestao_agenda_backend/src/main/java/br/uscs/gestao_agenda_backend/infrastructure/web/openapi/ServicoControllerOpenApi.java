@@ -27,6 +27,7 @@ public interface ServicoControllerOpenApi {
             @ApiResponse(responseCode = "422", description = "Dados de requisição inválida"),
             @ApiResponse(responseCode = "401", description = "Usuário nao autenticado"),
             @ApiResponse(responseCode = "400", description = "Parâmetros inválidos"),
+            @ApiResponse(responseCode = "409", description = "Entidade a ser cadastrada ja existe"),
             @ApiResponse(responseCode = "500", description = "Erro ao realizar busca dos dados"),
     })
     ResponseEntity<ServicoResponse> cadastrarSerico(@Valid @RequestBody ServicoRequest request,

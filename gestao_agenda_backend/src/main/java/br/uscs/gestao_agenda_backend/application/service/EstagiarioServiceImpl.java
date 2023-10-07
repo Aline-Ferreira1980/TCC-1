@@ -22,6 +22,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.oauth2.common.exceptions.UnauthorizedUserException;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityExistsException;
 import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
 import java.time.LocalDate;
@@ -50,8 +51,7 @@ public class EstagiarioServiceImpl implements EstagiarioService {
         Estagiario estagiario = estagiarioMapper.fromRequest(request);
 
         if (estagiarioRepository.findByEmail(estagiario.getEmail()).isPresent()) {
-            // TODO: Criar uma exeção customizad
-            throw new IllegalArgumentException("Email para estagiario ja esta em uso");
+            throw new EntityExistsException("Email para estagiario ja esta em uso");
         }
 
         String senhaCriptografada = new BCryptPasswordEncoder().encode(estagiario.getSenha());
@@ -134,12 +134,10 @@ public class EstagiarioServiceImpl implements EstagiarioService {
     public void deletaEstagiario(Long id) {
         this.validateEstagiarioAuthority(id);
 
-        Estagiario estagiario =  estagiarioRepository.findById(id).orElseThrow(() ->
-                new EntityNotFoundException("Nao foi possível encontrar o estagiario a ser deletado")
-        );
-        estagiarioRepository.deleteById(id);
-        estagiarioRepository.flush();
-        // TODO: Mandar erro customizado
+        if(estagiarioRepository.existsById(id)){
+            estagiarioRepository.deleteById(id);
+            estagiarioRepository.flush();
+        }else throw new EntityNotFoundException("Nao foi possível encontrar o estagiario a ser deletado");
     }
 
     @Override

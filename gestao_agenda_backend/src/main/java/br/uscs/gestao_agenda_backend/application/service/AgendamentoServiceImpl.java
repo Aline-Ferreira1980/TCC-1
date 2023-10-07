@@ -9,11 +9,10 @@ import br.uscs.gestao_agenda_backend.domain.port.AgendamentoRespository;
 import br.uscs.gestao_agenda_backend.domain.port.EstagiarioRepository;
 import br.uscs.gestao_agenda_backend.domain.port.PacienteRepository;
 import br.uscs.gestao_agenda_backend.domain.port.SalaRepository;
+import br.uscs.gestao_agenda_backend.exception.ConvidadoOcupadoException;
+import br.uscs.gestao_agenda_backend.exception.InvalidAgendamentoArgumentException;
 import br.uscs.gestao_agenda_backend.infrastructure.security.permissions.AppSecurity;
 import lombok.AllArgsConstructor;
-import org.springframework.data.rest.webmvc.ResourceNotFoundException;
-import org.springframework.security.access.AccessDeniedException;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.oauth2.common.exceptions.UnauthorizedUserException;
 import org.springframework.stereotype.Service;
 
@@ -53,9 +52,7 @@ public class AgendamentoServiceImpl implements AgendamentoService {
                 request.getInicioAgendamento()
         );
         if(dinsponivel.isPresent()){
-            // TODO criar erro para um dos integegranstes ja tem uma agendamento no horario
-            throw new IllegalArgumentException("Psicólogo, paciente ou sala ja possuem angendamento neste horario.");
-//            return Optional.empty();
+            throw new ConvidadoOcupadoException("Psicólogo, paciente ou sala ja possuem angendamento neste horario.");
         }
 
 
@@ -63,7 +60,6 @@ public class AgendamentoServiceImpl implements AgendamentoService {
         Optional<Estagiario> estag = estagiarioRepository.findByEmail(request.getEstagiarioEmail());
 
         if (estag.isEmpty()) {
-            // TODO criar erro para usuario nao encontrado
             throw new EntityNotFoundException("Estagiario informado nao existe.");
 //            return Optional.empty();
         }
@@ -77,25 +73,19 @@ public class AgendamentoServiceImpl implements AgendamentoService {
         if (!(estag.get().trabalhaNoDia(diaSemanaAgendamento))){
             throw new IllegalArgumentException("Estagiario informado nao trabalha no dia da semana informado.");
         }else if(!(estag.get().trabalhaNoRangeDeHorario(inicioAgendamento, fimAgendamento))){
-            // TODO criar erro para estagiario nao trabalha no dia da semana ou horario informado
-            throw new IllegalArgumentException("Estagiario informado nao trabalha no horario informado.");
-//            return Optional.empty();
+            throw new InvalidAgendamentoArgumentException("Estagiario informado nao trabalha no horario informado.");
         }
 
         // busca paciente por email
         Optional<Paciente> paciente = pacienteRepository.findByEmail(request.getPacienteEmail());
         if (paciente.isEmpty()){
-            // TODO criar erro para paciente nao encontrado
             throw new EntityNotFoundException("Paciente informado nao existe.");
-//            return Optional.empty();
         }
 
         Optional<Sala> sala = salaRepository.findById(request.getSalaId());
         // busca sala por id
         if (sala.isEmpty()) {
-            // TODO criar erro para sala nao encontrada
             throw new EntityNotFoundException("Sala informada nao existe.");
-//            return Optional.empty();
         }
 
         // cria agendamento
@@ -176,8 +166,7 @@ public class AgendamentoServiceImpl implements AgendamentoService {
         );
 
         if(dinsponivel.isPresent()){
-            // TODO criar erro para um dos integegranstes ja tem uma agendamento no horario
-            throw new IllegalArgumentException("Psicólogo, paciente ou sala ja possuem angendamento neste horario.");
+            throw new ConvidadoOcupadoException("Psicólogo, paciente ou sala ja possuem angendamento neste horario.");
 //            return Optional.empty();
         }
 
@@ -186,8 +175,7 @@ public class AgendamentoServiceImpl implements AgendamentoService {
         Optional<Estagiario> estag = estagiarioRepository.findByEmail(request.getEstagiarioEmail());
 
         if (estag.isEmpty()) {
-            // TODO criar erro para usuario nao encontrado
-            throw new IllegalArgumentException("Estagiario informado nao existe.");
+            throw new EntityNotFoundException("Estagiario informado nao existe.");
         }
 
         //Verifica se estagiário trabalha na data e hora marcada.
@@ -199,22 +187,19 @@ public class AgendamentoServiceImpl implements AgendamentoService {
         if (!(estag.get().trabalhaNoDia(diaSemanaAgendamento))){
             throw new IllegalArgumentException("Estagiario informado nao trabalha no dia da semana informado.");
         }else if(!(estag.get().trabalhaNoRangeDeHorario(inicioAgendamento, fimAgendamento))){
-            // TODO criar erro para estagiario nao trabalha no dia da semana ou horario informado
-            throw new IllegalArgumentException("Estagiario informado nao trabalha no horario informado.");
+            throw new InvalidAgendamentoArgumentException("Estagiario informado nao trabalha no horario informado.");
         }
 
         // busca paciente por email
         Optional<Paciente> paciente = pacienteRepository.findByEmail(request.getPacienteEmail());
         if (paciente.isEmpty()){
-            // TODO criar erro para paciente nao encontrado
-            throw new IllegalArgumentException("Paciente informado nao existe.");
+            throw new EntityNotFoundException("Paciente informado nao existe.");
         }
 
         Optional<Sala> sala = salaRepository.findById(request.getSalaId());
         // busca sala por id
         if (sala.isEmpty()) {
-            // TODO criar erro para sala nao encontrada
-            throw new IllegalArgumentException("Sala informada nao existe.");
+            throw new EntityNotFoundException("Sala informada nao existe.");
         }
 
         // atualiza agendamento

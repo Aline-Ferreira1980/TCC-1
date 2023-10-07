@@ -9,6 +9,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.List;
 import java.util.Optional;
 
@@ -49,9 +50,12 @@ public class SalaServiceImp implements SalaService {
 
     @Override
     public void deletaSala(Long id) {
-        // TODO: Mandar erro customizado
-        salaRepository.deleteById(id);
-        salaRepository.flush();
+        if(salaRepository.existsById(id)) {
+            salaRepository.deleteById(id);
+            salaRepository.flush();
+        }
+        else throw new EntityNotFoundException(String.format(
+                "Sala de id %d não foi encontrada. Nao foi possivel deletar a entidade", id));
     }
 
 }

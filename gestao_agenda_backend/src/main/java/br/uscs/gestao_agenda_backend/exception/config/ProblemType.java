@@ -1,6 +1,8 @@
 package br.uscs.gestao_agenda_backend.exception.config;
 
 import lombok.Getter;
+import org.springframework.beans.factory.annotation.Value;
+
 
 @Getter
 public enum ProblemType {
@@ -12,13 +14,19 @@ public enum ProblemType {
     RECURSO_NAO_ENCONTRADO("/recurso-nao-encontrado", "Recurso não encontrado"),
     ENTIDADE_EM_USO("/entidade-em-uso", "Entidade em uso"),
     ERRO_NEGOCIO("/erro-negocio", "Violação de regra de negócio"),
-    ENTIDADE_NAO_ENCONTRADA("/entidade-nao-encontrada","Entidade nao encontrada" );
+    ENTIDADE_NAO_ENCONTRADA("/entidade-nao-encontrada","Entidade nao encontrada" ),
+    CONVIDADO_OCUPADO("/convidado-ocupado","Convidado ocupado" ),
+    ARGUMENTO_AGENDAMENTO_INVALIDO("/argumento-agendamento-invalido","Argumento de agendamento invalido" );
+
 
     private final String title;
     private final String uri;
 
+    @Value("${server.apiUrl}")
+    private String apiUrl;
+
     ProblemType(String path, String title) {
-        this.uri = "${server.apiUrl}" + path;
+        this.uri = apiUrl + path;
         this.title = title;
     }
 }

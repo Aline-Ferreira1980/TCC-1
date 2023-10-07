@@ -14,6 +14,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.oauth2.common.exceptions.UnauthorizedUserException;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityExistsException;
 import javax.persistence.EntityNotFoundException;
 import java.util.List;
 import java.util.Optional;
@@ -33,8 +34,8 @@ public class PacienteServiceImpl implements PacienteService {
     @Override
     public PacienteResponse cadastraPaciente(Paciente paciente) {
         if (pacienteRepository.findByEmail(paciente.getEmail()).isPresent()) {
-            // TODO: Criar uma exeção customizad
-            throw new IllegalArgumentException("Email para paciente ja esta em uso");
+
+            throw new EntityExistsException("Email para paciente ja esta em uso");
         }
 
         String senhaCriptografada = new BCryptPasswordEncoder().encode(paciente.getSenha());

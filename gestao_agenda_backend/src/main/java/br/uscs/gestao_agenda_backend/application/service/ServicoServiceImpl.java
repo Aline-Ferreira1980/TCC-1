@@ -14,6 +14,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.security.oauth2.common.exceptions.UnauthorizedUserException;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityExistsException;
 import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
 import java.util.List;
@@ -37,8 +38,7 @@ public class ServicoServiceImpl implements ServicoService {
         Optional<Servico> rs = servicoRepository.findByAcronimo(request.getAcronimo());
 
         if(rs.isPresent()) {
-            // TODO: Criar uma exeção customizad
-            throw new IllegalArgumentException("Serviço com este acrônimo ja existe");
+            throw new EntityExistsException("Serviço com este acrônimo ja existe");
         }
         Servico servico = servicoRepository.save(servicoMapper.fromRequest(request));
         return Optional.ofNullable(servicoMapper.toResponse(servico));
@@ -74,9 +74,11 @@ public class ServicoServiceImpl implements ServicoService {
 
     @Override
     public void deletaServico(Long id) {
-        servicoRepository.deleteById(id);
-        servicoRepository.flush();
-        // TODO: Mandar erro customizado
+        if(servicoRepository.existsById(id)){
+            servicoRepository.deleteById(id);
+            servicoRepository.flush();
+        }else throw new EntityNotFoundException(String.format(
+                "Serviço de id %d não foi encontrado. Nao foi possivel deletar a entidade", id));
     }
 
     @Override
@@ -127,6 +129,7 @@ public class ServicoServiceImpl implements ServicoService {
         if(svc.isPresent()){
             for(Estagiario e : svc.get().getEstagiarios()){
                 if(e.getId().equals(idDocente)){
+                    // TODO melhorar este erro
                     throw new IllegalArgumentException("O Docente ja foi vinculado a este Serviço");
                 }
             }
@@ -136,8 +139,8 @@ public class ServicoServiceImpl implements ServicoService {
             if (doc.isPresent()){
                 servico.getDocentes().add(doc.get());
                 return Optional.ofNullable(servicoMapper.toResponse(servicoRepository.save(servico)));
-            }
-        }
+            }else throw new EntityNotFoundException("Docente informado nao encontrado");
+        } else throw new EntityNotFoundException("Serviço informado nao foi encontrado");
 
        // TODO retornar um erro de docente ou estagiario nao encontrados
         return Optional.empty();

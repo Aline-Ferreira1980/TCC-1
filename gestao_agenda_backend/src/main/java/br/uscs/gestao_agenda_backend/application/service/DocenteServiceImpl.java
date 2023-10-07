@@ -12,6 +12,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityExistsException;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -28,8 +29,7 @@ public class DocenteServiceImpl implements DocenteService {
     @Override
     public DocenteResponse cadastraDocente(Docente request) {
         if (docenteRepository.findByEmail(request.getEmail()) != null) {
-            // TODO: Criar uma exeção customizad
-            throw new RuntimeException("O email já está em uso.");
+            throw new EntityExistsException("O email já está em uso.");
         }
 
         String senhaCriptografada = new BCryptPasswordEncoder().encode(request.getSenha());
