@@ -143,7 +143,7 @@ public class ServicoServiceImpl implements ServicoService {
         } else throw new EntityNotFoundException("Serviço informado nao foi encontrado");
 
        // TODO retornar um erro de docente ou estagiario nao encontrados
-        return Optional.empty();
+//        return Optional.empty();
 
     }
 
