@@ -16,7 +16,8 @@ public enum ProblemType {
     ERRO_NEGOCIO("/erro-negocio", "Violação de regra de negócio"),
     ENTIDADE_NAO_ENCONTRADA("/entidade-nao-encontrada","Entidade nao encontrada" ),
     CONVIDADO_OCUPADO("/convidado-ocupado","Convidado ocupado" ),
-    ARGUMENTO_AGENDAMENTO_INVALIDO("/argumento-agendamento-invalido","Argumento de agendamento invalido" );
+    ARGUMENTO_AGENDAMENTO_INVALIDO("/argumento-agendamento-invalido","Argumento de agendamento invalido" ),
+    ERRO_VINCULAR_SERVICO("/erro-vincular-servico","Erro ao vincular Servico" );
 
 
     private final String title;

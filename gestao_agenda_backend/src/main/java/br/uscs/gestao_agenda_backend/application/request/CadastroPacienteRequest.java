@@ -1,6 +1,7 @@
 package br.uscs.gestao_agenda_backend.application.request;
 
 import br.uscs.gestao_agenda_backend.application.request.validation.Enum;
+import br.uscs.gestao_agenda_backend.application.request.validation.NotNullIfAnotherFieldIsTrue;
 import br.uscs.gestao_agenda_backend.domain.model.Endereco;
 import br.uscs.gestao_agenda_backend.domain.model.Telefone;
 import br.uscs.gestao_agenda_backend.domain.model.enums.EstadoCivil;
@@ -18,6 +19,10 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
+@NotNullIfAnotherFieldIsTrue(baseFieldName = "isMenorIdade", checkedFieldName = "relacaoRepresentante",
+        message = "Se o campo isMenorIdade for verdadeiro, é obrigatório especificar relacaoRepresentante")
+@NotNullIfAnotherFieldIsTrue(baseFieldName = "isMenorIdade", checkedFieldName = "representanteNome",
+        message = "Se o campo isMenorIdade for verdadeiro, é obrigatório especificar representanteNome")
 public class CadastroPacienteRequest {
 
     @NonNull
@@ -64,7 +69,7 @@ public class CadastroPacienteRequest {
 
     @NonNull
     private Boolean isMenorIdade;
-    // TODO: Ajustar logica de negocio para que se o usuário for menor os campos abaixo precisa sem preenchido
+
     private String relacaoRepresentante;
     private String representanteNome;
 }

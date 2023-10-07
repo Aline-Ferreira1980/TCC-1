@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.oauth2.common.exceptions.UnauthorizedUserException;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Value;
 
@@ -43,9 +44,8 @@ public class ConfirmacaoServiceImpl implements ConfirmacaoService {
 
     @Override
     public void confirmarEmail(String token) throws UsernameNotFoundException{
-        // TODO: Definir um erro customizado?
         User user = userRepository.findByToken(token).orElseThrow(
-                () -> new UsernameNotFoundException("Token informado invalido")
+                () -> new UnauthorizedUserException("Token informado invalido")
         );
         user.setConfirmed(true);
         user.setToken(null);

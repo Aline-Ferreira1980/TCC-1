@@ -9,7 +9,7 @@ import br.uscs.gestao_agenda_backend.domain.port.AgendamentoRespository;
 import br.uscs.gestao_agenda_backend.domain.port.EstagiarioRepository;
 import br.uscs.gestao_agenda_backend.domain.port.PacienteRepository;
 import br.uscs.gestao_agenda_backend.domain.port.SalaRepository;
-import br.uscs.gestao_agenda_backend.exception.ConvidadoOcupadoException;
+import br.uscs.gestao_agenda_backend.exception.AgendamentoConflictException;
 import br.uscs.gestao_agenda_backend.exception.InvalidAgendamentoArgumentException;
 import br.uscs.gestao_agenda_backend.infrastructure.security.permissions.AppSecurity;
 import lombok.AllArgsConstructor;
@@ -52,7 +52,7 @@ public class AgendamentoServiceImpl implements AgendamentoService {
                 request.getInicioAgendamento()
         );
         if(dinsponivel.isPresent()){
-            throw new ConvidadoOcupadoException("Psicólogo, paciente ou sala ja possuem angendamento neste horario.");
+            throw new AgendamentoConflictException("Psicólogo, paciente ou sala ja possuem angendamento neste horario.");
         }
 
 
@@ -166,7 +166,7 @@ public class AgendamentoServiceImpl implements AgendamentoService {
         );
 
         if(dinsponivel.isPresent()){
-            throw new ConvidadoOcupadoException("Psicólogo, paciente ou sala ja possuem angendamento neste horario.");
+            throw new AgendamentoConflictException("Psicólogo, paciente ou sala ja possuem angendamento neste horario.");
 //            return Optional.empty();
         }
 

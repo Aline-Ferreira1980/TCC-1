@@ -8,6 +8,7 @@ import br.uscs.gestao_agenda_backend.domain.model.*;
 import br.uscs.gestao_agenda_backend.domain.port.DocenteRepository;
 import br.uscs.gestao_agenda_backend.domain.port.EstagiarioRepository;
 import br.uscs.gestao_agenda_backend.domain.port.ServicoRepository;
+import br.uscs.gestao_agenda_backend.exception.ServicoBindingException;
 import br.uscs.gestao_agenda_backend.infrastructure.security.permissions.AppSecurity;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.BeanUtils;
@@ -129,8 +130,7 @@ public class ServicoServiceImpl implements ServicoService {
         if(svc.isPresent()){
             for(Estagiario e : svc.get().getEstagiarios()){
                 if(e.getId().equals(idDocente)){
-                    // TODO melhorar este erro
-                    throw new IllegalArgumentException("O Docente ja foi vinculado a este Serviço");
+                    throw new ServicoBindingException("O Docente ja foi vinculado a este Serviço");
                 }
             }
 
@@ -142,8 +142,6 @@ public class ServicoServiceImpl implements ServicoService {
             }else throw new EntityNotFoundException("Docente informado nao encontrado");
         } else throw new EntityNotFoundException("Serviço informado nao foi encontrado");
 
-       // TODO retornar um erro de docente ou estagiario nao encontrados
-//        return Optional.empty();
 
     }
 

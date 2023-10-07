@@ -1,7 +1,8 @@
 package br.uscs.gestao_agenda_backend.exception.config;
 
-import br.uscs.gestao_agenda_backend.exception.ConvidadoOcupadoException;
+import br.uscs.gestao_agenda_backend.exception.AgendamentoConflictException;
 import br.uscs.gestao_agenda_backend.exception.InvalidAgendamentoArgumentException;
+import br.uscs.gestao_agenda_backend.exception.ServicoBindingException;
 import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import com.fasterxml.jackson.databind.exc.PropertyBindingException;
 import lombok.RequiredArgsConstructor;
@@ -146,8 +147,8 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
 
-    @ExceptionHandler(ConvidadoOcupadoException.class)
-    public ResponseEntity<?> handleConvidadoOcupado(ConvidadoOcupadoException ex, WebRequest request) {
+    @ExceptionHandler(AgendamentoConflictException.class)
+    public ResponseEntity<?> handleConflitoAgendamento(AgendamentoConflictException ex, WebRequest request) {
         HttpStatus status = HttpStatus.BAD_REQUEST;
         ProblemType problemType = ProblemType.CONVIDADO_OCUPADO;
         String detail = ex.getMessage();
@@ -160,9 +161,23 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler(InvalidAgendamentoArgumentException.class)
-    public ResponseEntity<?> handleConvidadoOcupado(InvalidAgendamentoArgumentException ex, WebRequest request) {
+    public ResponseEntity<?> handleArgumentoAgendamentoInvalido(InvalidAgendamentoArgumentException ex, WebRequest request) {
         HttpStatus status = HttpStatus.BAD_REQUEST;
         ProblemType problemType = ProblemType.ARGUMENTO_AGENDAMENTO_INVALIDO;
+        String detail = ex.getMessage();
+
+        Problem problem = createProblemBuilder(status, problemType, detail)
+                .userMessage(detail)
+                .build();
+
+        return handleExceptionInternal(ex, problem, new HttpHeaders(), status, request);
+    }
+
+
+    @ExceptionHandler(ServicoBindingException.class)
+    public ResponseEntity<?> handleBidingServico(ServicoBindingException ex, WebRequest request) {
+        HttpStatus status = HttpStatus.CONFLICT;
+        ProblemType problemType = ProblemType.ERRO_VINCULAR_SERVICO;
         String detail = ex.getMessage();
 
         Problem problem = createProblemBuilder(status, problemType, detail)
