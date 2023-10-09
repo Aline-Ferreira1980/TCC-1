@@ -1,0 +1,24 @@
+<div class="container align-items-center justify-content-center min-vh-100">
+    <div class="row min-vh-100">
+        <div class="col-md-10 mx-auto my-auto col-lg-4">
+            <form class="p-4 p-md-5" [formGroup]="formulario" (ngSubmit)="login()">
+                <img src="../../../assets/psico-logo.png" alt="" class="logo-psico img-fluid mx-auto d-block">
+                <h1 class="h3 mb-3 fw-normal mt-3">Login Agenda CESEP</h1>
+                <div class="form-floating mb-1">
+                    <input type="email" class="form-control" id="inputEmail" placeholder="E-mail" required autofocus formControlName="login">
+                    <label for="inputEmail">E-mail</label>
+                </div>
+                <div class="form-floating mb-3">
+                    <input type="password" class="form-control" id="inputPassword" placeholder="Senha" required formControlName="senha">
+                    <label for="inputPassword">Senha</label>
+                </div>
+                <button type="submit" class="btn btn-primary m-2 w-100">Entrar</button>
+
+                <p class="text-end"><a routerLinkActive="active" routerLink="/cadastro/usuario">
+<!--                    <fa-icon [icon]="faArrowUp"></fa-icon>-->
+                    Não possuo cadastro</a>
+                </p>
+            </form>
+        </div>
+    </div>
+</div>
