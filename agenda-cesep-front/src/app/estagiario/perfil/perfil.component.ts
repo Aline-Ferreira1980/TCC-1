@@ -15,8 +15,10 @@ export class PerfilComponent implements OnInit{
               private authService: AuthService) {
   }
   ngOnInit(): void {
-    const codigoParceiro = this.route.snapshot.params['codigo'];
+    const codigoEstag = this.route.snapshot.params['idUser'];
     const codigo = this.authService.getUser();
+
+    console.log(codigoEstag)
 
   }
 

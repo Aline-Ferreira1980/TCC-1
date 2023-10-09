@@ -30,7 +30,6 @@ export class LoginFormComponent implements OnInit{
     }
     const login = this.formulario.value.login;
     const senha = this.formulario.value.senha;
-
     this.service.login(login, senha);
   }
 

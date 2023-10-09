@@ -1,13 +1,14 @@
 import { Injectable } from '@angular/core';
 import {AuthRepository} from "./auth-repository";
 import {Router} from "@angular/router";
+import {JwtPayloadEntity} from "./entity/jwt-payload-entity";
 
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  private jwtPayload: any;
+  private jwtPayload!: JwtPayloadEntity;
   constructor(private authRository: AuthRepository, private router: Router) {
 
   }
@@ -17,7 +18,10 @@ export class AuthService {
       next: (v) => {
         const json = JSON.parse(JSON.stringify(v));
         this.saveToken(json['access_token']);
-        console.log(this.jwtPayload)
+
+        if(this.jwtPayload.authorities?.includes('estagiario')){
+          this.router.navigate([`estagiario/perfil/${this.jwtPayload.user_id}`])
+        }
 
       },
       error: (e) => console.error(e),
@@ -35,7 +39,7 @@ export class AuthService {
     const token = localStorage.getItem('token')
   }
 
-  public getUser(): String {
-    return this.jwtPayload.usuario_id;
+  public getUser(): number {
+    return this.jwtPayload.user_id;
   }
 }

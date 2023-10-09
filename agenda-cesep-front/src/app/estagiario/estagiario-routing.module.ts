@@ -2,19 +2,20 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import {AgendamentosComponent} from "./agendamentos/agendamentos.component";
 import {AuthGuard} from "../security/auth.guard";
+import {PerfilComponent} from "./perfil/perfil.component";
 
 const routes: Routes = [
   {
-    path:'paciente/:idUser/agendamentos',
+    path:'estagiario/:idUser/agendamentos',
     component: AgendamentosComponent,
     canActivate: [AuthGuard],
     data:{role: ['paciente']}
   },
   {
-    path:'paciente/perfil/:idUser',
-    component: AgendamentosComponent,
+    path:'estagiario/perfil/:idUser',
+    component: PerfilComponent,
     canActivate: [AuthGuard],
-    data:{role: ['paciente']}
+    // data:{role: ['paciente']}
   }
 ];
 

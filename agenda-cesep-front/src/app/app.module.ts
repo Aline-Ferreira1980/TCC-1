@@ -13,24 +13,24 @@ import { DocenteModule } from './docente/docente.module';
 import { EstagiarioModule } from './estagiario/estagiario.module';
 import { PacienteModule } from './paciente/paciente.module';
 
+import {LoginModule} from "./security/login.module";
+
 @NgModule({
     bootstrap: [AppComponent],
     declarations: [
         AppComponent,
-        LoginFormComponent
     ],
     imports: [
         BrowserModule,
-        ReactiveFormsModule,
         RouterLinkActive,
         AppRoutingModule,
-        HttpClientModule,
         NgOptimizedImage,
-        FontAwesomeModule,
         DocenteModule,
         EstagiarioModule,
         PacienteModule,
+        LoginModule,
     ],
-    providers: []
+    providers: [
+    ]
 })
 export class AppModule { }
