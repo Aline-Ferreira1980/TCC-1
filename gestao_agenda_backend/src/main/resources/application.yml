@@ -30,6 +30,7 @@ agenda-cesep:
     client: ${CLIENT_PASS:teste}
   jwt:
     secret: ${JWT_SECRET}
+  frontend-origin: ${FRONT_ORIGIN:http://localhost:4200/}
 
 springdoc:
   swagger-ui.oauth:
