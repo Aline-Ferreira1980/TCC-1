@@ -1,0 +1,10 @@
+{
+  'access_token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjo0LCJ1c2VyX25hbWUiOiJlc3RhZ2lhcmlvQHVzY3NvbmxpbmUuY29tLmJyIiwic2NvcGUiOlsid3JpdGUiLCJyZWFkIl0sInVzZXJfbm9tZSI6IkpvYXF1aW0iLCJleHAiOjE2OTcwNTgzODMsImF1dGhvcml0aWVzIjpbImVzdGFnaWFyaW8iXSwianRpIjoiNmU0MGViNGYtYzM3NC00ZWEzLWJkMGUtYzcwOGFhMjYyM2E0IiwiY2xpZW50X2lkIjoiY2VzZXAtYWdlbmRhLWZyb250ZW5kIn0.QXyFY_UBajFQ3CcPKBTXdzezPQeNis405sgUfhnhH0E',
+  'token_type': 'bearer',
+  'refresh_token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjo0LCJ1c2VyX25hbWUiOiJlc3RhZ2lhcmlvQHVzY3NvbmxpbmUuY29tLmJyIiwic2NvcGUiOlsid3JpdGUiLCJyZWFkIl0sInVzZXJfbm9tZSI6IkpvYXF1aW0iLCJhdGkiOiI2ZTQwZWI0Zi1jMzc0LTRlYTMtYmQwZS1jNzA4YWEyNjIzYTQiLCJleHAiOjE2OTcwNTgzODMsImF1dGhvcml0aWVzIjpbImVzdGFnaWFyaW8iXSwianRpIjoiMDNlYzk0YjYtYzVhOC00NjgyLWFmZGMtNmRlNzI1Y2M5MTEwIiwiY2xpZW50X2lkIjoiY2VzZXAtYWdlbmRhLWZyb250ZW5kIn0.f1YLqPxWBgcvnsjZVw15sF8Hk3Hr_HRT8VtT2gqh_Kc',
+  'expires_in': 86399,
+  'scope': 'write read',
+  'user_id': 4,
+  'user_nome': 'Joaquim',
+  'jti': '6e40eb4f-c374-4ea3-bd0e-c708aa2623a4'
+}
