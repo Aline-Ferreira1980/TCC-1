@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import {AuthRepository} from "./auth-repository";
 import {Router} from "@angular/router";
 import {JwtPayloadEntity} from "./entity/jwt-payload-entity";
+import {retry} from "rxjs";
 
 
 @Injectable({
@@ -13,7 +14,8 @@ export class AuthService {
 
   }
 
-  login(username: String, password: String){
+  login(username: String, password: String): boolean {
+    let logged_in: boolean = false
     this.authRository.login(username, password).subscribe({
       next: (v) => {
         const json = JSON.parse(JSON.stringify(v));
@@ -22,11 +24,17 @@ export class AuthService {
         if(this.jwtPayload.authorities?.includes('estagiario')){
           this.router.navigate([`estagiario/perfil/${this.jwtPayload.user_id}`])
         }
-
+        logged_in =true
       },
-      error: (e) => console.error(e),
-      complete: () => console.info('login completed')
+      error: (e) => {
+        console.error(e);
+        logged_in = false
+      },
+      complete: () => {
+        console.info('login completed')
+      }
     });
+    return logged_in;
   }
 
   private saveToken(token: string) {

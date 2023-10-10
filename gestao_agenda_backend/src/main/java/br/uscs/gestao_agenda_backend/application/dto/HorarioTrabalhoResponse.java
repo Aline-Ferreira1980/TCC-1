@@ -15,7 +15,6 @@ import java.time.LocalTime;
 @Data
 public class HorarioTrabalhoResponse {
     private Long id;
-    @Schema(type = "integer", example = "1")
     private DayOfWeek diaSemana;
     private LocalTime horarioInicio;
     private LocalTime horarioFim;

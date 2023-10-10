@@ -18,6 +18,7 @@ export class PerfilComponent implements OnInit{
     const codigoEstag = this.route.snapshot.params['idUser'];
     const codigo = this.authService.getUser();
 
+
     console.log(codigoEstag)
 
   }

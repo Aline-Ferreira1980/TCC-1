@@ -10,6 +10,7 @@ import {faArrowUp} from "@fortawesome/free-solid-svg-icons";
 })
 export class LoginFormComponent implements OnInit{
   public formulario: FormGroup;
+  public loginError = false;
 
   constructor(private service: AuthService,
               private fb: FormBuilder) {
@@ -30,7 +31,9 @@ export class LoginFormComponent implements OnInit{
     }
     const login = this.formulario.value.login;
     const senha = this.formulario.value.senha;
-    this.service.login(login, senha);
+    if(!this.service.login(login, senha)){
+      this.loginError = true;
+    }
   }
 
     protected readonly faArrowUp = faArrowUp;

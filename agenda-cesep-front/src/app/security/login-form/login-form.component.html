@@ -5,12 +5,15 @@
                 <img src="../../../assets/psico-logo.png" alt="" class="logo-psico img-fluid mx-auto d-block">
                 <h1 class="h3 mb-3 fw-normal mt-3">Login Agenda CESEP</h1>
                 <div class="form-floating mb-1">
-                    <input type="email" class="form-control" id="inputEmail" placeholder="E-mail" required autofocus formControlName="login">
+                    <input type="email" class="form-control" [ngClass]="{'is-invalid': loginError}" id="inputEmail" placeholder="E-mail" required autofocus formControlName="login">
                     <label for="inputEmail">E-mail</label>
                 </div>
                 <div class="form-floating mb-3">
-                    <input type="password" class="form-control" id="inputPassword" placeholder="Senha" required formControlName="senha">
+                    <input type="password" class="form-control" [ngClass]="{'is-invalid': loginError}" id="inputPassword" placeholder="Senha" required formControlName="senha">
                     <label for="inputPassword">Senha</label>
+                    <div id="validationServer03Feedback" class="invalid-feedback">
+                      Usuário ou senha inválidos.
+                    </div>
                 </div>
                 <button type="submit" class="btn btn-primary m-2 w-100">Entrar</button>
 
