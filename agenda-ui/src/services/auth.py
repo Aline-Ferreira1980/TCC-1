@@ -22,6 +22,4 @@ class Auth(AgendaClient):
                 f"{ENV.AGENDA_CLIENT.CLIENT_ID}:{ENV.AGENDA_CLIENT.CLIENT_SECRET}".encode()).decode(),
             'Content-Type': 'application/x-www-form-urlencoded'
         }
-        r = self.post("oauth/token", params=data, headers=logn_headers)
-        print (r.value)
-        return r
+        return self.post("oauth/token", params=data, headers=logn_headers)
