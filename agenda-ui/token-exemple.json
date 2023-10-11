@@ -8,3 +8,57 @@
   'user_nome': 'Joaquim',
   'jti': '6e40eb4f-c374-4ea3-bd0e-c708aa2623a4'
 }
+
+{
+  'access_token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjo0LCJ1c2VyX25hbWUiOiJlc3RhZ2lhcmlvQHVzY3NvbmxpbmUuY29tLmJyIiwic2NvcGUiOlsid3JpdGUiLCJyZWFkIl0sInVzZXJfbm9tZSI6IkpvYXF1aW0iLCJleHAiOjE2OTcxMjAyNTAsImF1dGhvcml0aWVzIjpbImVzdGFnaWFyaW8iXSwianRpIjoiOWI5OTA4ZmQtMjE5Ny00NmFkLWE2MTEtNTU0OTVjYzhhZTQ1IiwiY2xpZW50X2lkIjoiY2VzZXAtYWdlbmRhLWZyb250ZW5kIn0.rhmbTGhzT402IIUe3b74TuhflvHgSHawSPfBk2Xe5Kc',
+  'token_type': 'bearer',
+  'refresh_token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjo0LCJ1c2VyX25hbWUiOiJlc3RhZ2lhcmlvQHVzY3NvbmxpbmUuY29tLmJyIiwic2NvcGUiOlsid3JpdGUiLCJyZWFkIl0sInVzZXJfbm9tZSI6IkpvYXF1aW0iLCJhdGkiOiI5Yjk5MDhmZC0yMTk3LTQ2YWQtYTYxMS01NTQ5NWNjOGFlNDUiLCJleHAiOjE2OTcxMjAyNTAsImF1dGhvcml0aWVzIjpbImVzdGFnaWFyaW8iXSwianRpIjoiMjE4MjJlMjMtZjQyMS00M2Y5LWFmMTItZGVlMDI5ZjQyZDFlIiwiY2xpZW50X2lkIjoiY2VzZXAtYWdlbmRhLWZyb250ZW5kIn0.3li0yNVwzAA72O7Sgh-lOo_Fnk3TcH5p3dSMb5wzxic',
+  'expires_in': 86399,
+  'scope': 'write read',
+  'user_id': 4,
+  'user_nome': 'Joaquim',
+  'jti': '9b9908fd-2197-46ad-a611-55495cc8ae45'
+}
+
+
+{
+  "alg": "HS256",
+  "typ": "JWT"
+}{
+  "user_id": 4,
+  "user_name": "estagiario@uscsonline.com.br",
+  "scope": [
+    "write",
+    "read"
+  ],
+  "user_nome": "Joaquim",
+  "exp": 1697120250,
+  "authorities": [
+    "estagiario"
+  ],
+  "jti": "9b9908fd-2197-46ad-a611-55495cc8ae45",
+  "client_id": "cesep-agenda-frontend"
+}
+
+{
+  "alg": "HS256",
+  "typ": "JWT"
+}{
+  "user_id": 4,
+  "user_name": "estagiario@uscsonline.com.br",
+  "scope": [
+    "write",
+    "read"
+  ],
+  "user_nome": "Joaquim",
+  "ati": "9b9908fd-2197-46ad-a611-55495cc8ae45",
+  "exp": 1697120250,
+  "authorities": [
+    "estagiario"
+  ],
+  "jti": "21822e23-f421-43f9-af12-dee029f42d1e",
+  "client_id": "cesep-agenda-frontend"
+}
+
+
+access_token=Token(value='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjo0LCJ1c2VyX25hbWUiOiJlc3RhZ2lhcmlvQHVzY3NvbmxpbmUuY29tLmJyIiwic2NvcGUiOlsid3JpdGUiLCJyZWFkIl0sInVzZXJfbm9tZSI6IkpvYXF1aW0iLCJleHAiOjE2OTcxMjQ4ODQsImF1dGhvcml0aWVzIjpbImVzdGFnaWFyaW8iXSwianRpIjoiZTdmMzE3MmYtYmY2My00NzUzLThlY2YtMzNhYWUyYjUyMWI1IiwiY2xpZW50X2lkIjoiY2VzZXAtYWdlbmRhLWZyb250ZW5kIn0.SLjvpSbXCmVYHNV5-i0lpcisYOLr1swDpLtCrY4Vjqs', header='{"alg":"HS256","typ":"JWT"}', payload='{"user_id":4,"user_name":"estagiario@uscsonline.com.br","scope":["write","read"],"user_nome":"Joaquim","exp":1697124884,"authorities":["estagiario"],"jti":"e7f3172f-bf63-4753-8ecf-33aae2b521b5","client_id":"cesep-agenda-frontend"}', signature='SLjvpSbXCmVYHNV5-i0lpcisYOLr1swDpLtCrY4Vjqs') token_type='bearer' refresh_token=Token(value='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjo0LCJ1c2VyX25hbWUiOiJlc3RhZ2lhcmlvQHVzY3NvbmxpbmUuY29tLmJyIiwic2NvcGUiOlsid3JpdGUiLCJyZWFkIl0sInVzZXJfbm9tZSI6IkpvYXF1aW0iLCJhdGkiOiJlN2YzMTcyZi1iZjYzLTQ3NTMtOGVjZi0zM2FhZTJiNTIxYjUiLCJleHAiOjE2OTcxMjQ4ODQsImF1dGhvcml0aWVzIjpbImVzdGFnaWFyaW8iXSwianRpIjoiNjA4MTk0YzMtZTMyYS00NGJjLTg0YmYtN2E5M2MzZDM4NmRhIiwiY2xpZW50X2lkIjoiY2VzZXAtYWdlbmRhLWZyb250ZW5kIn0.VI7UpuU66PoCmdQsKEn8_3NGpUvBee9xr5l1X7stPNw', header='{"alg":"HS256","typ":"JWT"}', payload='{"user_id":4,"user_name":"estagiario@uscsonline.com.br","scope":["write","read"],"user_nome":"Joaquim","ati":"e7f3172f-bf63-4753-8ecf-33aae2b521b5","exp":1697124884,"authorities":["estagiario"],"jti":"608194c3-e32a-44bc-84bf-7a93c3d386da","client_id":"cesep-agenda-frontend"}', signature='VI7UpuU66PoCmdQsKEn8_3NGpUvBee9xr5l1X7stPNw') expires_in=86399 scope='write read' user_id=4 jti='e7f3172f-bf63-4753-8ecf-33aae2b521b5'

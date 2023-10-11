@@ -15,8 +15,6 @@ HEADERS = {
     'Accept': 'application/json'
 }
 
-
-
 urllib3.disable_warnings()
 
 
