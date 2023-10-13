@@ -36,5 +36,6 @@ def post_login():
 
     # token: Token = session['token']
 
-    flash(response.message, 'success')
+    # flash(response.message, 'success')
+    return redirect(url_for("estagiario.get_perfil", id_usuario=oauth.user_id))
 

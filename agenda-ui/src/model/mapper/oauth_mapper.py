@@ -8,6 +8,8 @@ def to_oauth_response(value: dict) -> OAuthResponseModel:
     response = value.copy()
     response['access_token'] = _decode_token(response.get("access_token"))
     response['refresh_token'] = _decode_token(response.get("refresh_token"))
+    for key, value in response.items():
+        response[key] =
     try:
         return OAuthResponseModel(**response)
     except Exception as e:
