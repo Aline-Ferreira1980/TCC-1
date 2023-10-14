@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from flask import Blueprint, redirect, url_for, flash, session
 
 from src.lib.utils import render, read_form_field
@@ -25,6 +27,7 @@ def post_login():
 
     response = auth.login(username, password)
     if not response.valid:
+        # TODO melhorar msg de erro ao logar
         flash(response.message, "error")
         return redirect(url_for('base.get_login'))
 
@@ -33,9 +36,15 @@ def post_login():
     session['user'] = oauth.access_token.payload.user_nome
     session['token'] = oauth.access_token.value
     session['refresh_token'] = oauth.refresh_token.value
+    session['login_expiration'] = datetime.now().timestamp() + oauth.expires_in
 
-    # token: Token = session['token']
-
-    # flash(response.message, 'success')
+    # flash(response.messages, 'success')
     return redirect(url_for("estagiario.get_perfil", id_usuario=oauth.user_id))
 
+
+@base.route('/logout', methods=['GET'])
+def get_logout():
+    flash('Logout realizado com sucesso.', 'success')
+    session['login_expiration'] = None
+    session['token'] = None
+    return redirect(url_for('base.get_home'))

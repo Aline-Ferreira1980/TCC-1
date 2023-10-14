@@ -10,7 +10,6 @@ class Payload(BaseModel):
     user_name: str
     scope: List[str]
     user_nome: str
-    ati: str
     authorities: List[str]
     jti: str
     client_id: str
@@ -35,6 +34,7 @@ class OAuthResponseModel(BaseModel):
     expires_in: int = Field(...)
     scope: str = Field(...)
     user_id: int = Field(...)
+    user_nome: str = Field(...)
     jti: str = Field(...)
 
     class Config:

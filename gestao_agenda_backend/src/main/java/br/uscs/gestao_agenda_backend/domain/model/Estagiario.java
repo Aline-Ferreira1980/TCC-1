@@ -19,6 +19,7 @@ import java.util.Set;
 @Data
 public class Estagiario extends User {
 
+    @Column(unique = true)
     private String ra;
 
     @Enumerated(EnumType.STRING)
