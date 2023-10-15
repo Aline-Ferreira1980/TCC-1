@@ -116,8 +116,13 @@ public class EstagiarioServiceImpl implements EstagiarioService {
                     "pacientes");
 
             List<HorarioTrabalho> horariosTrabalho = horarioTrabalhoMapper.fromRequestList(request.getHorariosTrabalho());
+
             estagiario.getHorariosTrabalho().clear();
             estagiario.getHorariosTrabalho().addAll(horariosTrabalho);
+
+            for(HorarioTrabalho horarios : estagiario.getHorariosTrabalho() ){
+                horarios.setEstagiario(estagiario);
+            }
             return Optional.ofNullable(estagiarioMapper.toResponse(estagiarioRepository.save(estagiario)));
         }
         return Optional.empty();
