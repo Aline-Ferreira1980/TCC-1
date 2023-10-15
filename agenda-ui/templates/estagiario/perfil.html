@@ -5,269 +5,405 @@
 {% block content %}
     <div class="container">
         <div class="row mx-5">
-            <div class="mt-5 mb-3 pt-5 text-start">
-                <h2>Perfil Estagiario</h2>
+            <div class="mt-4 mb-2 pt-5 text-start">
+                <h2>Perfil Estagiario  {{ '| ' + estagiario.nome if estagiario }}</h2>
             </div>
-            <h4 class="mb-3">Dados Pessoais</h4>
+            <h4 class="mb-2">Dados Pessoais</h4>
         </div>
         <div class="row g-5">
-            <!-- <div class="col-md-5 col-lg-4 order-md-last">
-              <h4 class="d-flex justify-content-between align-items-center mb-3">
-                <span class="text-primary">Your cart</span>
-                <span class="badge bg-primary rounded-pill">3</span>
-              </h4>
-              <ul class="list-group mb-3">
-                <li class="list-group-item d-flex justify-content-between lh-sm">
-                  <div>
-                    <h6 class="my-0">Product name</h6>
-                    <small class="text-body-secondary">Brief description</small>
-                  </div>
-                  <span class="text-body-secondary">$12</span>
-                </li>
-                <li class="list-group-item d-flex justify-content-between lh-sm">
-                  <div>
-                    <h6 class="my-0">Second product</h6>
-                    <small class="text-body-secondary">Brief description</small>
-                  </div>
-                  <span class="text-body-secondary">$8</span>
-                </li>
-                <li class="list-group-item d-flex justify-content-between lh-sm">
-                  <div>
-                    <h6 class="my-0">Third item</h6>
-                    <small class="text-body-secondary">Brief description</small>
-                  </div>
-                  <span class="text-body-secondary">$5</span>
-                </li>
-                <li class="list-group-item d-flex justify-content-between bg-body-tertiary">
-                  <div class="text-success">
-                    <h6 class="my-0">Promo code</h6>
-                    <small>EXAMPLECODE</small>
-                  </div>
-                  <span class="text-success">−$5</span>
-                </li>
-                <li class="list-group-item d-flex justify-content-between">
-                  <span>Total (USD)</span>
-                  <strong>$20</strong>
-                </li>
-              </ul>
 
-              <form class="card p-2">
-                <div class="input-group">
-                  <input type="text" class="form-control" placeholder="Promo code">
-                  <button type="submit" class="btn btn-secondary">Redeem</button>
-                </div>
-              </form>
-            </div>  -->
-            <!--<div class="col-md-7 col-lg-8"> -->
-            <!--        <h4 class="mb-3">Perfil Estagiario</h4> -->
-            <form class="needs-validation" novalidate>
+            <form class="needs-validation" novalidate method="POST">
                 <div class="row mx-5 g-3">
                     <div class="col-md-6">
                         <label for="nome" class="form-label">Nome</label>
-                        <input type="text" class="form-control" id="nome" placeholder="" value="" required>
+                        <input type="text" class="form-control" name="nome" id="nome" placeholder="" value="{{ estagiario.nome }}" required>
                         <div class="invalid-feedback">
-                            Valid first name is required.
+                            Favor informar seu nome.
                         </div>
                     </div>
 
                     <div class="col-md-6">
                         <label for="sobrenome" class="form-label">Sobrenome</label>
-                        <input type="text" class="form-control" id="sobrenome" placeholder="" value="" required>
+                        <input type="text" class="form-control" name="sobrenome" id="sobrenome" placeholder=""
+                               value="{{ estagiario.sobrenome }}" required>
                         <div class="invalid-feedback">
-                            Valid last name is required.
+                            Favor informar seu sobrenome.
                         </div>
                     </div>
-
 
 
                     <div class="col-6">
                         <label for="email" class="form-label">E-mail USCS</label>
                         <div class="input-group has-validation">
-                            <span class="input-group-text">@</span>
-                            <input type="email" class="form-control" id="email" placeholder="aluno@uscsonline.com.br" required>
+                            <input type="text" class="form-control" name="email" id="email" placeholder="aluno"
+                                   value="{{ estagiario.email.split('@')[0] }}"
+                                   required>
+                            <span class="input-group-text" id="dominio-uscs">@uscsonline.com.br</span>
                             <div class="invalid-feedback">
-                                Email Obrigatório.
+                                Favor informar seu email USCS.
                             </div>
                         </div>
                     </div>
+
+                    <!-- Campo de senha
+                    <div class="col-6">
+                        <label for="senha" class="form-label">Senha</label>
+                        <input type="password" class="form-control" id="senha" name="senha" placeholder="*******" value="" required>
+                        <div class="invalid-feedback">
+                            Favor sua senha.
+                        </div>
+                    </div> -->
+
                     <div class="col-3">
                         <label for="rs_uscs" class="form-label">RA-USCS</label>
-                        <input type="text" class="form-control" id="rs_uscs" placeholder="" value="" data-inputmask="'mask': '999999-9'" required>
+                        <input type="text" class="form-control" id="rs_uscs" name="ra_uscs" placeholder=""
+                               value="{{ estagiario.ra }}"
+                               data-inputmask="'mask': '999999-9'" required>
                         <div class="invalid-feedback">
                             Favor informar seu RA USCS.
                         </div>
                     </div>
+
                     <div class="col">
-                        <label for="turno" class="form-label">Turno</label>
-                        <select class="form-select" id="turno">
-                            <option selected>Selecione seu turno...</option>
-                            <option value="noturno">Noturno</option>
-                            <option value="matutino">Matutino</option>
-                            <option value="vespertino">Vespertino</option>
+                        <label for="turno" class="form-label">Periodo</label>
+                        <select class="form-select" id="turno" name="turno" required>
+                            <option disabled value="" {{ selected if not estagiario.turno }}>Selecione seu turno...</option>
+                            <option value="noturno" {{ selected if estagiario.turno == 'noturno' }}>Noturno</option>
+                            <option value="matutino" {{ selected if estagiario.turno == 'matutino' }}>Matutino</option>
+                            <option value="vespertino" {{ selected if estagiario.turno == 'vespertino' }}>Vespertino</option>
                         </select>
+                        <div class="invalid-feedback">
+                            Favor seu Periodo.
+                        </div>
                     </div>
 
                     <div class="col-3">
                         <label for="turma" class="form-label">Turma</label>
-                        <input type="text" class="form-control" id="turma" value="" required>
+                        <input type="text" class="form-control" id="turma" name="turma"
+                               value="{{ estagiario.turma }}" required>
                         <div class="invalid-feedback">
                             Favor informar sua turma
                         </div>
                     </div>
-
                     <div class="col-3 ">
-                        <label for="turma" class="form-label">Turma</label>
-                        <input type="number" class="form-control" id="turma" value="1" min="1" max="10" required>
+                        <label for="semestre" class="form-label">Semestre</label>
+                        <input type="number" class="form-control" id="semestre" name="semestre"
+                               value="{{ estagiario.semestre | default(1,true) }}" min="1" max="10" required>
                     </div>
                 </div>
                 <hr class="my-4">
 
+
+                <!-- Dias e horarios de estagio -->
                 <div class="row mx-5 g-3">
-                    <h4 class="mb-3">Dias de estagio</h4>
+                    <h4 class="mb-3">Dias e Horarios de estagio</h4>
+                    <!-- Segunda-Feira -->
                     <div class="row">
-                    <div class="col-3">
-                        <div class="form-check form-switch">
-                            <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault">
-                            <label class="form-check-label" for="flexSwitchCheckDefault">Segunda-Feira</label>
+                        <div class="col-3">
+                            <div class="form-check form-switch">
+                                <input class="form-check-input dia-semana-control" name="cb_segunda" type="checkbox"
+                                       role="switch"
+                                       id="segunda-feira" {% if segunda != None %} checked="" {% endif %}>
+                                <label class="form-check-label" for="segunda-feira">Segunda-Feira</label>
+                            </div>
+                        </div>
+                        <div class="col-3">
+                            <div class="input-group mb-3">
+                                <span class="input-group-text" id="segunda-inicio-icon"><i
+                                        class="fa-regular fa-clock"></i></span>
+                                <input type="text" class="form-control dia-semana-input-control segunda-feira"
+                                       name="segunda_inicio"
+                                       id="segunda-inicio" placeholder="Inicio"
+                                       aria-label="Inicio" aria-describedby="segunda-inicio"
+                                       data-inputmask-regex="([0-1][0-9]|2[0-3]):[0-5][0-9]" required
+                                       {% for horario in estagiario.horariosTrabalho %}
+                                           {% if horario.diaSemana == 0 %}
+                                               value="{{ horario.horarioInicio}}"
+                                           {% endif %}
+                                       {% endfor %}>
+                            </div>
+                        </div>
+                        <div class="col-3">
+                            <div class="input-group mb-3">
+                                <span class="input-group-text" id="segunda-fim-icon"><i class="fa-regular fa-clock"></i></span>
+                                <input type="text" class="form-control dia-semana-input-control segunda-feira"
+                                       name="segunda_fim"
+                                       id="segunda-fim"
+                                       placeholder="Fim"
+                                       aria-label="Fim" aria-describedby="segunda-fim"
+                                       data-inputmask-regex="([0-1][0-9]|2[0-3]):[0-5][0-9]" required
+                                       {% for horario in estagiario.horariosTrabalho %}
+                                           {% if horario.diaSemana == 0 %}
+                                               value="{{ horario.horarioFim}}"
+                                           {% endif %}
+                                       {% endfor %}>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <!-- Terça-Feira -->
+                    <div class="row">
+                        <div class="col-3">
+                            <div class="form-check form-switch">
+                                <input class="form-check-input dia-semana-control"
+                                       name="cb_terca" type="checkbox" role="switch"
+                                       id="terca-feira"
+                                       {% if terca != None %} checked="" {% endif %}>
+                                <label class="form-check-label" for="terca-feira">Terça-Feira</label>
+                            </div>
+                        </div>
+                        <div class="col-3">
+                            <div class="input-group mb-3">
+                                <span class="input-group-text" id="terca-inicio-icon"><i
+                                        class="fa-regular fa-clock"></i></span>
+                                <input type="text" class="form-control dia-semana-input-control terca-feira"
+                                       name="terca_inicio"
+                                       id="terca-inicio" placeholder="Inicio"
+                                       aria-label="Inicio" aria-describedby="terca-inicio"
+                                       data-inputmask-regex="([0-1][0-9]|2[0-3]):[0-5][0-9]" required
+                                       {% for horario in estagiario.horariosTrabalho %}
+                                           {% if horario.diaSemana == 1 %}
+                                               value="{{ horario.horarioInicio}}"
+                                           {% endif %}
+                                       {% endfor %}>
+                            </div>
+                        </div>
+                        <div class="col-3">
+                            <div class="input-group mb-3">
+                                <span class="input-group-text" id="terca-fim-icon"><i
+                                        class="fa-regular fa-clock"></i></span>
+                                <input type="text" class="form-control dia-semana-input-control terca-feira"
+                                       name="terca_fim"
+                                       id="terca-fim" placeholder="Fim"
+                                       aria-label="Fim" aria-describedby="terca-fim"
+                                       data-inputmask-regex="([0-1][0-9]|2[0-3]):[0-5][0-9]" required
+                                       {% for horario in estagiario.horariosTrabalho %}
+                                           {% if horario.diaSemana == 1 %}
+                                               value="{{ horario.horarioFim}}"
+                                           {% endif %}
+                                       {% endfor %}>
+                            </div>
                         </div>
                     </div>
-                    <div class="col-3">
-                      <div class="form-group col-md-6">
-                          <label for="time">Time</label>
-                          <div class="input-group date" id="timePicker">
-                              <input type="text" class="form-control timePicker">
-                              <span class="input-group-addon"><i class="fa fa-clock-o" aria-hidden="true"></i></span>
-                          </div>
-                      </div>
+
+                    <!-- Quarta-Feira -->
+                    <div class="row">
+                        <div class="col-3">
+                            <div class="form-check form-switch">
+                                <input class="form-check-input dia-semana-control"
+                                       name="cb_quarta" type="checkbox" role="switch"
+                                       id="quarta-feira" {% if quarta != None %} checked="" {% endif %}>
+                                <label class="form-check-label" for="quarta-feira">Quarta-Feira</label>
+                            </div>
+                        </div>
+                        <div class="col-3">
+                            <div class="input-group mb-3">
+                                <span class="input-group-text" id="quarta-inicio-icon"><i
+                                        class="fa-regular fa-clock"></i></span>
+                                <input type="text" class="form-control dia-semana-input-control quarta-feira"
+                                       name="quarta_inicio"
+                                       id="quarta-inicio" placeholder="Inicio"
+                                       aria-label="Inicio" aria-describedby="quarta-inicio"
+                                       data-inputmask-regex="([0-1][0-9]|2[0-3]):[0-5][0-9]" required
+                                       {% for horario in estagiario.horariosTrabalho %}
+                                           {% if horario.diaSemana == 2 %}
+                                               value="{{ horario.horarioInicio}}"
+                                           {% endif %}
+                                       {% endfor %}>
+                            </div>
+                        </div>
+                        <div class="col-3">
+                            <div class="input-group mb-3">
+                                <span class="input-group-text" id="quarta-fim-icon"><i class="fa-regular fa-clock"></i></span>
+                                <input type="text" class="form-control dia-semana-input-control quarta-feira"
+                                       name="quarta_fim"
+                                       id="quarta-fim" placeholder="Fim"
+                                       aria-label="Fim" aria-describedby="quarta-fim"
+                                       data-inputmask-regex="([0-1][0-9]|2[0-3]):[0-5][0-9]" required
+                                       {% for horario in estagiario.horariosTrabalho %}
+                                           {% if horario.diaSemana == 2 %}
+                                               value="{{ horario.horarioFim}}"
+                                           {% endif %}
+                                       {% endfor %}>
+                            </div>
+                        </div>
                     </div>
+
+                    <!-- Quinta-Feira -->
+                    <div class="row">
+                        <div class="col-3">
+                            <div class="form-check form-switch">
+                                <input class="form-check-input dia-semana-control" name="cb_quinta" type="checkbox" role="switch"
+                                       id="quinta-feira" {% if quinta != None %} checked="" {% endif %}>
+                                <label class="form-check-label" for="quinta-feira">Quinta-Feira</label>
+                            </div>
+                        </div>
+                        <div class="col-3">
+                            <div class="input-group mb-3">
+                                <span class="input-group-text" id="quinta-inicio-icon"><i
+                                        class="fa-regular fa-clock"></i></span>
+                                <input type="text" class="form-control dia-semana-input-control quinta-feira"
+                                       name="quinta_inicio"
+                                       id="quinta-inicio" placeholder="Inicio"
+                                       aria-label="Inicio" aria-describedby="quinta-inicio"
+                                       data-inputmask-regex="([0-1][0-9]|2[0-3]):[0-5][0-9]" required
+                                       {% for horario in estagiario.horariosTrabalho %}
+                                           {% if horario.diaSemana == 3 %}
+                                               value="{{ horario.horarioInicio}}"
+                                           {% endif %}
+                                       {% endfor %}>
+                            </div>
+                        </div>
+                        <div class="col-3">
+                            <div class="input-group mb-3">
+                                <span class="input-group-text" id="quinta-fim-icon"><i class="fa-regular fa-clock"></i></span>
+                                <input type="text" class="form-control dia-semana-input-control quinta-feira"
+                                       name="quinta_fim"
+                                       id="quinta-fim" placeholder="Fim"
+                                       aria-label="Fim" aria-describedby="quinta-fim"
+                                       data-inputmask-regex="([0-1][0-9]|2[0-3]):[0-5][0-9]" required
+                                       {% for horario in estagiario.horariosTrabalho %}
+                                           {% if horario.diaSemana == 3 %}
+                                               value="{{ horario.horarioFim}}"
+                                           {% endif %}
+                                       {% endfor %}>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Sexta-Feira -->
+                    <div class="row">
+                        <div class="col-3">
+                            <div class="form-check form-switch">
+                                <input class="form-check-input dia-semana-control" name="cb_sexta" type="checkbox" role="switch"
+                                       id="sexta-feira" {% if sexta != None %} checked="" {% endif %}>
+                                <label class="form-check-label" for="sexta-feira">Sexta-Feira</label>
+                            </div>
+                        </div>
+                        <div class="col-3">
+                            <div class="input-group mb-3">
+                                <span class="input-group-text" id="sexta-inicio-icon"><i
+                                        class="fa-regular fa-clock"></i></span>
+                                <input type="text" class="form-control dia-semana-input-control sexta-feira"
+                                       name="sexta_inicio"
+                                       id="sexta-inicio" placeholder="Inicio"
+                                       aria-label="Inicio" aria-describedby="sexta-inicio"
+                                       data-inputmask-regex="([0-1][0-9]|2[0-3]):[0-5][0-9]" required
+                                       {% for horario in estagiario.horariosTrabalho %}
+                                           {% if horario.diaSemana == 4 %}
+                                               value="{{ horario.horarioInicio}}"
+                                           {% endif %}
+                                       {% endfor %}>
+                            </div>
+                        </div>
+                        <div class="col-3">
+                            <div class="input-group mb-3">
+                                <span class="input-group-text" id="sexta-fim-icon"><i
+                                        class="fa-regular fa-clock"></i></span>
+                                <input type="text" class="form-control dia-semana-input-control sexta-feira"
+                                       name="sexta_fim"
+                                       id="sexta-fim" placeholder="Fim"
+                                       aria-label="Fim" aria-describedby="sexta-fim"
+                                       data-inputmask-regex="([0-1][0-9]|2[0-3]):[0-5][0-9]" required
+                                       {% for horario in estagiario.horariosTrabalho %}
+                                           {% if horario.diaSemana == 4 %}
+                                               value="{{ horario.horarioFim}}"
+                                           {% endif %}
+                                       {% endfor %}>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Sabado -->
+                    <div class="row">
+                        <div class="col-3">
+                            <div class="form-check form-switch">
+                                <input class="form-check-input dia-semana-control" name="cb_sabado" type="checkbox" role="switch"
+                                       id="sabado" {% if sabado != None %} checked="" {% endif %}>
+                                <label class="form-check-label" for="sabado">Sabado</label>
+                            </div>
+                        </div>
+                        <div class="col-3">
+                            <div class="input-group mb-3">
+                                <span class="input-group-text" id="sabado-inicio-icon"><i
+                                        class="fa-regular fa-clock"></i></span>
+                                <input type="text" class="form-control dia-semana-input-control sabado"
+                                       name="sabado_inicio"
+                                       id="sabado-inicio" placeholder="Inicio"
+                                       aria-label="Inicio" aria-describedby="sabado-inicio"
+                                       data-inputmask-regex="([0-1][0-9]|2[0-3]):[0-5][0-9]" required
+                                       {% for horario in estagiario.horariosTrabalho %}
+                                           {% if horario.diaSemana == 5 %}
+                                               value="{{ horario.horarioInicio}}"
+                                           {% endif %}
+                                       {% endfor %}>
+                            </div>
+                        </div>
+                        <div class="col-3">
+                            <div class="input-group mb-3">
+                                <span class="input-group-text" id="sabado-fim-icon"><i class="fa-regular fa-clock"></i></span>
+                                <input type="text" class="form-control  dia-semana-input-control sabado"
+                                       name="sabado_fim"
+                                       id="sabado-fim" placeholder="Fim"
+                                       aria-label="Fim" aria-describedby="sabado-fim"
+                                       data-inputmask-regex="([0-1][0-9]|2[0-3]):[0-5][0-9]" required
+                                       {% for horario in estagiario.horariosTrabalho %}
+                                           {% if horario.diaSemana == 5 %}
+                                               value="{{ horario.horarioFim}}"
+                                           {% endif %}
+                                       {% endfor %} >
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Domingo -->
+                    <div class="row">
+                        <div class="col-3">
+                            <div class="form-check form-switch">
+                                <input class="form-check-input dia-semana-control" name="cb_domingo" type="checkbox" role="switch"
+                                       id="domingo" {% if domingo != None %} checked="" {% endif %}>
+                                <label class="form-check-label" for="domingo">Domingo</label>
+                            </div>
+                        </div>
+                        <div class="col-3">
+                            <div class="input-group mb-3">
+                                <span class="input-group-text" id="domingo-inicio-icon"><i
+                                        class="fa-regular fa-clock"></i></span>
+                                <input type="text" class="form-control dia-semana-input-control domingo"
+                                       name="domingo_inicio"
+                                       id="domingo-inicio" placeholder="Inicio"
+                                       aria-label="Inicio" aria-describedby="domingo-inicio"
+                                       data-inputmask-regex="([0-1][0-9]|2[0-3]):[0-5][0-9]" required
+                                       {% for horario in estagiario.horariosTrabalho %}
+                                           {% if horario.diaSemana == 6 %}
+                                               value="{{ horario.horarioInicio}}"
+                                           {% endif %}
+                                       {% endfor %}>
+                            </div>
+                        </div>
+                        <div class="col-3">
+                            <div class="input-group mb-3">
+                                <span class="input-group-text" id="domingo-fim-icon"><i class="fa-regular fa-clock"></i></span>
+                                <input type="text" class="form-control dia-semana-input-control domingo"
+                                       name="domingo_fim"
+                                       id="domingo-fim" placeholder="Fim"
+                                       aria-label="Fim" aria-describedby="domingo-fim"
+                                       data-inputmask-regex="([0-1][0-9]|2[0-3]):[0-5][0-9]" required
+                                       {% for horario in estagiario.horariosTrabalho %}
+                                           {% if horario.diaSemana == 6 %}
+                                               value="{{ horario.horarioFim}}"
+                                           {% endif %}
+                                       {% endfor %}>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
-                <hr class="my-4">
-
-                    <div class="col-12">
-                        <label for="email" class="form-label">Email <span class="text-body-secondary">(Optional)</span></label>
-                        <input type="email" class="form-control" id="email" placeholder="you@example.com">
-                        <div class="invalid-feedback">
-                            Please enter a valid email address for shipping updates.
-                        </div>
-                    </div>
-
-                    <div class="col-12">
-                        <label for="address" class="form-label">Address</label>
-                        <input type="text" class="form-control" id="address" placeholder="1234 Main St" required>
-                        <div class="invalid-feedback">
-                            Please enter your shipping address.
-                        </div>
-                    </div>
-
-                    <div class="col-12">
-                        <label for="address2" class="form-label">Address 2 <span
-                                class="text-body-secondary">(Optional)</span></label>
-                        <input type="text" class="form-control" id="address2" placeholder="Apartment or suite">
-                    </div>
-
-                    <div class="col-md-5">
-                        <label for="country" class="form-label">Country</label>
-                        <select class="form-select" id="country" required>
-                            <option value="">Choose...</option>
-                            <option>United States</option>
-                        </select>
-                        <div class="invalid-feedback">
-                            Please select a valid country.
-                        </div>
-                    </div>
-
-                    <div class="col-md-4">
-                        <label for="state" class="form-label">State</label>
-                        <select class="form-select" id="state" required>
-                            <option value="">Choose...</option>
-                            <option>California</option>
-                        </select>
-                        <div class="invalid-feedback">
-                            Please provide a valid state.
-                        </div>
-                    </div>
-
-                    <div class="col-md-3">
-                        <label for="zip" class="form-label">Zip</label>
-                        <input type="text" class="form-control" id="zip" placeholder="" required>
-                        <div class="invalid-feedback">
-                            Zip code required.
-                        </div>
-                    </div>
-
-
-                <hr class="my-4">
-
-                <div class="form-check">
-                    <input type="checkbox" class="form-check-input" id="same-address">
-                    <label class="form-check-label" for="same-address">Shipping address is the same as my billing
-                        address</label>
+                <div class="d-grid gap-5 d-md-flex justify-content-md-end">
+                    <button class="w-25 btn btn-primary me-md-2" type="submit">Salvar</button>
+                    <button class="w-25 btn btn-danger" type="reset">Cancelar</button>
                 </div>
-
-                <div class="form-check">
-                    <input type="checkbox" class="form-check-input" id="save-info">
-                    <label class="form-check-label" for="save-info">Save this information for next time</label>
-                </div>
-
-                <hr class="my-4">
-
-                <h4 class="mb-3">Payment</h4>
-
-                <div class="my-3">
-                    <div class="form-check">
-                        <input id="credit" name="paymentMethod" type="radio" class="form-check-input" checked required>
-                        <label class="form-check-label" for="credit">Credit card</label>
-                    </div>
-                    <div class="form-check">
-                        <input id="debit" name="paymentMethod" type="radio" class="form-check-input" required>
-                        <label class="form-check-label" for="debit">Debit card</label>
-                    </div>
-                    <div class="form-check">
-                        <input id="paypal" name="paymentMethod" type="radio" class="form-check-input" required>
-                        <label class="form-check-label" for="paypal">PayPal</label>
-                    </div>
-                </div>
-
-                <div class="row gy-3">
-                    <div class="col-md-6">
-                        <label for="cc-name" class="form-label">Name on card</label>
-                        <input type="text" class="form-control" id="cc-name" placeholder="" required>
-                        <small class="text-body-secondary">Full name as displayed on card</small>
-                        <div class="invalid-feedback">
-                            Name on card is required
-                        </div>
-                    </div>
-
-                    <div class="col-md-6">
-                        <label for="cc-number" class="form-label">Credit card number</label>
-                        <input type="text" class="form-control" id="cc-number" placeholder="" required>
-                        <div class="invalid-feedback">
-                            Credit card number is required
-                        </div>
-                    </div>
-
-                    <div class="col-md-3">
-                        <label for="cc-expiration" class="form-label">Expiration</label>
-                        <input type="text" class="form-control" id="cc-expiration" placeholder="" required>
-                        <div class="invalid-feedback">
-                            Expiration date required
-                        </div>
-                    </div>
-
-                    <div class="col-md-3">
-                        <label for="cc-cvv" class="form-label">CVV</label>
-                        <input type="text" class="form-control" id="cc-cvv" placeholder="" required>
-                        <div class="invalid-feedback">
-                            Security code required
-                        </div>
-                    </div>
-                </div>
-
-                <hr class="my-4">
-
-                <button class="w-100 btn btn-primary btn-lg mb-5" type="submit">Continue to checkout</button>
             </form>
         </div>
     </div>

@@ -1,3 +1,4 @@
+from src.model.estagiario import Estagiario
 from src.services.agenda import AgendaClient
 
 
@@ -8,6 +9,9 @@ class EstagiarioClient(AgendaClient):
         self.update_headers("Authorization", "Bearer " + auth_token)
 
     def get_by_id(self, id):
-        return self.get(f"estagiario/{id}").value
+        return self.get(f"estagiario/{id}")
+
+    def update_estagiario(self, id_usuario, estagiario: Estagiario):
+        return self.put(f"estagiario/{id_usuario}", data=estagiario.model_dump())
 
 
