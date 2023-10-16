@@ -35,6 +35,8 @@ class HorarioTrabalho(BaseModel):
 
     @field_serializer('horarioInicio')
     def serialize_dt(self, t: time, _info):
+        # TODO: Preciso mudar para gerar no formado datetime.datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%S.%fZ")
+        # https://stackoverflow.com/questions/19654578/python-utc-datetime-objects-iso-format-doesnt-include-z-zulu-or-zero-offset
         return t.isoformat()
 
     @field_serializer('horarioFim')

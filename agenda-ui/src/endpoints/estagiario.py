@@ -1,14 +1,17 @@
+from datetime import datetime
 from typing import List
 
 from flask import Blueprint, session, redirect, url_for, flash, request
 
 from src.lib.auth import auth_required
 from src.lib.utils import render
+from src.model.agendamento import CreateAgendamento
 from src.model.estagiario import HorarioTrabalhoRequest
 from src.model.mapper import estagiario_mapper as estag_mapper, oauth_mapper
 from src.model.oauth_response import Token
 from src.model.sala import Sala
 from src.services import EstagiarioClient
+from src.services.agendamento import AgendamentoClient
 from src.services.sala import SalaClient
 
 estagiario = Blueprint('estagiario', __name__)
@@ -111,16 +114,60 @@ def get_novo_agendamento():
     resp = estag_client.get_by_id(user_token.payload.user_id)
     sala_resp = sala_client.list_salas()
 
+    dia_semana = {0: 'Seg', 1: 'Ter', 2: 'Qua', 3: 'Qui', 4: 'Sex', 5: 'Sab', 6: 'Dom'}
+
     if resp.valid and sala_resp.valid:
 
         estag = estag_mapper.to_estagiario(resp.value)
         salas = [Sala(**sala) for sala in sala_resp.value]
+        dias_estagio = [{'dia_semana': dia_semana[dia_trab.diaSemana],
+                         "inico": dia_trab.horarioInicio.strftime("%H:%M"),
+                         "fim": dia_trab.horarioFim.strftime("%H:%M") } for dia_trab in estag.horariosTrabalho]
 
         context = {
             'estagiario': estag,
             'pacientes': estag.pacientes,
-            'salas': salas
+            'salas': salas,
+            'dias_estagio': dias_estagio
         }
         return render('estagiario/agendamento.html', **context)
     else:
         flash(resp.message + sala_resp.message, "danger")
+
+
+@estagiario.route('agendamento/novo',  methods=['POST'])
+@auth_required
+def post_novo_agendamento():
+    token = session.get('token')
+    user_token: Token = oauth_mapper.to_token(token)
+    email_estagiario = user_token.payload.user_name
+    paciente = request.form.get("paciente")
+    id_sala = int(request.form.get("sala"))
+    data_str = request.form.get("data_consulta").split("/")
+    horario_str = request.form.get("horario_consulta").split(":")
+    duracao_str = int(request.form.get("duracao"))
+
+    dia = int(data_str[0])
+    mes = int(data_str[1])
+    ano = int(data_str[2])
+    hora = int(horario_str[0])
+    minuto = int(horario_str[1])
+
+    inicio_agendamento = datetime(ano, mes, dia, hora, minuto)
+    fim_agendamento = datetime(ano, mes, dia, hora, minuto + duracao_str)
+
+    agendamento: CreateAgendamento = CreateAgendamento(
+        estagiarioEmail=email_estagiario,
+        pacienteEmail=paciente,
+        salaId=id_sala,
+        inicioAgendamento=inicio_agendamento,
+        fimAgendamento=fim_agendamento
+    )
+    dump = agendamento.model_dump()
+    agendamento_client = AgendamentoClient(token)
+    result = agendamento_client.create_agendamento(agendamento)
+    if result.valid:
+        flash("agendamento realizado com sucesso", "success")
+        return redirect(url_for('estagiario.get_agendamentos'))
+    flash(result.message, "danger")
+    return redirect(url_for('estagiario.get_novo_agendamento'))
