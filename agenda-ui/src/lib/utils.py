@@ -14,7 +14,8 @@ def render(name: str, **variables):
     context = {
         **variables,
         'remaining': session.get('remaining'),
-        'is_logged': 'logged' if get_login_status() else None
+        'is_logged': 'logged' if get_login_status() else None,
+        'nome_usuario': get_username() if get_login_status() else None
     }
     return render_template(name, **context)
 
@@ -33,6 +34,10 @@ def get_login_status():
             logging.error(str(e))
             return False
     return False
+
+
+def get_username():
+    return session.get('user')
 
 
 def read_form_field(field: str, default: Any = None) -> Any:

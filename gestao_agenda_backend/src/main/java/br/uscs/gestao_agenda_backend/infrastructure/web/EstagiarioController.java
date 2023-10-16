@@ -128,4 +128,13 @@ public class EstagiarioController implements EstagiarioControllerOpenApi {
         List<EstagiarioResponse> response = estagiarioService.findDocenteNull();
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
+
+    @Override
+    @CheckSecurity.Estagiario.CanManageEstagiario
+    @PostMapping(value = "{idEstagiario}/add_paciente", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+    public ResponseEntity<EstagiarioResponse> addPacienteToEstagiario(Long idEstagiario, Long idPaciente) {
+
+        Optional<EstagiarioResponse> response = estagiarioService.addPaciente(idEstagiario, idPaciente);
+        return response.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+    }
 }

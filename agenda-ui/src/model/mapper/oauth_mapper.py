@@ -2,7 +2,7 @@ import base64
 from typing import Any
 
 from src.model.mapper.utils import string_to_dict
-from src.model.oauth_response import OAuthResponseModel
+from src.model.oauth_response import OAuthResponseModel, Token
 
 
 def to_oauth_response(value: dict) -> OAuthResponseModel:
@@ -15,6 +15,12 @@ def to_oauth_response(value: dict) -> OAuthResponseModel:
     except Exception as e:
         print(e)
 
+def to_token(token: str) -> Token:
+    response = _decode_token(token)
+    try:
+        return Token(**response)
+    except Exception as e:
+        print(e)
 
 def _decode_token(token: str) -> dict:
     values = token.split('.')

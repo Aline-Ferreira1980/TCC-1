@@ -13,6 +13,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -54,11 +55,11 @@ public class ServicoMapper {
         return modelMapper.map(servico, ServicoPropertyResponse.class);
     }
 
-    public Set<ServicoPropertyResponse> toPropertyResponseSet(Set<Servico> servicos) {
+    public List<ServicoPropertyResponse> toPropertyResponseSet(List<Servico> servicos) {
         if (servicos != null) {
             return servicos.stream()
                     .map(this::toPropertyResponse)
-                    .collect(Collectors.toSet());
+                    .collect(Collectors.toList());
         }
         return null;
     }

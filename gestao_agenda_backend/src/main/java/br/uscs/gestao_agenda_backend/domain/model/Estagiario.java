@@ -1,22 +1,21 @@
 package br.uscs.gestao_agenda_backend.domain.model;
 
 import br.uscs.gestao_agenda_backend.domain.model.enums.Turno;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.time.DayOfWeek;
 import java.time.LocalTime;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 @EqualsAndHashCode(callSuper = true)
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Data
+@Getter
+@Setter
 public class Estagiario extends User {
 
     @Column(unique = true)
@@ -28,12 +27,13 @@ public class Estagiario extends User {
     private String turma;
     private Integer semestre;
 
+    @EqualsAndHashCode.Exclude
     @OneToMany(mappedBy = "estagiario", cascade = CascadeType.ALL)
-    private Set<Paciente> pacientes;
+    private List<Paciente> pacientes;
 
     @EqualsAndHashCode.Exclude
     @ManyToMany(mappedBy = "estagiarios", cascade = CascadeType.ALL)
-    private Set<Servico> servicos;
+    private List<Servico> servicos;
 
     @ManyToOne
     private Docente professorResponsavel;
@@ -69,4 +69,12 @@ public class Estagiario extends User {
         return iniciaDepois && terminaAntes;
     }
 
+    public void addPaciente(Paciente paciente) {
+        for(Paciente p : this.pacientes){
+            if(paciente.getId().equals(p.getId())){
+                throw new EntityExistsException("Paciente informado ja esta registrado a este estagiario");
+            }
+        }
+        this.pacientes.add(paciente);
+    }
 }

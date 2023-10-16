@@ -1,3 +1,11 @@
+
+//using "window" is just for the stackblitz, you do not need to do this
+datetimepicker1 = $('#datetimepicker1').tempusDominus({
+  display: {
+    sideBySide: true
+  }
+});
+
 $(document).ready(function(){
   $(":input").inputmask();
  /*
@@ -59,3 +67,5 @@ $(document).ready(function () {
     });
   });
 });
+
+

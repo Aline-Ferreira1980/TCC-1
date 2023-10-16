@@ -94,4 +94,12 @@ public class PacienteServiceImpl implements PacienteService {
         pacienteRepository.delete(paciente);
         pacienteRepository.flush();
     }
+
+    @Override
+    public List<PacienteResponse> findByEstagiarioId(Long estagiario_id) {
+
+        Optional<List<Paciente>> pacientes = pacienteRepository.findByEstagiarioId(estagiario_id);
+        return pacientes.map(pacienteList -> pacienteList.stream().
+                map(pacienteMapper::toResponse).toList()).orElse(null);
+    }
 }

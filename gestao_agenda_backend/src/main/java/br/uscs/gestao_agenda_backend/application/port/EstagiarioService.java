@@ -30,4 +30,6 @@ public interface EstagiarioService {
     List<EstagiarioResponse> findServicoEmpty();
 
     List<EstagiarioResponse> findDocenteNull();
+
+    Optional<EstagiarioResponse> addPaciente(Long idEstagiario, Long idPaciente);
 }

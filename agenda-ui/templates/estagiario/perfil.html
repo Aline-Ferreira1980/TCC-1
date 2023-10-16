@@ -1,12 +1,12 @@
-{% extends "base.html" %}
+{% extends "estagiario/base_estagiario.html" %}
 {% block title %} Estagiario {% endblock %}
 {% block path %} Estagiario {% endblock %}
 
-{% block content %}
+{% block estagiario_content %}
     <div class="container">
-        <div class="row mx-5">
-            <div class="mt-4 mb-2 pt-5 text-start">
-                <h2>Perfil Estagiario  {{ '| ' + estagiario.nome if estagiario }}</h2>
+        <div class="row">
+            <div class="mb-2 pt-2 text-start">
+                <h2>Perfil Estagiario {{ '| ' + estagiario.nome if estagiario }}</h2>
             </div>
             <h4 class="mb-2">Dados Pessoais</h4>
         </div>
@@ -16,7 +16,8 @@
                 <div class="row mx-5 g-3">
                     <div class="col-md-6">
                         <label for="nome" class="form-label">Nome</label>
-                        <input type="text" class="form-control" name="nome" id="nome" placeholder="" value="{{ estagiario.nome }}" required>
+                        <input type="text" class="form-control" name="nome" id="nome" placeholder=""
+                               value="{{ estagiario.nome }}" required>
                         <div class="invalid-feedback">
                             Favor informar seu nome.
                         </div>
@@ -37,7 +38,7 @@
                         <div class="input-group has-validation">
                             <input type="text" class="form-control" name="email" id="email" placeholder="aluno"
                                    value="{{ estagiario.email.split('@')[0] }}"
-                                   required>
+                                   required disabled>
                             <span class="input-group-text" id="dominio-uscs">@uscsonline.com.br</span>
                             <div class="invalid-feedback">
                                 Favor informar seu email USCS.
@@ -67,10 +68,12 @@
                     <div class="col">
                         <label for="turno" class="form-label">Periodo</label>
                         <select class="form-select" id="turno" name="turno" required>
-                            <option disabled value="" {{ selected if not estagiario.turno }}>Selecione seu turno...</option>
+                            <option disabled value="" {{ selected if not estagiario.turno }}>Selecione seu turno...
+                            </option>
                             <option value="noturno" {{ selected if estagiario.turno == 'noturno' }}>Noturno</option>
                             <option value="matutino" {{ selected if estagiario.turno == 'matutino' }}>Matutino</option>
-                            <option value="vespertino" {{ selected if estagiario.turno == 'vespertino' }}>Vespertino</option>
+                            <option value="vespertino" {{ selected if estagiario.turno == 'vespertino' }}>Vespertino
+                            </option>
                         </select>
                         <div class="invalid-feedback">
                             Favor seu Periodo.
@@ -116,11 +119,11 @@
                                        id="segunda-inicio" placeholder="Inicio"
                                        aria-label="Inicio" aria-describedby="segunda-inicio"
                                        data-inputmask-regex="([0-1][0-9]|2[0-3]):[0-5][0-9]" required
-                                       {% for horario in estagiario.horariosTrabalho %}
-                                           {% if horario.diaSemana == 0 %}
-                                               value="{{ horario.horarioInicio}}"
-                                           {% endif %}
-                                       {% endfor %}>
+                                        {% for horario in estagiario.horariosTrabalho %}
+                                            {% if horario.diaSemana == 0 %}
+                                       value="{{ horario.horarioInicio }}"
+                                            {% endif %}
+                                        {% endfor %}>
                             </div>
                         </div>
                         <div class="col-3">
@@ -132,11 +135,11 @@
                                        placeholder="Fim"
                                        aria-label="Fim" aria-describedby="segunda-fim"
                                        data-inputmask-regex="([0-1][0-9]|2[0-3]):[0-5][0-9]" required
-                                       {% for horario in estagiario.horariosTrabalho %}
-                                           {% if horario.diaSemana == 0 %}
-                                               value="{{ horario.horarioFim}}"
-                                           {% endif %}
-                                       {% endfor %}>
+                                        {% for horario in estagiario.horariosTrabalho %}
+                                            {% if horario.diaSemana == 0 %}
+                                       value="{{ horario.horarioFim }}"
+                                            {% endif %}
+                                        {% endfor %}>
                             </div>
                         </div>
 
@@ -149,7 +152,7 @@
                                 <input class="form-check-input dia-semana-control"
                                        name="cb_terca" type="checkbox" role="switch"
                                        id="terca-feira"
-                                       {% if terca != None %} checked="" {% endif %}>
+                                        {% if terca != None %} checked="" {% endif %}>
                                 <label class="form-check-label" for="terca-feira">Terça-Feira</label>
                             </div>
                         </div>
@@ -162,11 +165,11 @@
                                        id="terca-inicio" placeholder="Inicio"
                                        aria-label="Inicio" aria-describedby="terca-inicio"
                                        data-inputmask-regex="([0-1][0-9]|2[0-3]):[0-5][0-9]" required
-                                       {% for horario in estagiario.horariosTrabalho %}
-                                           {% if horario.diaSemana == 1 %}
-                                               value="{{ horario.horarioInicio}}"
-                                           {% endif %}
-                                       {% endfor %}>
+                                        {% for horario in estagiario.horariosTrabalho %}
+                                            {% if horario.diaSemana == 1 %}
+                                       value="{{ horario.horarioInicio }}"
+                                            {% endif %}
+                                        {% endfor %}>
                             </div>
                         </div>
                         <div class="col-3">
@@ -178,11 +181,11 @@
                                        id="terca-fim" placeholder="Fim"
                                        aria-label="Fim" aria-describedby="terca-fim"
                                        data-inputmask-regex="([0-1][0-9]|2[0-3]):[0-5][0-9]" required
-                                       {% for horario in estagiario.horariosTrabalho %}
-                                           {% if horario.diaSemana == 1 %}
-                                               value="{{ horario.horarioFim}}"
-                                           {% endif %}
-                                       {% endfor %}>
+                                        {% for horario in estagiario.horariosTrabalho %}
+                                            {% if horario.diaSemana == 1 %}
+                                       value="{{ horario.horarioFim }}"
+                                            {% endif %}
+                                        {% endfor %}>
                             </div>
                         </div>
                     </div>
@@ -206,11 +209,11 @@
                                        id="quarta-inicio" placeholder="Inicio"
                                        aria-label="Inicio" aria-describedby="quarta-inicio"
                                        data-inputmask-regex="([0-1][0-9]|2[0-3]):[0-5][0-9]" required
-                                       {% for horario in estagiario.horariosTrabalho %}
-                                           {% if horario.diaSemana == 2 %}
-                                               value="{{ horario.horarioInicio}}"
-                                           {% endif %}
-                                       {% endfor %}>
+                                        {% for horario in estagiario.horariosTrabalho %}
+                                            {% if horario.diaSemana == 2 %}
+                                       value="{{ horario.horarioInicio }}"
+                                            {% endif %}
+                                        {% endfor %}>
                             </div>
                         </div>
                         <div class="col-3">
@@ -221,11 +224,11 @@
                                        id="quarta-fim" placeholder="Fim"
                                        aria-label="Fim" aria-describedby="quarta-fim"
                                        data-inputmask-regex="([0-1][0-9]|2[0-3]):[0-5][0-9]" required
-                                       {% for horario in estagiario.horariosTrabalho %}
-                                           {% if horario.diaSemana == 2 %}
-                                               value="{{ horario.horarioFim}}"
-                                           {% endif %}
-                                       {% endfor %}>
+                                        {% for horario in estagiario.horariosTrabalho %}
+                                            {% if horario.diaSemana == 2 %}
+                                       value="{{ horario.horarioFim }}"
+                                            {% endif %}
+                                        {% endfor %}>
                             </div>
                         </div>
                     </div>
@@ -234,7 +237,8 @@
                     <div class="row">
                         <div class="col-3">
                             <div class="form-check form-switch">
-                                <input class="form-check-input dia-semana-control" name="cb_quinta" type="checkbox" role="switch"
+                                <input class="form-check-input dia-semana-control" name="cb_quinta" type="checkbox"
+                                       role="switch"
                                        id="quinta-feira" {% if quinta != None %} checked="" {% endif %}>
                                 <label class="form-check-label" for="quinta-feira">Quinta-Feira</label>
                             </div>
@@ -248,11 +252,11 @@
                                        id="quinta-inicio" placeholder="Inicio"
                                        aria-label="Inicio" aria-describedby="quinta-inicio"
                                        data-inputmask-regex="([0-1][0-9]|2[0-3]):[0-5][0-9]" required
-                                       {% for horario in estagiario.horariosTrabalho %}
-                                           {% if horario.diaSemana == 3 %}
-                                               value="{{ horario.horarioInicio}}"
-                                           {% endif %}
-                                       {% endfor %}>
+                                        {% for horario in estagiario.horariosTrabalho %}
+                                            {% if horario.diaSemana == 3 %}
+                                       value="{{ horario.horarioInicio }}"
+                                            {% endif %}
+                                        {% endfor %}>
                             </div>
                         </div>
                         <div class="col-3">
@@ -263,11 +267,11 @@
                                        id="quinta-fim" placeholder="Fim"
                                        aria-label="Fim" aria-describedby="quinta-fim"
                                        data-inputmask-regex="([0-1][0-9]|2[0-3]):[0-5][0-9]" required
-                                       {% for horario in estagiario.horariosTrabalho %}
-                                           {% if horario.diaSemana == 3 %}
-                                               value="{{ horario.horarioFim}}"
-                                           {% endif %}
-                                       {% endfor %}>
+                                        {% for horario in estagiario.horariosTrabalho %}
+                                            {% if horario.diaSemana == 3 %}
+                                       value="{{ horario.horarioFim }}"
+                                            {% endif %}
+                                        {% endfor %}>
                             </div>
                         </div>
                     </div>
@@ -276,7 +280,8 @@
                     <div class="row">
                         <div class="col-3">
                             <div class="form-check form-switch">
-                                <input class="form-check-input dia-semana-control" name="cb_sexta" type="checkbox" role="switch"
+                                <input class="form-check-input dia-semana-control" name="cb_sexta" type="checkbox"
+                                       role="switch"
                                        id="sexta-feira" {% if sexta != None %} checked="" {% endif %}>
                                 <label class="form-check-label" for="sexta-feira">Sexta-Feira</label>
                             </div>
@@ -290,11 +295,11 @@
                                        id="sexta-inicio" placeholder="Inicio"
                                        aria-label="Inicio" aria-describedby="sexta-inicio"
                                        data-inputmask-regex="([0-1][0-9]|2[0-3]):[0-5][0-9]" required
-                                       {% for horario in estagiario.horariosTrabalho %}
-                                           {% if horario.diaSemana == 4 %}
-                                               value="{{ horario.horarioInicio}}"
-                                           {% endif %}
-                                       {% endfor %}>
+                                        {% for horario in estagiario.horariosTrabalho %}
+                                            {% if horario.diaSemana == 4 %}
+                                       value="{{ horario.horarioInicio }}"
+                                            {% endif %}
+                                        {% endfor %}>
                             </div>
                         </div>
                         <div class="col-3">
@@ -306,11 +311,11 @@
                                        id="sexta-fim" placeholder="Fim"
                                        aria-label="Fim" aria-describedby="sexta-fim"
                                        data-inputmask-regex="([0-1][0-9]|2[0-3]):[0-5][0-9]" required
-                                       {% for horario in estagiario.horariosTrabalho %}
-                                           {% if horario.diaSemana == 4 %}
-                                               value="{{ horario.horarioFim}}"
-                                           {% endif %}
-                                       {% endfor %}>
+                                        {% for horario in estagiario.horariosTrabalho %}
+                                            {% if horario.diaSemana == 4 %}
+                                       value="{{ horario.horarioFim }}"
+                                            {% endif %}
+                                        {% endfor %}>
                             </div>
                         </div>
                     </div>
@@ -319,7 +324,8 @@
                     <div class="row">
                         <div class="col-3">
                             <div class="form-check form-switch">
-                                <input class="form-check-input dia-semana-control" name="cb_sabado" type="checkbox" role="switch"
+                                <input class="form-check-input dia-semana-control" name="cb_sabado" type="checkbox"
+                                       role="switch"
                                        id="sabado" {% if sabado != None %} checked="" {% endif %}>
                                 <label class="form-check-label" for="sabado">Sabado</label>
                             </div>
@@ -333,11 +339,11 @@
                                        id="sabado-inicio" placeholder="Inicio"
                                        aria-label="Inicio" aria-describedby="sabado-inicio"
                                        data-inputmask-regex="([0-1][0-9]|2[0-3]):[0-5][0-9]" required
-                                       {% for horario in estagiario.horariosTrabalho %}
-                                           {% if horario.diaSemana == 5 %}
-                                               value="{{ horario.horarioInicio}}"
-                                           {% endif %}
-                                       {% endfor %}>
+                                        {% for horario in estagiario.horariosTrabalho %}
+                                            {% if horario.diaSemana == 5 %}
+                                       value="{{ horario.horarioInicio }}"
+                                            {% endif %}
+                                        {% endfor %}>
                             </div>
                         </div>
                         <div class="col-3">
@@ -348,11 +354,11 @@
                                        id="sabado-fim" placeholder="Fim"
                                        aria-label="Fim" aria-describedby="sabado-fim"
                                        data-inputmask-regex="([0-1][0-9]|2[0-3]):[0-5][0-9]" required
-                                       {% for horario in estagiario.horariosTrabalho %}
-                                           {% if horario.diaSemana == 5 %}
-                                               value="{{ horario.horarioFim}}"
-                                           {% endif %}
-                                       {% endfor %} >
+                                        {% for horario in estagiario.horariosTrabalho %}
+                                            {% if horario.diaSemana == 5 %}
+                                       value="{{ horario.horarioFim }}"
+                                            {% endif %}
+                                        {% endfor %} >
                             </div>
                         </div>
                     </div>
@@ -361,7 +367,8 @@
                     <div class="row">
                         <div class="col-3">
                             <div class="form-check form-switch">
-                                <input class="form-check-input dia-semana-control" name="cb_domingo" type="checkbox" role="switch"
+                                <input class="form-check-input dia-semana-control" name="cb_domingo" type="checkbox"
+                                       role="switch"
                                        id="domingo" {% if domingo != None %} checked="" {% endif %}>
                                 <label class="form-check-label" for="domingo">Domingo</label>
                             </div>
@@ -375,11 +382,11 @@
                                        id="domingo-inicio" placeholder="Inicio"
                                        aria-label="Inicio" aria-describedby="domingo-inicio"
                                        data-inputmask-regex="([0-1][0-9]|2[0-3]):[0-5][0-9]" required
-                                       {% for horario in estagiario.horariosTrabalho %}
-                                           {% if horario.diaSemana == 6 %}
-                                               value="{{ horario.horarioInicio}}"
-                                           {% endif %}
-                                       {% endfor %}>
+                                        {% for horario in estagiario.horariosTrabalho %}
+                                            {% if horario.diaSemana == 6 %}
+                                       value="{{ horario.horarioInicio }}"
+                                            {% endif %}
+                                        {% endfor %}>
                             </div>
                         </div>
                         <div class="col-3">
@@ -390,11 +397,11 @@
                                        id="domingo-fim" placeholder="Fim"
                                        aria-label="Fim" aria-describedby="domingo-fim"
                                        data-inputmask-regex="([0-1][0-9]|2[0-3]):[0-5][0-9]" required
-                                       {% for horario in estagiario.horariosTrabalho %}
-                                           {% if horario.diaSemana == 6 %}
-                                               value="{{ horario.horarioFim}}"
-                                           {% endif %}
-                                       {% endfor %}>
+                                        {% for horario in estagiario.horariosTrabalho %}
+                                            {% if horario.diaSemana == 6 %}
+                                       value="{{ horario.horarioFim }}"
+                                            {% endif %}
+                                        {% endfor %}>
                             </div>
                         </div>
                     </div>

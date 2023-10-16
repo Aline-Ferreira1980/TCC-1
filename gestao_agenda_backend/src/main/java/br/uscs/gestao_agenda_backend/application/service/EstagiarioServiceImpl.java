@@ -8,13 +8,11 @@ import br.uscs.gestao_agenda_backend.application.port.EstagiarioService;
 import br.uscs.gestao_agenda_backend.application.request.AtualizaEstagiarioRequest;
 import br.uscs.gestao_agenda_backend.application.request.CadastroEstagiarioRequest;
 import br.uscs.gestao_agenda_backend.application.request.HorarioTrabalhoRequest;
-import br.uscs.gestao_agenda_backend.domain.model.Agendamento;
-import br.uscs.gestao_agenda_backend.domain.model.Docente;
-import br.uscs.gestao_agenda_backend.domain.model.Estagiario;
-import br.uscs.gestao_agenda_backend.domain.model.HorarioTrabalho;
+import br.uscs.gestao_agenda_backend.domain.model.*;
 import br.uscs.gestao_agenda_backend.domain.model.enums.UserRole;
 import br.uscs.gestao_agenda_backend.domain.port.DocenteRepository;
 import br.uscs.gestao_agenda_backend.domain.port.EstagiarioRepository;
+import br.uscs.gestao_agenda_backend.domain.port.PacienteRepository;
 import br.uscs.gestao_agenda_backend.infrastructure.security.permissions.AppSecurity;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.BeanUtils;
@@ -45,6 +43,7 @@ public class EstagiarioServiceImpl implements EstagiarioService {
     private final ConfirmacaoService confirmacaoService;
 
     private final AppSecurity appSecurity;
+    private final PacienteRepository pacienteRepository;
 
     @Override
     public EstagiarioResponse cadastrarEstagiario(CadastroEstagiarioRequest request) {
@@ -196,6 +195,23 @@ public class EstagiarioServiceImpl implements EstagiarioService {
                 .stream()
                 .map(estagiarioMapper::toResponse)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public Optional<EstagiarioResponse> addPaciente(Long idEstagiario, Long idPaciente) {
+        this.validateEstagiarioAuthority(idEstagiario);
+        Optional<Estagiario> estag = estagiarioRepository.findById(idEstagiario);
+        Optional<Paciente> paciente = pacienteRepository.findById(idPaciente);
+
+
+        if(estag.isPresent() && paciente.isPresent()){
+            Paciente pac = paciente.get();
+            Estagiario estagiario = estag.get();
+            pac.setEstagiario(estag.get());
+            estagiario.addPaciente(pac);
+            return Optional.ofNullable(estagiarioMapper.toResponse(estagiarioRepository.save(estagiario)));
+        }
+        return Optional.empty();
     }
 
     @Override

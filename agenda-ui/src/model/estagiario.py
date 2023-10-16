@@ -5,7 +5,7 @@ from pydantic import BaseModel, Field, field_serializer
 
 
 class PacienteProperty(BaseModel):
-    id: str = Field(...)
+    id: int = Field(...)
     nome: str = Field(...)
     sobrenome: str = Field(...)
     nomeSocial: str = Field(...)
@@ -29,6 +29,20 @@ class DocenteProperty(BaseModel):
 
 class HorarioTrabalho(BaseModel):
     id: int = Field(...)
+    diaSemana: int = Field(...)
+    horarioInicio: time = None
+    horarioFim: time = None
+
+    @field_serializer('horarioInicio')
+    def serialize_dt(self, t: time, _info):
+        return t.isoformat()
+
+    @field_serializer('horarioFim')
+    def serialize_t(self, t: time, _info):
+        return t.isoformat()
+
+
+class HorarioTrabalhoRequest(BaseModel):
     diaSemana: int = Field(...)
     horarioInicio: time = None
     horarioFim: time = None
@@ -71,3 +85,28 @@ class Estagiario(BaseModel):
             # time: lambda v: v.isoformat()
         }
 
+
+class AtualizaEstagiarioRequest(BaseModel):
+    nome: str = Field(...)
+    sobrenome: str = Field(...)
+    email: str = Field(...)
+    ra: str = Field(...)
+    turno: str = Field(...)
+    turma: str = Field(...)
+    semestre: int = Field(...)
+    horariosTrabalho: List[HorarioTrabalhoRequest]
+
+    class Config:
+        use_enum_values = True
+        json_encoders = {
+            int: lambda v: str(v),
+            float: lambda v: str(v),
+            Decimal: lambda v: str(v),
+            # time: lambda v: v.isoformat()
+        }
+        dict_encoders = {
+            int: lambda v: str(v),
+            float: lambda v: str(v),
+            Decimal: lambda v: str(v),
+            # time: lambda v: v.isoformat()
+        }

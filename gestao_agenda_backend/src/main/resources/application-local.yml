@@ -43,7 +43,7 @@ springdoc:
   swagger-ui:
     oauth:
       clientId: cesep-agenda-frontend
-      clientSecret: teste
+      clientSecret: ${CLIENT_PASS}
 
   oAuthFlow:
     tokenUrl: ${OAUTH2_SERVER:http://localhost:8080}/oauth/token

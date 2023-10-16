@@ -22,8 +22,8 @@ public class EstagiarioResponse {
     private Turno turno;
     private String turma;
     private Integer semestre;
-    private Set<PacientePropertyResponse> pacientes;
-    private Set<ServicoPropertyResponse> servicos;
+    private List<PacientePropertyResponse> pacientes;
+    private List<ServicoPropertyResponse> servicos;
     private DocentePropertyResponse professorResponsavel;
     private List<HorarioTrabalhoResponse> horariosTrabalho;
 

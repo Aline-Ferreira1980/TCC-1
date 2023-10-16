@@ -81,5 +81,15 @@ public class PacienteContoller implements PacienteContollerOpenApi {
         }
     }
 
+    @Override
+    @CheckSecurity.Paciente.CanViewPacienteAdmin
+    @GetMapping("/findByEstagiarioId")
+    public ResponseEntity<List<PacienteResponse>> getPacientesByIdEstagiario(Long id){
+
+        List<PacienteResponse> response = pacienteService.findByEstagiarioId(id);
+        return (response != null) ? ResponseEntity.ok(response) : ResponseEntity.notFound().build();
+
+    }
+
 }
 

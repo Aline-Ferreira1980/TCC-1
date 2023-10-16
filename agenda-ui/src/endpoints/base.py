@@ -44,7 +44,6 @@ def post_login():
 
 @base.route('/logout', methods=['GET'])
 def get_logout():
-    flash('Logout realizado com sucesso.', 'success')
     session['login_expiration'] = None
     session['token'] = None
     return redirect(url_for('base.get_home'))

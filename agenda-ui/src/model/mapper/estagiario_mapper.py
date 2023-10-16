@@ -1,4 +1,4 @@
-from src.model.estagiario import Estagiario
+from src.model.estagiario import Estagiario, AtualizaEstagiarioRequest
 
 dias_da_semana = {
     "monday": 0,
@@ -20,3 +20,15 @@ def to_estagiario(estagiario: dict) -> Estagiario:
         return Estagiario(**estag)
     except Exception as e:
         print(e)
+
+
+def to_atualiza_request(estagiario: dict) -> AtualizaEstagiarioRequest:
+    estag = estagiario.copy()
+
+    for horario in estag['horariosTrabalho']:
+        horario['diaSemana'] = dias_da_semana[horario['diaSemana'].lower()]
+    try:
+        return AtualizaEstagiarioRequest(**estag)
+    except Exception as e:
+        print(e)
+

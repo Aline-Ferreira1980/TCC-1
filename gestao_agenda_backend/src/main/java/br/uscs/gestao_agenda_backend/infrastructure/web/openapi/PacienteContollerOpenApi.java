@@ -87,4 +87,10 @@ public interface PacienteContollerOpenApi {
             @NotNull(message = "O parâmetro 'id' é obrigatório")
             @Min(value = 1, message = "O campo 'id' deve ser maior ou igual a 1.")
             Long id);
+
+    ResponseEntity<List<PacienteResponse>> getPacientesByIdEstagiario(
+            @RequestParam(value = "id_estagiario")
+            @NotNull(message = "O parâmetro 'id' é obrigatório")
+            @Min(value = 1, message = "O campo 'id' deve ser maior ou igual a 1.")
+            Long id);
 }

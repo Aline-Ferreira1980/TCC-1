@@ -1,0 +1,130 @@
+{% extends "estagiario/base_estagiario.html" %}
+{% block title %} Estagiario {% endblock %}
+{% block path %} Estagiario {% endblock %}
+
+{% block estagiario_content %}
+    <div class="container">
+        <div class="row">
+            <div class="mb-2 pt-2 text-start">
+                <h2>Novo Agendamento</h2>
+            </div>
+        </div>
+        <div class="row g-5">
+
+            <form class="needs-validation" novalidate method="POST">
+                <div class="row mx-5 g-3">
+                    <div class="col-md-6">
+                        <label for="paciente" class="form-label">Paciente</label>
+                        <select class="form-select" id="paciente" name="paciente" required>
+                            <option disabled value="" selected>Selecione o paciente...</option>
+                            {% for paciente in pacientes %}
+                                <option value="{{ paciente.email }}">
+                                    {{ paciente.nome }} | {{ paciente.nomeSocial }} ( {{ paciente.email }} )
+                                </option>
+                            {% endfor %}
+                        </select>
+                        <div class="invalid-feedback">
+                            Favor informe o paciente.
+                        </div>
+                    </div>
+
+                    <div class="col-6">
+                        <label for="email" class="form-label">Estagiario</label>
+                        <div class="input-group has-validation">
+                            <input type="text" class="form-control" name="email" id="email" placeholder="aluno"
+                                   value="{{ estagiario.email }}"
+                                   required disabled>
+                            <div class="invalid-feedback">
+                                Favor informar seu email USCS.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label for="sala" class="form-label">Local</label>
+                        <select class="form-select" id="sala" name="sala" required>
+                            <option disabled value="" selected>Selecione o local...</option>
+                            {% for sala in salas %}
+                                <option value="{{ sala.id }}">
+                                    {{ sala.nome }} | {{ sala.local }}
+                                </option>
+                            {% endfor %}
+                        </select>
+                        <div class="invalid-feedback">
+                            Favor informe o paciente.
+                        </div>
+                    </div>
+
+
+
+                    <div class="col">
+                        <label for="turno" class="form-label">Periodo</label>
+                        <select class="form-select" id="turno" name="turno" required>
+                            <option disabled value="" {{ selected if not estagiario.turno }}>Selecione seu turno...
+                            </option>
+                            <option value="noturno" {{ selected if estagiario.turno == 'noturno' }}>Noturno</option>
+                            <option value="matutino" {{ selected if estagiario.turno == 'matutino' }}>Matutino</option>
+                            <option value="vespertino" {{ selected if estagiario.turno == 'vespertino' }}>Vespertino
+                            </option>
+                        </select>
+                        <div class="invalid-feedback">
+                            Favor seu Periodo.
+                        </div>
+                    </div>
+                    <!-- Campo de senha
+                    <div class="col-6">
+                        <label for="senha" class="form-label">Senha</label>
+                        <input type="password" class="form-control" id="senha" name="senha" placeholder="*******" value="" required>
+                        <div class="invalid-feedback">
+                            Favor sua senha.
+                        </div>
+                    </div> -->
+
+                    <div class="col-3">
+                        <label for="rs_uscs" class="form-label">RA-USCS</label>
+                        <input type="text" class="form-control" id="rs_uscs" name="ra_uscs" placeholder=""
+                               value="{{ estagiario.ra }}"
+                               data-inputmask="'mask': '999999-9'" required>
+                        <div class="invalid-feedback">
+                            Favor informar seu RA USCS.
+                        </div>
+                    </div>
+
+                    <div class="col">
+                        <label for="turno" class="form-label">Periodo</label>
+                        <select class="form-select" id="turno" name="turno" required>
+                            <option disabled value="" {{ selected if not estagiario.turno }}>Selecione seu turno...
+                            </option>
+                            <option value="noturno" {{ selected if estagiario.turno == 'noturno' }}>Noturno</option>
+                            <option value="matutino" {{ selected if estagiario.turno == 'matutino' }}>Matutino</option>
+                            <option value="vespertino" {{ selected if estagiario.turno == 'vespertino' }}>Vespertino
+                            </option>
+                        </select>
+                        <div class="invalid-feedback">
+                            Favor seu Periodo.
+                        </div>
+                    </div>
+
+                    <div class="col-3">
+                        <label for="turma" class="form-label">Turma</label>
+                        <input type="text" class="form-control" id="turma" name="turma"
+                               value="{{ estagiario.turma }}" required>
+                        <div class="invalid-feedback">
+                            Favor informar sua turma
+                        </div>
+                    </div>
+                    <div class="col-3 ">
+                        <label for="semestre" class="form-label">Semestre</label>
+                        <input type="number" class="form-control" id="semestre" name="semestre"
+                               value="{{ estagiario.semestre | default(1,true) }}" min="1" max="10" required>
+                    </div>
+                </div>
+                <hr class="my-4">
+                <div class="d-grid gap-5 d-md-flex justify-content-md-end">
+                    <button class="w-25 btn btn-primary me-md-2" type="submit">Salvar</button>
+                    <button class="w-25 btn btn-danger" type="reset">Cancelar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}

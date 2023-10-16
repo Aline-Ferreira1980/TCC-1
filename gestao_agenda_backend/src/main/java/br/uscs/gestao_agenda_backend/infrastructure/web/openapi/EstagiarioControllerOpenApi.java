@@ -160,4 +160,13 @@ public interface EstagiarioControllerOpenApi {
             @ApiResponse(responseCode = "500", description = "Erro ao realizar busca dos dados"),
     })
     ResponseEntity<List<EstagiarioResponse>> listEstagiarioDocenteEmpty();
+
+
+    ResponseEntity<EstagiarioResponse> addPacienteToEstagiario(
+            @NotNull(message = "O parâmetro 'idEstagiario' é obrigatório")
+            @Min(value = 1, message = "O campo 'idEstagiario' deve ser maior ou igual a 1.")
+            @PathVariable Long idEstagiario,
+            @NotNull(message = "O parâmetro 'id_paciente' é obrigatório")
+            @Min(value = 1, message = "O campo 'id_paciente' deve ser maior ou igual a 1.")
+            @RequestParam(value = "id_paciente") Long idPaciente);
 }

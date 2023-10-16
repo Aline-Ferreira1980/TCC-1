@@ -16,4 +16,6 @@ public interface PacienteService {
     Optional<PacienteResponse> atualizaPaciente(Long id, Paciente request);
 
     void deletaPaciente(Long id);
+
+    List<PacienteResponse> findByEstagiarioId(Long estagiario_id);
 }

@@ -10,6 +10,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -46,11 +47,11 @@ public class PacienteMapper {
         return modelMapper.map(paciente, PacientePropertyResponse.class);
     }
 
-    public Set<PacientePropertyResponse> toPropertyResponseSet(Set<Paciente> pacientes) {
+    public List<PacientePropertyResponse> toPropertyResponseSet(List<Paciente> pacientes) {
         if (pacientes != null) {
             return pacientes.stream()
                     .map(this::toPropertyResponse)
-                    .collect(Collectors.toSet());
+                    .collect(Collectors.toList());
         }
         return null;
     }
