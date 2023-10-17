@@ -23,16 +23,16 @@ public interface AgendamentoRespository extends JpaRepository<Agendamento, Long>
             "JOIN a.estagiario e " +
             "JOIN a.paciente p " +
             "JOIN a.sala s " +
-            "WHERE a.inicioAgendamento = :dataAgendamento "+
-            "AND (e.email = :emailEstagiario " +
+            "WHERE (e.email = :emailEstagiario " +
             "OR p.email = :emailPaciete " +
-            "OR s.id = :idSala )")
-    Optional<Agendamento> findByDataAgendamentoIndependenteIntegrantes (
+            "OR s.id = :idSala)")
+    Optional<List<Agendamento>> findAgendamentoIndependenteIntegrantes (
             @Param("emailEstagiario") String emailEstagiario,
             @Param("emailPaciete") String emailPaciete,
-            @Param("idSala") Long idSala,
-            @Param("dataAgendamento") LocalDateTime dataAgendamento
+            @Param("idSala") Long idSala
     );
+
+    List<Agendamento> findByEstagiarioEmailOrPacienteEmailOrSalaId(String emailEstagiario, String emailPaciete, Long idSala);
 
     @Query("SELECT a FROM Agendamento a " +
             "WHERE (a.paciente.id = :id OR a.estagiario.id = :id)")

@@ -127,4 +127,10 @@ public interface AgendamentoControllerOpenApi {
             @NotNull(message = "O parâmetro 'id' é obrigatório")
             @Min(value = 1, message = "O campo 'id' deve ser maior ou igual a 1.")
             Long id);
+
+    ResponseEntity<AgendamentoResponse> findAgendamentoById(
+            @PathVariable
+            @Min(value = 1, message = "O campo 'id' deve ser maior ou igual a 1.")
+            @NotNull(message = "O parâmetro 'id' é obrigatório")
+            Long id);
 }

@@ -101,4 +101,10 @@ public class AgendamentoController implements AgendamentoControllerOpenApi {
 
     }
 
+    @Override
+    public ResponseEntity<AgendamentoResponse> findAgendamentoById(Long id) {
+        Optional<AgendamentoResponse> response = agendamentoService.getById(id);
+        return response.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
 }

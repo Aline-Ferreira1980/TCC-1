@@ -23,4 +23,6 @@ public interface AgendamentoService {
     Optional<AgendamentoResponse> atualizaAgendamento(Long id, AgendamentoRequest request);
 
     void deleteAgendamento(Long id);
+
+    Optional<AgendamentoResponse> getById(Long id);
 }

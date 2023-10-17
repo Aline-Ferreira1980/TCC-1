@@ -1,13 +1,13 @@
-from datetime import datetime
+from datetime import datetime, timedelta
 from typing import List
 
 from flask import Blueprint, session, redirect, url_for, flash, request
 
 from src.lib.auth import auth_required
 from src.lib.utils import render
-from src.model.agendamento import CreateAgendamento
+from src.model.agendamento import CreateAgendamento, Agendamento
 from src.model.estagiario import HorarioTrabalhoRequest
-from src.model.mapper import estagiario_mapper as estag_mapper, oauth_mapper
+from src.model.mapper import estagiario_mapper as estag_mapper, oauth_mapper, agendamento_mapper
 from src.model.oauth_response import Token
 from src.model.sala import Sala
 from src.services import EstagiarioClient
@@ -95,11 +95,23 @@ def post_perfil(id_usuario):
 def get_agendamentos(id_usuario):
     token = session.get('token')
     estag_client = EstagiarioClient(token)
+    agendamento_cli = AgendamentoClient(token)
+
     resp = estag_client.get_by_id(id_usuario)
     if resp.valid:
         estag = estag_mapper.to_estagiario(resp.value)
+        agendamentos = agendamento_cli.find_by_user_id(id_usuario)
+        agenda: List[Agendamento] = agendamento_mapper.to_agendamentos(agendamentos.value)
+
+        sorted_agenda = sorted(agenda, key= lambda a: a.inicioAgendamento, reverse=False) #Reverse = True para ordenar do mais no futuro para o presente
+
+        data_atual = datetime.now().date()
+        agendamentos_futuros = [agnd for agnd in sorted_agenda if
+                                agnd.inicioAgendamento.date() >= data_atual]
+
         context = {
-            'estagiario': estag
+            'estagiario': estag,
+            'agenda': agendamentos_futuros
         }
         return render('estagiario/agendamentos.html', **context)
 
@@ -145,7 +157,7 @@ def post_novo_agendamento():
     id_sala = int(request.form.get("sala"))
     data_str = request.form.get("data_consulta").split("/")
     horario_str = request.form.get("horario_consulta").split(":")
-    duracao_str = int(request.form.get("duracao"))
+    duracao = int(request.form.get("duracao"))
 
     dia = int(data_str[0])
     mes = int(data_str[1])
@@ -154,7 +166,7 @@ def post_novo_agendamento():
     minuto = int(horario_str[1])
 
     inicio_agendamento = datetime(ano, mes, dia, hora, minuto)
-    fim_agendamento = datetime(ano, mes, dia, hora, minuto + duracao_str)
+    fim_agendamento = datetime(ano, mes, dia, hora, minuto) + timedelta(minutes=duracao)
 
     agendamento: CreateAgendamento = CreateAgendamento(
         estagiarioEmail=email_estagiario,
@@ -163,11 +175,38 @@ def post_novo_agendamento():
         inicioAgendamento=inicio_agendamento,
         fimAgendamento=fim_agendamento
     )
-    dump = agendamento.model_dump()
+
     agendamento_client = AgendamentoClient(token)
     result = agendamento_client.create_agendamento(agendamento)
     if result.valid:
         flash("agendamento realizado com sucesso", "success")
-        return redirect(url_for('estagiario.get_agendamentos'))
+        return redirect(url_for('estagiario.get_agendamentos', id_usuario=user_token.payload.user_id))
     flash(result.message, "danger")
     return redirect(url_for('estagiario.get_novo_agendamento'))
+
+
+@estagiario.route('/<id_usuario>/agendamentos',  methods=['POST'])
+@auth_required
+def post_agendamentos(id_usuario):
+    token = session.get('token')
+    user_token: Token = oauth_mapper.to_token(token)
+    agendamento_cli = AgendamentoClient(token)
+
+    if request.form.get('edit') == 'edit':
+        agen_id = int(request.form.get('id_agendamento'))
+        return redirect(url_for('estagiario.edit_agendamentos', id_agendamento=user_token.payload.user_id))
+
+    if request.form.get('delete') == 'delete':
+        agen_id = int(request.form.get('id_agendamento'))
+        agendamento_cli.delete_agendandamento(agen_id)
+
+    return redirect(url_for('estagiario.get_agendamentos', id_usuario=user_token.payload.user_id))
+
+@estagiario.route('/agendamento/<id_agendamento>',  methods=['GET'])
+@auth_required
+def edit_agendamentos(id_agendamento):
+    token = session.get('token')
+    user_token: Token = oauth_mapper.to_token(token)
+    agendamento_cli = AgendamentoClient(token)
+
+    agendamentos = agendamento_cli.find_by_id(id_agendamento)

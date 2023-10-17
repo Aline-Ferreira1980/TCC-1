@@ -23,3 +23,12 @@ body {
   border-top-left-radius: 0;
   border-top-right-radius: 0;
 }
+
+header .nav>* {
+  z-index: 1024;
+}
+
+/*body > main > header > div > div > div*/
+header .dropdown>* {
+  z-index: 1024;
+}

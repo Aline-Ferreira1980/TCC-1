@@ -3,14 +3,7 @@ from decimal import Decimal
 from typing import List, Optional
 from pydantic import BaseModel, Field, field_serializer
 
-
-class PacienteProperty(BaseModel):
-    id: int = Field(...)
-    nome: str = Field(...)
-    sobrenome: str = Field(...)
-    nomeSocial: str = Field(...)
-    email: str = Field(...)
-    genero: str = Field(...)
+from src.model.paciente import PacienteProperty
 
 
 class ServicoProperty(BaseModel):
@@ -78,13 +71,11 @@ class Estagiario(BaseModel):
             int: lambda v: str(v),
             float: lambda v: str(v),
             Decimal: lambda v: str(v),
-            # time: lambda v: v.isoformat()
         }
         dict_encoders = {
             int: lambda v: str(v),
             float: lambda v: str(v),
             Decimal: lambda v: str(v),
-            # time: lambda v: v.isoformat()
         }
 
 
@@ -104,11 +95,32 @@ class AtualizaEstagiarioRequest(BaseModel):
             int: lambda v: str(v),
             float: lambda v: str(v),
             Decimal: lambda v: str(v),
-            # time: lambda v: v.isoformat()
         }
         dict_encoders = {
             int: lambda v: str(v),
             float: lambda v: str(v),
             Decimal: lambda v: str(v),
-            # time: lambda v: v.isoformat()
+        }
+
+
+class EstagiarioProperty(BaseModel):
+    id: int = Field(...)
+    nome: str = Field(...)
+    sobrenome: str = Field(...)
+    email: str = Field(...)
+    ra: str = Field(...)
+    turma: str = Field(...)
+
+    class Config:
+        use_enum_values = True
+        json_encoders = {
+            int: lambda v: str(v),
+            float: lambda v: str(v),
+            Decimal: lambda v: str(v),
+
+        }
+        dict_encoders = {
+            int: lambda v: str(v),
+            float: lambda v: str(v),
+            Decimal: lambda v: str(v),
         }

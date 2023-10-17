@@ -45,16 +45,31 @@ public class AgendamentoServiceImpl implements AgendamentoService {
         // Verifica disponibilidade
         // Valida se existe agendamento marcado em uma data e hora especifica,
         // independentemente do estagiario, paciente ou sala
-        Optional<Agendamento> dinsponivel = agendamentoRepository.findByDataAgendamentoIndependenteIntegrantes(
+        List<Agendamento> dinsponivel = agendamentoRepository.findByEstagiarioEmailOrPacienteEmailOrSalaId(
                 request.getEstagiarioEmail(),
                 request.getPacienteEmail(),
-                request.getSalaId(),
-                request.getInicioAgendamento()
+                request.getSalaId()
+//                request.getInicioAgendamento()
         );
-        if(dinsponivel.isPresent()){
-            throw new AgendamentoConflictException("Psicólogo, paciente ou sala ja possuem angendamento neste horario.");
-        }
+        if(!dinsponivel.isEmpty()){
+            // TODO: Validar se existe conflito
+            for(Agendamento agend : dinsponivel){
+                boolean inicio_depois_de_agenda = request.getInicioAgendamento().isAfter(agend.getInicioAgendamento());
+                boolean inicio_iqual_agenda = request.getInicioAgendamento().equals(agend.getInicioAgendamento());
+                boolean inicio_antes_do_fim = request.getInicioAgendamento().isBefore(agend.getFimAgendamento());
 
+                System.out.println(inicio_depois_de_agenda);
+                System.out.println(inicio_iqual_agenda);
+                System.out.println(inicio_antes_do_fim);
+
+                if ((request.getInicioAgendamento().isAfter(agend.getInicioAgendamento())
+                        || request.getInicioAgendamento().equals(agend.getInicioAgendamento()))
+                            && request.getInicioAgendamento().isBefore(agend.getFimAgendamento())){
+
+                    throw new AgendamentoConflictException("Psicólogo, paciente ou sala ja possuem angendamento neste horario.");
+                }
+            }
+        }
 
         // Verifica se estagiario existe
         Optional<Estagiario> estag = estagiarioRepository.findByEmail(request.getEstagiarioEmail());
@@ -158,15 +173,25 @@ public class AgendamentoServiceImpl implements AgendamentoService {
         // Verifica disponibilidade
         // Valida se existe agendamento marcado em uma data e hora especifica,
         // independentemente do estagiario, paciente ou sala
-        Optional<Agendamento> dinsponivel = agendamentoRepository.findByDataAgendamentoIndependenteIntegrantes(
+        Optional<List<Agendamento>> dinsponivel = agendamentoRepository.findAgendamentoIndependenteIntegrantes(
                 request.getEstagiarioEmail(),
                 request.getPacienteEmail(),
-                request.getSalaId(),
-                request.getInicioAgendamento()
+                request.getSalaId()
+//                request.getInicioAgendamento()
         );
 
         if(dinsponivel.isPresent()){
-            throw new AgendamentoConflictException("Psicólogo, paciente ou sala ja possuem angendamento neste horario.");
+            // TODO: Validar se existe conflito
+            for(Agendamento agend : dinsponivel.get()){
+                if ((request.getInicioAgendamento().isAfter(agend.getInicioAgendamento())
+                        || request.getInicioAgendamento().equals(agend.getInicioAgendamento()))
+                        && request.getFimAgendamento().isBefore(agend.getFimAgendamento())){
+
+                    throw new AgendamentoConflictException("Psicólogo, paciente ou sala ja possuem angendamento neste horario.");
+                }
+            }
+
+//            throw new AgendamentoConflictException("Psicólogo, paciente ou sala ja possuem angendamento neste horario.");
 //            return Optional.empty();
         }
 
@@ -225,6 +250,13 @@ public class AgendamentoServiceImpl implements AgendamentoService {
 
         agendamentoRepository.deleteById(id);
         agendamentoRepository.flush();
+    }
+
+    @Override
+    public Optional<AgendamentoResponse> getById(Long id) {
+        Agendamento response = agendamentoRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Nao foi encontrado agendamento com id informado"));
+        return Optional.of(agendamentoMapper.toResponse(response));
     }
 
 

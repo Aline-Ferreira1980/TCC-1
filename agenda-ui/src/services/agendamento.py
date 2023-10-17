@@ -10,3 +10,12 @@ class AgendamentoClient(AgendaClient):
 
     def create_agendamento(self, agendamento: CreateAgendamento):
         return self.post(f"agendamento/agendar", data=agendamento.model_dump())
+
+    def find_by_user_id(self, id: int):
+        return self.get(f"agendamento/user/{id}")
+
+    def delete_agendandamento(self, id: int):
+        return self.delete(f"agendamento/{id}")
+
+    def find_by_id(self, id_agendamento):
+        return
