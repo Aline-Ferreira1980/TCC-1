@@ -29,7 +29,7 @@ class DocenteProperty(BaseModel):
 
 class HorarioTrabalho(BaseModel):
     id: int = Field(...)
-    diaSemana: int = Field(...)
+    diaSemana: str = Field(...)
     horarioInicio: time = None
     horarioFim: time = None
 
@@ -45,7 +45,7 @@ class HorarioTrabalho(BaseModel):
 
 
 class HorarioTrabalhoRequest(BaseModel):
-    diaSemana: int = Field(...)
+    diaSemana: str = Field(...)
     horarioInicio: time = None
     horarioFim: time = None
 

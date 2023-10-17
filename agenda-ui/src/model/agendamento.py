@@ -13,11 +13,11 @@ class CreateAgendamento(BaseModel):
 
     @field_serializer('inicioAgendamento')
     def serialize_dt(self, dt: datetime, _info):
-        return dt.isoformat()
+        return dt.isoformat() + ".000Z"
 
     @field_serializer('fimAgendamento')
     def serialize_t(self, dt: datetime, _info):
-        return dt.isoformat()
+        return dt.isoformat() + ".000Z"
 
     class Config:
         use_enum_values = True

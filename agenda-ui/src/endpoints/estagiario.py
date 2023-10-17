@@ -29,13 +29,13 @@ def get_perfil(id_usuario):
         estag = estag_mapper.to_estagiario(resp.value)
         context = {
             'estagiario': estag,
-            'segunda': next((index for index, h in enumerate(estag.horariosTrabalho) if h.diaSemana == 0), None),
-            'terca': next((index for index, h in enumerate(estag.horariosTrabalho) if h.diaSemana == 1), None),
-            'quarta': next((index for index, h in enumerate(estag.horariosTrabalho) if h.diaSemana == 2), None),
-            'quinta': next((index for index, h in enumerate(estag.horariosTrabalho) if h.diaSemana == 3), None),
-            'sexta': next((index for index, h in enumerate(estag.horariosTrabalho) if h.diaSemana == 4), None),
-            'sabado': next((index for index, h in enumerate(estag.horariosTrabalho) if h.diaSemana == 5), None),
-            'domingo': next((index for index, h in enumerate(estag.horariosTrabalho) if h.diaSemana == 6), None)
+            'segunda': next((index for index, h in enumerate(estag.horariosTrabalho) if h.diaSemana == 'Segunda'), None),
+            'terca': next((index for index, h in enumerate(estag.horariosTrabalho) if h.diaSemana == 'Terça'), None),
+            'quarta': next((index for index, h in enumerate(estag.horariosTrabalho) if h.diaSemana == 'Quarta'), None),
+            'quinta': next((index for index, h in enumerate(estag.horariosTrabalho) if h.diaSemana == 'Quinta'), None),
+            'sexta': next((index for index, h in enumerate(estag.horariosTrabalho) if h.diaSemana == 'Sexta'), None),
+            'sabado': next((index for index, h in enumerate(estag.horariosTrabalho) if h.diaSemana == 'Sabado'), None),
+            'domingo': next((index for index, h in enumerate(estag.horariosTrabalho) if h.diaSemana == 'Domingo'), None)
         }
         return render('estagiario/perfil.html', **context)
 
@@ -60,13 +60,13 @@ def post_perfil(id_usuario):
         estag.semestre = int(request.form.get("semestre"))
         estag.horariosTrabalho.clear()
 
-        dias_semana = {'segunda': 0,
-                       'terca':1,
-                       'quarta':2,
-                       'quinta':3,
-                       'sexta':4,
-                       'sabado':5,
-                       'domingo':6}
+        dias_semana = {'segunda': 'MONDAY',
+                       'terca': 'TUESDAY',
+                       'quarta': 'WEDNESDAY',
+                       'quinta': 'THURSDAY',
+                       'sexta': 'FRIDAY',
+                       'sabado': 'SATURDAY',
+                       'domingo': 'SUNDAY'}
 
         horarios_trabalho: List[HorarioTrabalhoRequest] = []
         temp_dict = {}
@@ -114,7 +114,7 @@ def get_novo_agendamento():
     resp = estag_client.get_by_id(user_token.payload.user_id)
     sala_resp = sala_client.list_salas()
 
-    dia_semana = {0: 'Seg', 1: 'Ter', 2: 'Qua', 3: 'Qui', 4: 'Sex', 5: 'Sab', 6: 'Dom'}
+    dia_semana = {'Segunda': 'Seg', 'Terça': 'Ter', 'Quarta': 'Qua', 'Quinta': 'Qui', 'Sexta': 'Sex', 'Sabado': 'Sab', 'Domingo': 'Dom'}
 
     if resp.valid and sala_resp.valid:
 
