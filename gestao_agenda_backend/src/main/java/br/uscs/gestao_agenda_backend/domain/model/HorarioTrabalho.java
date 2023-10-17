@@ -23,7 +23,7 @@ public class HorarioTrabalho {
     @ManyToOne
     private Estagiario estagiario;
 
-    @Enumerated(EnumType.ORDINAL)
+    @Enumerated(EnumType.STRING)
     private DayOfWeek diaSemana;
 
     private LocalTime horarioInicio;

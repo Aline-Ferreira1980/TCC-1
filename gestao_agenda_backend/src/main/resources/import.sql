@@ -26,7 +26,7 @@ insert into `user` (confirmed, email, nome, `role`, senha, sobrenome, token) val
 
 insert into `estagiario` (professor_responsavel_id, ra, semestre, turma, turno, id) values (null, '5699363', 10, '7an', 'NOTURNO', 4);
 
-insert into `horario_trabalho` (dia_semana, estagiario_id, horario_fim, horario_inicio) values (1, 4,'17:00:00' , '08:00:00');
+insert into `horario_trabalho` (dia_semana, estagiario_id, horario_fim, horario_inicio) values ('MONDAY', 4,'17:00:00' , '08:00:00');
 
 -- Insere sala de teste
 

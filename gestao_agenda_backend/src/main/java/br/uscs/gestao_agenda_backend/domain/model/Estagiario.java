@@ -60,13 +60,15 @@ public class Estagiario extends User {
     }
 
     public boolean trabalhaNoRangeDeHorario(LocalTime inicio, LocalTime fim) {
+        boolean iniciaNaHora = horariosTrabalho.stream().anyMatch(horario -> horario.getHorarioInicio().equals(inicio));
+
         boolean iniciaDepois =
                 horariosTrabalho.stream().anyMatch(horario -> horario.getHorarioInicio().isBefore(inicio));
 
         boolean terminaAntes =
                 horariosTrabalho.stream().anyMatch(horario -> horario.getHorarioFim().isAfter(fim));
 
-        return iniciaDepois && terminaAntes;
+        return (iniciaNaHora || iniciaDepois) && terminaAntes;
     }
 
     public void addPaciente(Paciente paciente) {
