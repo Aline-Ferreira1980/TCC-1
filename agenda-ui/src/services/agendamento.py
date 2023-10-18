@@ -1,5 +1,5 @@
 from src.model.agendamento import CreateAgendamento
-from src.services.agenda import AgendaClient
+from src.services.agenda import AgendaClient, HTTPResponse
 
 
 class AgendamentoClient(AgendaClient):
@@ -17,5 +17,8 @@ class AgendamentoClient(AgendaClient):
     def delete_agendandamento(self, id: int):
         return self.delete(f"agendamento/{id}")
 
-    def find_by_id(self, id_agendamento):
-        return
+    def find_by_id(self, id_agendamento) -> HTTPResponse:
+        return self.get(f"agendamento/{id_agendamento}")
+
+    def update(self, id_agendamento: int, agendamento: CreateAgendamento):
+        return self.put(f"agendamento/{id_agendamento}", data=agendamento.model_dump())

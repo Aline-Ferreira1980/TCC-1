@@ -10,3 +10,10 @@ def to_agendamentos(agendamentos: List[dict]) -> List[Agendamento]:
         except Exception as e:
             print(e)
     return result
+
+
+def to_agendamento(agendamento: dict) -> Agendamento:
+    try:
+        return Agendamento(**agendamento)
+    except Exception as e:
+        print(e)

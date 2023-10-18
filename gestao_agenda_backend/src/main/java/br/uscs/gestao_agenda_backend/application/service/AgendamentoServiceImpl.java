@@ -256,6 +256,7 @@ public class AgendamentoServiceImpl implements AgendamentoService {
     public Optional<AgendamentoResponse> getById(Long id) {
         Agendamento response = agendamentoRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Nao foi encontrado agendamento com id informado"));
+        this.validatePacienteAuthority(response.getPaciente().getId());
         return Optional.of(agendamentoMapper.toResponse(response));
     }
 

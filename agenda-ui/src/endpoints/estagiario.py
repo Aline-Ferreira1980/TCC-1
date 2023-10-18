@@ -194,13 +194,14 @@ def post_agendamentos(id_usuario):
 
     if request.form.get('edit') == 'edit':
         agen_id = int(request.form.get('id_agendamento'))
-        return redirect(url_for('estagiario.edit_agendamentos', id_agendamento=user_token.payload.user_id))
+        return redirect(url_for('estagiario.edit_agendamentos', id_agendamento=agen_id))
 
     if request.form.get('delete') == 'delete':
         agen_id = int(request.form.get('id_agendamento'))
         agendamento_cli.delete_agendandamento(agen_id)
 
     return redirect(url_for('estagiario.get_agendamentos', id_usuario=user_token.payload.user_id))
+
 
 @estagiario.route('/agendamento/<id_agendamento>',  methods=['GET'])
 @auth_required
@@ -209,4 +210,127 @@ def edit_agendamentos(id_agendamento):
     user_token: Token = oauth_mapper.to_token(token)
     agendamento_cli = AgendamentoClient(token)
 
-    agendamentos = agendamento_cli.find_by_id(id_agendamento)
+    agenda_resp = agendamento_cli.find_by_id(id_agendamento)
+    if agenda_resp.valid:
+        agendamento = agendamento_mapper.to_agendamento(agenda_resp.value)
+
+        estag_client = EstagiarioClient(token)
+        sala_client = SalaClient(token)
+
+        estag_resp = estag_client.get_by_id(user_token.payload.user_id)
+        sala_resp = sala_client.list_salas()
+
+        dia_semana = {'Segunda': 'Seg', 'Terça': 'Ter', 'Quarta': 'Qua', 'Quinta': 'Qui', 'Sexta': 'Sex',
+                      'Sabado': 'Sab', 'Domingo': 'Dom'}
+
+        if estag_resp.valid and sala_resp.valid:
+            estag = estag_mapper.to_estagiario(estag_resp.value)
+            salas = [Sala(**sala) for sala in sala_resp.value]
+            dias_estagio = [{'dia_semana': dia_semana[dia_trab.diaSemana],
+                             "inico": dia_trab.horarioInicio.strftime("%H:%M"),
+                             "fim": dia_trab.horarioFim.strftime("%H:%M")} for dia_trab in estag.horariosTrabalho]
+
+            context = {
+                'estagiario': estag,
+                'pacientes': estag.pacientes,
+                'salas': salas,
+                'dias_estagio': dias_estagio,
+                'agendamento': agendamento
+            }
+
+            return render('estagiario/edit_agendamento.html', **context)
+
+        flash("erro ao localizar o estagiario ou a sala do agendamento", "danger")
+        return redirect(url_for('estagiario.get_agendamentos', id_usuario=user_token.payload.user_id))
+
+    flash("agendamento nao encontrado", "danger")
+    return redirect(url_for('estagiario.get_agendamentos', id_usuario=user_token.payload.user_id))
+
+
+@estagiario.route('/agendamento/<id_agendamento>',  methods=['POST'])
+@auth_required
+def post_edit_agendamentos(id_agendamento):
+
+    token = session.get('token')
+    user_token: Token = oauth_mapper.to_token(token)
+
+    if request.form.get('cancel') == 'cancel':
+        return redirect(url_for('estagiario.get_agendamentos', id_usuario=user_token.payload.user_id))
+
+
+    email_estagiario = user_token.payload.user_name
+    paciente = request.form.get("paciente")
+    id_sala = int(request.form.get("sala"))
+    data_str = request.form.get("data_consulta").split("/")
+    horario_str = request.form.get("horario_consulta").split(":")
+    duracao = int(request.form.get("duracao"))
+
+    dia = int(data_str[0])
+    mes = int(data_str[1])
+    ano = int(data_str[2])
+    hora = int(horario_str[0])
+    minuto = int(horario_str[1])
+
+    inicio_agendamento = datetime(ano, mes, dia, hora, minuto)
+    fim_agendamento = datetime(ano, mes, dia, hora, minuto) + timedelta(minutes=duracao)
+
+    agendamento: CreateAgendamento = CreateAgendamento(
+        estagiarioEmail=email_estagiario,
+        pacienteEmail=paciente,
+        salaId=id_sala,
+        inicioAgendamento=inicio_agendamento,
+        fimAgendamento=fim_agendamento
+    )
+
+    agendamento_client = AgendamentoClient(token)
+    result = agendamento_client.update(id_agendamento, agendamento)
+    if result.valid:
+        flash("agendamento atualizado com sucesso", "success")
+        return redirect(url_for('estagiario.get_agendamentos', id_usuario=user_token.payload.user_id))
+    flash(result.message, "danger")
+    return redirect(url_for('estagiario.get_novo_agendamento'))
+
+
+
+
+
+@estagiario.route('/<id_usuario>/pacientes',  methods=['GET'])
+@auth_required
+def get_lista_pacientes(id_usuario):
+
+    token = session.get('token')
+    estag_client = EstagiarioClient(token)
+
+    resp = estag_client.get_by_id(id_usuario)
+    if resp.valid:
+        estag = estag_mapper.to_estagiario(resp.value)
+
+        context = {
+            'estagiario': estag,
+        }
+        return render('estagiario/lista_pacientes.html', **context)
+
+    flash(resp.message, "error")
+    return redirect(url_for('base.get_home'))
+
+
+@estagiario.route('/paciente/<id_paciente>',  methods=['GET'])
+@auth_required
+def get_paciente_detalhe(id_paciente):
+
+    token = session.get('token')
+    estag_client = EstagiarioClient(token)
+    user_token: Token = oauth_mapper.to_token(token)
+    estag_resp = estag_client.get_by_id(user_token.payload.user_id)
+
+    if estag_resp.valid:
+        estag = estag_mapper.to_estagiario(estag_resp.value)
+
+        context = {
+            'estagiario': estag,
+        }
+
+
+    return render('estagiario/detalhe_paciente.html', **context)
+
+
