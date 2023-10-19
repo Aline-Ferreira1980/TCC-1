@@ -18,4 +18,6 @@ public interface PacienteService {
     void deletaPaciente(Long id);
 
     List<PacienteResponse> findByEstagiarioId(Long estagiario_id);
+
+    List<PacienteResponse> findByEstagiarioEmpty();
 }

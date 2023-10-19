@@ -6,12 +6,14 @@ from flask import Blueprint, session, redirect, url_for, flash, request
 from src.lib.auth import auth_required
 from src.lib.utils import render
 from src.model.agendamento import CreateAgendamento, Agendamento
-from src.model.estagiario import HorarioTrabalhoRequest
-from src.model.mapper import estagiario_mapper as estag_mapper, oauth_mapper, agendamento_mapper
+from src.model.estagiario import HorarioTrabalhoRequest, Estagiario
+from src.model.mapper import estagiario_mapper as estag_mapper, oauth_mapper, agendamento_mapper, paciente_mapper, \
+    sala_mapper
 from src.model.oauth_response import Token
 from src.model.sala import Sala
 from src.services import EstagiarioClient
 from src.services.agendamento import AgendamentoClient
+from src.services.paciente import PacienteClient
 from src.services.sala import SalaClient
 
 estagiario = Blueprint('estagiario', __name__)
@@ -291,9 +293,6 @@ def post_edit_agendamentos(id_agendamento):
     return redirect(url_for('estagiario.get_novo_agendamento'))
 
 
-
-
-
 @estagiario.route('/<id_usuario>/pacientes',  methods=['GET'])
 @auth_required
 def get_lista_pacientes(id_usuario):
@@ -303,14 +302,14 @@ def get_lista_pacientes(id_usuario):
 
     resp = estag_client.get_by_id(id_usuario)
     if resp.valid:
-        estag = estag_mapper.to_estagiario(resp.value)
+        estag: Estagiario = estag_mapper.to_estagiario(resp.value)
 
         context = {
             'estagiario': estag,
         }
         return render('estagiario/lista_pacientes.html', **context)
 
-    flash(resp.message, "error")
+    flash(resp.message, "danger")
     return redirect(url_for('base.get_home'))
 
 
@@ -329,8 +328,76 @@ def get_paciente_detalhe(id_paciente):
         context = {
             'estagiario': estag,
         }
+        return render('estagiario/detalhe_paciente.html', **context)
 
 
-    return render('estagiario/detalhe_paciente.html', **context)
+@estagiario.route('/pacientes_ofaos',  methods=['GET'])
+@auth_required
+def get_pacientes_orfao():
+
+    token = session.get('token')
+    paciente_client = PacienteClient(token)
+    user_token: Token = oauth_mapper.to_token(token)
+
+    pacientes_resp = paciente_client.get_by_estagiario_empty()
+    if pacientes_resp.valid:
+        estag_client = EstagiarioClient(token)
+        estag_resp = estag_client.get_by_id(user_token.payload.user_id)
+        estag = estag_mapper.to_estagiario(estag_resp.value)
+        pacientes = paciente_mapper.to_pacientes(pacientes_resp.value)
+
+        context = {
+            'estagiario': estag,
+            'pacientes': pacientes,
+        }
+
+        return render('estagiario/lista_pacientes_orfaos.html', **context)
+
+    flash(pacientes_resp.message, "danger")
+    return redirect(url_for('estagiario.get_agendamentos', id_usuario=user_token.payload.user_id))
 
 
+@estagiario.route('/pacientes_ofaos',  methods=['POST'])
+@auth_required
+def post_pacientes_orfao():
+
+    token = session.get('token')
+    user_token: Token = oauth_mapper.to_token(token)
+
+    id_paciente = request.form.get("btn_vincular")
+
+    estag_client = EstagiarioClient(token)
+    estag_resp = estag_client.add_paciente(user_token.payload.user_id, id_paciente)
+
+    if estag_resp.valid:
+        return redirect(url_for('estagiario.get_pacientes_orfao'))
+
+    flash(estag_resp.message, "danger")
+    return redirect(url_for('estagiario.get_agendamentos', id_usuario=user_token.payload.user_id))
+
+
+@estagiario.route('/salas',  methods=['GET'])
+@auth_required
+def get_salas():
+
+    token = session.get('token')
+    user_token: Token = oauth_mapper.to_token(token)
+    sala_client = SalaClient(token)
+
+    salas_resp = sala_client.list_salas()
+    if salas_resp.valid:
+        salas = sala_mapper.to_salas(salas_resp.value)
+
+        estag_client = EstagiarioClient(token)
+        estag_resp = estag_client.get_by_id(user_token.payload.user_id)
+        estag = estag_mapper.to_estagiario(estag_resp.value)
+
+        context = {
+            'estagiario': estag,
+            'salas': salas
+        }
+        return render('estagiario/salas.html', **context)
+
+
+    flash(salas_resp.message, "danger")
+    return redirect(url_for('estagiario.get_agendamentos', id_usuario=user_token.payload.user_id))

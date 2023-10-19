@@ -19,6 +19,7 @@ import javax.persistence.EntityNotFoundException;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -101,5 +102,15 @@ public class PacienteServiceImpl implements PacienteService {
         Optional<List<Paciente>> pacientes = pacienteRepository.findByEstagiarioId(estagiario_id);
         return pacientes.map(pacienteList -> pacienteList.stream().
                 map(pacienteMapper::toResponse).toList()).orElse(null);
+    }
+
+    @Override
+    public List<PacienteResponse> findByEstagiarioEmpty() {
+
+        return pacienteRepository.findByEstagiarioIsNull()
+                .stream()
+                .map(pacienteMapper::toResponse)
+                .collect(Collectors.toList());
+
     }
 }

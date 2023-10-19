@@ -1,3 +1,5 @@
+from urllib.parse import urlencode
+
 from src.model.estagiario import Estagiario, AtualizaEstagiarioRequest
 from src.services.agenda import AgendaClient
 
@@ -14,4 +16,9 @@ class EstagiarioClient(AgendaClient):
     def update_estagiario(self, id_usuario, estagiario: AtualizaEstagiarioRequest):
         return self.put(f"estagiario/{id_usuario}", data=estagiario.model_dump())
 
+    def add_paciente(self, id_estagiario, id_paciente):
+        data = {'id_paciente': id_paciente}
 
+        data = urlencode(data)
+        headers = {'Content-Type': 'application/x-www-form-urlencoded'}
+        return self.post(f"estagiario/{id_estagiario}/add_paciente", params=data, headers=headers)

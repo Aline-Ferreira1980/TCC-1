@@ -91,5 +91,13 @@ public class PacienteContoller implements PacienteContollerOpenApi {
 
     }
 
+    @Override
+    @CheckSecurity.Paciente.CanViewPacienteAdmin
+    @GetMapping("/findByEstagiarioEmpty")
+    public ResponseEntity<List<PacienteResponse>> getPacientesByEstagiarioEmpty(){
+        List<PacienteResponse> response = pacienteService.findByEstagiarioEmpty();
+        return (response != null) ? ResponseEntity.ok(response) : ResponseEntity.notFound().build();
+    }
+
 }
 

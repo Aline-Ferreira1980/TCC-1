@@ -3,7 +3,13 @@ from decimal import Decimal
 from typing import List, Optional
 from pydantic import BaseModel, Field, field_serializer
 
-from src.model.paciente import PacienteProperty
+
+class PacienteProperty(BaseModel):
+    id: int = Field(...)
+    nome: str = Field(...)
+    nomeSocial: str = Field(...)
+    email: str = Field(...)
+    genero: str = Field(...)
 
 
 class ServicoProperty(BaseModel):

@@ -2,11 +2,16 @@ from datetime import datetime
 from decimal import Decimal
 
 from pydantic import BaseModel, Field, field_serializer
-
 from src.model.estagiario import EstagiarioProperty
-from src.model.paciente import PacienteProperty
 from src.model.sala import Sala
 
+
+class PacienteProperty(BaseModel):
+    id: int = Field(...)
+    nome: str = Field(...)
+    nomeSocial: str = Field(...)
+    email: str = Field(...)
+    genero: str = Field(...)
 
 class CreateAgendamento(BaseModel):
     estagiarioEmail: str = Field(...)
