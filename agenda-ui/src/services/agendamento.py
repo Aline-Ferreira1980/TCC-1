@@ -14,6 +14,11 @@ class AgendamentoClient(AgendaClient):
     def find_by_user_id(self, id: int):
         return self.get(f"agendamento/user/{id}")
 
+
+    def find_by_sala_id(self, id: int):
+        return self.get(f"agendamento/user/{id}")
+
+
     def delete_agendandamento(self, id: int):
         return self.delete(f"agendamento/{id}")
 

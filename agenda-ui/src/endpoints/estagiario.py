@@ -401,3 +401,67 @@ def get_salas():
 
     flash(salas_resp.message, "danger")
     return redirect(url_for('estagiario.get_agendamentos', id_usuario=user_token.payload.user_id))
+
+
+@estagiario.route('/salas',  methods=['POST'])
+@auth_required
+def post_salas():
+
+    token = session.get('token')
+    sala_client = SalaClient(token)
+
+
+
+    sala_id = request.form.get('delete_sala')
+    if sala_id:
+        resep_delete = sala_client.delete_sala(int(sala_id))
+
+        if resep_delete.valid:
+            return redirect(url_for('estagiario.get_salas'))
+
+    else:
+        sala = {'nome': request.form.get('nome_sala'), 'local': request.form.get('local_sala')}
+        salas_resp = sala_client.cadastrar_sala(sala)
+        if salas_resp.valid:
+            return redirect(url_for('estagiario.get_salas'))
+
+        flash(salas_resp.message, "danger")
+        return redirect(url_for('estagiario.get_salas'))
+
+
+@estagiario.route('sala/<id_sala>/agendamentos',  methods=['GET'])
+@auth_required
+def get_sala_agendamentos(id_sala):
+
+    token = session.get('token')
+    estag_client = EstagiarioClient(token)
+    agendamento_cli = AgendamentoClient(token)
+    user_token: Token = oauth_mapper.to_token(token)
+
+    resp = estag_client.get_by_id(user_token.payload.user_id)
+    if resp.valid:
+        estag = estag_mapper.to_estagiario(resp.value)
+        agendamentos = agendamento_cli.find_by_sala_id(id_sala)
+        agenda: List[Agendamento] = agendamento_mapper.to_agendamentos(agendamentos.value)
+
+        sala_cli = SalaClient(token)
+        sala_resp = sala_cli.get_by_id(id_sala)
+        sala = sala_mapper.to_sala(sala_resp.value)
+
+        sorted_agenda = sorted(agenda, key= lambda a: a.inicioAgendamento, reverse=False) #Reverse = True para ordenar do mais no futuro para o presente
+
+        data_atual = datetime.now().date()
+        agendamentos_futuros = [agnd for agnd in sorted_agenda if
+                                agnd.inicioAgendamento.date() >= data_atual]
+
+        context = {
+            'estagiario': estag,
+            'agenda': agendamentos_futuros,
+            'sala': sala
+        }
+        return render('estagiario/agendamentos_sala.html', **context)
+
+
+
+
+

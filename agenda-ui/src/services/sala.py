@@ -8,3 +8,12 @@ class SalaClient(AgendaClient):
 
     def list_salas(self):
         return self.get(f"sala/listar")
+
+    def get_by_id(self, id: int):
+        return self.get(f"/sala/{id}")
+
+    def cadastrar_sala(self, sala):
+        return self.post(f"/sala/cadastrar", data=sala)
+
+    def delete_sala(self, id: int):
+        return self.delete(f"/sala/{id}")
