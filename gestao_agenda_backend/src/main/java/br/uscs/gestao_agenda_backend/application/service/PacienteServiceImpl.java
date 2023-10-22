@@ -60,16 +60,16 @@ public class PacienteServiceImpl implements PacienteService {
     @Override
     public Optional<PacienteResponse> findById(Long id) {
         if(appSecurity.validateUserAuthority("paciente",id)){
-            Optional<Paciente> paciente = pacienteRepository.findById(id);
-            return paciente.map(pacienteMapper::toResponse);
+            throw new UnauthorizedUserException("Usuário nao possui acesso para visualizar o perfil informado");
         }
-        throw new UnauthorizedUserException("Usuário nao possui acesso para visualizar o perfil informado");
+        Optional<Paciente> paciente = pacienteRepository.findById(id);
+        return paciente.map(pacienteMapper::toResponse);
 
     }
 
     @Override
     public Optional<PacienteResponse> atualizaPaciente(Long id, Paciente request) {
-        if(!appSecurity.validateUserAuthority("paciente",id)){
+        if(appSecurity.validateUserAuthority("paciente",id)){
             throw new UnauthorizedUserException("Usuário nao possui acesso para atualizar o perfil informado");
         }
 
@@ -88,7 +88,7 @@ public class PacienteServiceImpl implements PacienteService {
         Paciente paciente = pacienteRepository.findById(id).orElseThrow(() ->
                 new EntityNotFoundException("Nao foi possivel encontrar o Paciente a ser deletado")
         );
-        if(!appSecurity.validateUserAuthority("paciente",id)){
+        if(appSecurity.validateUserAuthority("paciente",id)){
             throw new UnauthorizedUserException("Usuário nao possui acesso para atualizar o perfil informado");
         }
 

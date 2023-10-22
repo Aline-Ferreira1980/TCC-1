@@ -84,7 +84,7 @@ public class ServicoServiceImpl implements ServicoService {
 
     @Override
     public Optional<ServicoResponse> addEstagiarioToServico(Long servicoId, Long estagiarioId) {
-        if(!appSecurity.validateUserAuthority("estagiario", estagiarioId)){
+        if(appSecurity.validateUserAuthority("estagiario", estagiarioId)){
             throw new UnauthorizedUserException("Usuário nao possui acesso para alteração do serviço");
         }
 
@@ -108,7 +108,7 @@ public class ServicoServiceImpl implements ServicoService {
 
     @Override
     public Optional<ServicoResponse> removeEstagiarioFromServico(Long idServico, Long idEstagiario) {
-        if(!appSecurity.validateUserAuthority("estagiario", idEstagiario)){
+        if(appSecurity.validateUserAuthority("estagiario", idEstagiario)){
             throw new UnauthorizedUserException("Usuário nao possui acesso para alteração do serviço");
         }
 

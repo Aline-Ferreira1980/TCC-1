@@ -9,10 +9,10 @@
             <img src="/static/img/generic-user-purple-4.png" alt=""
                  class="d-block ui-w-100 rounded-circle">
             <div class="media-body ml-4">
-                <h4 class="font-weight-bold mb-0">Olavo Favini <span
-                        class="text-muted font-weight-normal"> - Roberta</span>
+                <h4 class="font-weight-bold mb-0">{{ paciente.nome }}<span
+                        class="text-muted font-weight-normal"> - {{ paciente.nomeSocial }} (Social)</span>
                 </h4>
-                <div class="text-muted mb-1">ID: 3425433</div>
+                <div class="text-muted mb-1">ID: {{ paciente.id }}</div>
             </div>
         </div>
 
@@ -25,103 +25,94 @@
                 <table class="table user-view-table m-0">
                     <tbody>
                     <tr>
-                        <td>Username:</td>
-                        <td>nmaxwell</td>
-                    </tr>
-                    <tr>
                         <td>Name:</td>
-                        <td>Nelle Maxwell</td>
+                        <td>{{ paciente.nome }} {{ paciente.sobrenome }}</td>
                     </tr>
                     <tr>
                         <td>E-mail:</td>
-                        <td>nmaxwell@mail.com</td>
+                        <td>{{ paciente.email }}</td>
                     </tr>
                     <tr>
-                        <td>Company:</td>
-                        <td>Company Ltd.</td>
-                    </tr>
-                    </tbody>
-                </table>
-
-                <h6 class="mt-4 mb-3">Social links</h6>
-
-                <table class="table user-view-table m-0">
-                    <tbody>
-                    <tr>
-                        <td>Twitter:</td>
-                        <td><a href="javascript:void(0)">https://twitter.com/user</a></td>
-                    </tr>
-                    <tr>
-                        <td>Facebook:</td>
-                        <td><a href="javascript:void(0)">https://www.facebook.com/user</a></td>
-                    </tr>
-                    <tr>
-                        <td>Instagram:</td>
-                        <td><a href="javascript:void(0)">https://www.instagram.com/user</a></td>
+                        <td>Data de Nascimento:</td>
+                        <td>{{ paciente.dataNascimento.strftime("%d/%m/%Y") }}</td>
                     </tr>
                     </tbody>
                 </table>
 
-                <h6 class="mt-4 mb-3">Personal info</h6>
+
+                <h6 class="mt-4 mb-3">Detalhes</h6>
 
                 <table class="table user-view-table m-0">
                     <tbody>
                     <tr>
-                        <td>Birthday:</td>
-                        <td>May 3, 1995</td>
+                        <td>Genero:</td>
+                        <td>{{ paciente.genero }}</td>
                     </tr>
                     <tr>
-                        <td>Country:</td>
-                        <td>Canada</td>
+                        <td>Estado Civil:</td>
+                        <td>{{ paciente.estadoCivil }}</td>
                     </tr>
                     <tr>
-                        <td>Languages:</td>
-                        <td>English</td>
+                        <td>Etinia Racial:</td>
+                        <td>{{ paciente.etniaRacial }}</td>
                     </tr>
                     </tbody>
                 </table>
 
-                <h6 class="mt-4 mb-3">Contacts</h6>
+                <h6 class="mt-4 mb-3">Contato</h6>
 
                 <table class="table user-view-table m-0">
                     <tbody>
-                    <tr>
-                        <td>Phone:</td>
-                        <td>+0 (123) 456 7891</td>
-                    </tr>
+                    {% for tele in paciente.telefone %}
+                        <tr>
+                            <td>Phone ({{ tele.tipo }}):</td>
+                            <td>{{ tele.telefone }}</td>
+                        </tr>
+                    {% endfor %}
                     </tbody>
                 </table>
 
-                <h6 class="mt-4 mb-3">Interests</h6>
+                <h6 class="mt-4 mb-3">Endereço</h6>
 
                 <table class="table user-view-table m-0">
                     <tbody>
                     <tr>
-                        <td>Favorite music:</td>
-                        <td>
-                            Rock,
-                            Alternative,
-                            Electro,
-                            Drum &amp; Bass,
-                            Dance
+                        <td>Rua:</td>
+                        <td>{{ paciente.endereco.rua }}
                         </td>
                     </tr>
                     <tr>
-                        <td>Favorite movies:</td>
-                        <td>
-                            The Green Mile,
-                            Pulp Fiction,
-                            Back to the Future,
-                            WALL·E,
-                            Django Unchained,
-                            The Truman Show,
-                            Home Alone,
-                            Seven Pounds
-                        </td>
+                        <td>Cidade:</td>
+                        <td>{{ paciente.endereco.cidade }}</td>
+                    </tr>
+                    <tr>
+                        <td>Bairro:</td>
+                        <td>{{ paciente.endereco.bairro }}</td>
+                    </tr>
+                    <tr>
+                        <td>CEP:</td>
+                        <td>{{ paciente.endereco.cep }}</td>
                     </tr>
                     </tbody>
                 </table>
 
+                {% if paciente.isMenorIdade %}
+                    <h6 class="mt-4 mb-3">Responsavéis</h6>
+
+                    <table class="table user-view-table m-0">
+                        <tbody>
+                        <tr>
+                            <td>Relação:</td>
+                            <td>{{ paciente.relacaoRepresentante }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Nome do Representande:</td>
+                            <td>{{ paciente.representanteNome }}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                {% endif %}
             </div>
         </div>
 

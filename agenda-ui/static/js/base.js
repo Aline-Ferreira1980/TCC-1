@@ -1,9 +1,7 @@
-
-
-$(document).ready(function(){
-  $(":input").inputmask();
- /*
- or    Inputmask().mask(document.querySelectorAll("input"));*/
+$(document).ready(function () {
+    $(":input").inputmask();
+    /*
+    or    Inputmask().mask(document.querySelectorAll("input"));*/
 });
 
 
@@ -12,19 +10,19 @@ $(document).ready(function(){
 // **************************************************
 $(document).ready(function () {
 
-  const control_group_dia_semana = $('.dia-semana-control')
+    const control_group_dia_semana = $('.dia-semana-control')
 
-  control_group_dia_semana.on('change', function (){
-    control_group_dia_semana.each(function (){
-      const checked = $(this).is(':checked')
-      const id = $(this).attr('id')
-      const inputs = $('.'+id)
+    control_group_dia_semana.on('change', function () {
+        control_group_dia_semana.each(function () {
+            const checked = $(this).is(':checked')
+            const id = $(this).attr('id')
+            const inputs = $('.' + id)
 
-      inputs.each(function (){
-        $(this).prop('disabled', !checked)
-      });
+            inputs.each(function () {
+                $(this).prop('disabled', !checked)
+            });
+        });
     });
-  });
 });
 
 
@@ -32,34 +30,66 @@ $(document).ready(function () {
 // Previne que formulario seja submetido invalido
 // **************************************************
 $(document).ready(function () {
-  const forms = $('.needs-validation')
+    const forms = $('.needs-validation')
 
-  Array.from(forms).forEach(form => {
-    form.addEventListener('submit', event => {
-      if (!form.checkValidity()) {
-        event.preventDefault()
-        event.stopPropagation()
-      }
+    Array.from(forms).forEach(form => {
+        form.addEventListener('submit', event => {
+            if (!form.checkValidity()) {
+                event.preventDefault()
+                event.stopPropagation()
+            }
 
-      form.classList.add('was-validated')
-    }, false)
-  })
+            form.classList.add('was-validated')
+        }, false)
+    })
 });
 
 
 $(document).ready(function () {
-  const control_group_dia_semana = $('.dia-semana-control')
+    const control_group_dia_semana = $('.dia-semana-control')
 
-  control_group_dia_semana.each(function () {
+    control_group_dia_semana.each(function () {
 
-    const checked = $(this).is(':checked')
-    const id = $(this).attr('id')
-    const inputs = $('.'+id)
+        const checked = $(this).is(':checked')
+        const id = $(this).attr('id')
+        const inputs = $('.' + id)
 
-    inputs.each(function (){
-      $(this).prop('disabled', !checked)
+        inputs.each(function () {
+            $(this).prop('disabled', !checked)
+        });
     });
-  });
+});
+
+
+$(document).ready(function () {
+    $('#cadastraPaciente').submit(function (event) {
+
+        event.preventDefault();
+
+        const senha = $('#senha');
+        const feedback = $('#feedbackSenha');
+        if (senha.val().length < 6) {
+            senha[0].classList.add('is-invalid');
+        } else {
+            this.submit();
+        }
+    });
+});
+
+
+$(document).ready(function () {
+    $('#cadastroEstagiario').submit(function (event) {
+
+        event.preventDefault();
+
+        const senha = $('#senha');
+        const feedback = $('#feedbackSenha');
+        if (senha.val().length < 6) {
+            senha[0].classList.add('is-invalid');
+        } else {
+            this.submit();
+        }
+    });
 });
 
 

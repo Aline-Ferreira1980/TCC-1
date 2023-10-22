@@ -47,3 +47,12 @@ def get_logout():
     session['login_expiration'] = None
     session['token'] = None
     return redirect(url_for('base.get_home'))
+
+@base.route('/cadastro', methods=['GET'])
+def get_paciente_cadastro():
+    return render('cadastro.html')
+
+
+@base.route('/cadastro/estagiario', methods=['GET'])
+def get_estagiario_cadastro():
+    return render('cadastro_estagiario.html')

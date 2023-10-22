@@ -324,9 +324,13 @@ def get_paciente_detalhe(id_paciente):
 
     if estag_resp.valid:
         estag = estag_mapper.to_estagiario(estag_resp.value)
+        paciente_cli = PacienteClient(token)
+        paciente_resp = paciente_cli.get_by_id(id_paciente)
+        paciente = paciente_mapper.to_paciente(paciente_resp.value)
 
         context = {
             'estagiario': estag,
+            'paciente': paciente
         }
         return render('estagiario/detalhe_paciente.html', **context)
 
