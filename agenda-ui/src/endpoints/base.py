@@ -37,16 +37,22 @@ def post_login():
     session['token'] = oauth.access_token.value
     session['refresh_token'] = oauth.refresh_token.value
     session['login_expiration'] = datetime.now().timestamp() + oauth.expires_in
+    session['authorities'] = oauth.access_token.payload.authorities
 
-    # flash(response.messages, 'success')
-    return redirect(url_for("estagiario.get_perfil", id_usuario=oauth.user_id))
+    if 'paciente' in session['authorities']:
+        return redirect(url_for("paciente.get_perfil", id_usuario=oauth.user_id))
+    if 'estagiario' in  session['authorities']:
+        return redirect(url_for("estagiario.get_perfil", id_usuario=oauth.user_id))
 
+    flash("Nao existe rota para o 'Authority' informado no token", 'danger')
+    return redirect(url_for('base.get_home'))
 
 @base.route('/logout', methods=['GET'])
 def get_logout():
     session['login_expiration'] = None
     session['token'] = None
     return redirect(url_for('base.get_home'))
+
 
 @base.route('/cadastro', methods=['GET'])
 def get_paciente_cadastro():
