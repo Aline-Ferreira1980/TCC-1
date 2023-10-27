@@ -6,14 +6,14 @@
     <div class="container pt-4">
         <div class="row">
             <div class="mb-2 pt-2 text-start">
-                <h2>Perfil Paciente {{ '| ' + estagiario.nome if estagiario }}</h2>
+                <h2>Perfil Paciente {{ '| ' + paciente.nome if paciente }}</h2>
             </div>
             <h4 class="mb-2">Dados Pessoais</h4>
         </div>
 
         <div class="row">
             <!-- <div class="col-md-7 col-lg-8">-->
-            <form class="needs-validation" id="cadastraPaciente" method="post" novalidate>
+            <form class="needs-validation" id="atualizaPaciente" method="POST" novalidate>
                 <div class="row g-3">
 
                     <div class="col-sm-4">
@@ -74,24 +74,27 @@
                     </div>
 
 
-                    <div class="col-sm-4" id="representanteNomeDiv" {% if not paciente.isMenorIdade %}hidden="" {% endif %}>
+                    <div class="col-sm-4" id="representanteNomeDiv"
+                         {% if not paciente.isMenorIdade %}hidden="" {% endif %}>
                         <label for="representanteNome" class="form-label">Nome do Representante</label>
                         <input type="text" class="form-control"
                                id="representanteNome" name="representanteNome"
-                               value="{{ paciente.representanteNome }}" {% if paciente.isMenorIdade %}required{% endif %}>
+                               value="{{ paciente.representanteNome }}"
+                               {% if paciente.isMenorIdade %}required{% endif %}>
                         <div class="invalid-feedback">
-                            Favor informar o primeiro nome.
+                            Favor informar o nome do representante.
                         </div>
                     </div>
 
-                    <div class="col-sm-4" id="relacaoRepresentanteDiv" {% if not paciente.isMenorIdade %}hidden="" {% endif %}>
+                    <div class="col-sm-4" id="relacaoRepresentanteDiv"
+                         {% if not paciente.isMenorIdade %}hidden="" {% endif %}>
                         <label for="relacaoRepresentante" class="form-label">Relação com Representante</label>
                         <input type="text" class="form-control" id="relacaoRepresentante"
                                name="relacaoRepresentante" placeholder="Mae/Pai"
                                value="{{ paciente.relacaoRepresentante }}"
                                {% if paciente.isMenorIdade %}required{% endif %}>
                         <div class="invalid-feedback">
-                            Favor informar seu sobrenome.
+                            Favor informar qual a relação com o representante.
                         </div>
                     </div>
 
@@ -203,8 +206,9 @@
 
                     {% for telefone in paciente.telefone %}
                         <div class="col-3">
-                            <label for="telefone" class="form-label">Telefone</label>
-                            <input type="text" class="form-control" id="telefone" name="telefone_telefone"
+                            <label for="telefone{{ loop.index }}" class="form-label">Telefone</label>
+                            <input type="text" class="form-control" id="telefone{{ loop.index }}"
+                                   name="telefone_telefone{{ loop.index }}"
                                    placeholder=""
                                    data-inputmask-regex="\([1-9]{2}\) (?:[2-8]|9[0-9])[0-9]{3}\-[0-9]{4}"
                                    value="{{ telefone.telefone }}" required>
@@ -215,8 +219,9 @@
 
 
                         <div class="col-sm-3">
-                            <label for="tipo" class="form-label">Estado Civil</label>
-                            <select class="form-select" id="tipo" name="telefone_tipo" required>
+                            <label for="tipo{{ loop.index }}" class="form-label">Estado Civil</label>
+                            <select class="form-select" id="tipo{{ loop.index }}" name="telefone_tipo{{ loop.index }}"
+                                    required>
                                 <option value="CELULAR" {% if telefone.tipo == 'CELULAR' %}selected{% endif %}>Celular
                                 </option>
                                 <option value="RESIDENCIA" {% if telefone.tipo == 'RESIDENCIA' %}selected{% endif %}>
@@ -232,13 +237,14 @@
                     {% endfor %}
 
                     <div class="col-3">
-                        <label for="telefone2" class="form-label">Telefone</label>
-                        <input type="text" class="form-control" id="telefone2" name="telefone_telefone" placeholder=""
+                        <label for="telefone_extra" class="form-label">Telefone</label>
+                        <input type="text" class="form-control" id="telefone_extra" name="telefone_telefone_extra"
+                               placeholder=""
                                data-inputmask-regex="\([1-9]{2}\) (?:[2-8]|9[0-9])[0-9]{3}\-[0-9]{4}">
                     </div>
                     <div class="col-sm-3">
-                        <label for="tipo2" class="form-label">Estado Civil</label>
-                        <select class="form-select" id="tipo2" name="telefone_tipo">
+                        <label for="tipo_extra" class="form-label">Estado Civil</label>
+                        <select class="form-select" id="tipo_extra" name="telefone_tipo_extra">
                             <option value="CELULAR">Celular</option>
                             <option value="RESIDENCIA">Residencia</option>
                             <option value="COMERCIAL">Comercial</option>
@@ -255,28 +261,57 @@
             <hr class="my-4">
             <div class="d-flex justify-content-between">
 
-                <input class="btn btn-primary" type="submit" form="cadastraPaciente"
+                <input class="btn btn-primary" type="submit" form="atualizaPaciente"
                        value="Salvar Cadastro" name="salvar">
-                <input class="btn btn-danger" type="submit"
-                       value="Deletar Perfil" name="salvar">
+                <button class="btn btn-danger"  data-bs-toggle="modal" data-bs-target="#confirmaDelecao">Deletar Perfil</button>
 
             </div>
         </div>
 
     </div>
 
+    <!-- Modal -->
+    <div class="modal fade" id="confirmaDelecao" tabindex="-1" role="dialog"
+         aria-labelledby="confirmaDelecao" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="confromaDelecaoCenterTitle">Seu perfil será deletado Permanentemente</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    Ao deletar seu perfil, todos os seus dados serão apagados do sistema de <strong>forma permanente e eventuais
+                    agendamentos em aberto serão cancelados</strong> <br><br>
+                    Para seguir com a deleção insira seu email abaixo ({{ paciente.email }})
+                    <form method="post" class="pt-3" id="deletaPacienteForm">
+                        <label for="recipient-name" class="form-label">Email</label>
+                        <input type="email" class="form-control" id="recipient-name" required>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <input class="btn btn-danger" value="Deletar Perfil"
+                           name="deletaPaciente"  type="submit" form="deletaPacienteForm">
+                </div>
+            </div>
+        </div>
+    </div>
     <script type="text/javascript">
         function onIsMenorDeIdadeChanged(element) {
             if (element.checked) {
-                document.getElementById('representanteNomeDiv').hidden=false
+                document.getElementById('representanteNomeDiv').hidden = false
                 document.getElementById('representanteNome').setAttribute('required', '')
-                document.getElementById('relacaoRepresentanteDiv').hidden=false
+                document.getElementById('representanteNome').value = ""
+                document.getElementById('relacaoRepresentanteDiv').hidden = false
                 document.getElementById('relacaoRepresentante').setAttribute('required', '')
+                document.getElementById('relacaoRepresentante').value = ""
             } else {
-                document.getElementById('representanteNomeDiv').hidden=true
+                document.getElementById('representanteNomeDiv').hidden = true
                 document.getElementById('representanteNome').removeAttribute('required')
-                document.getElementById('relacaoRepresentanteDiv').hidden=true
+                document.getElementById('representanteNome').value = ""
+                document.getElementById('relacaoRepresentanteDiv').hidden = true
                 document.getElementById('relacaoRepresentante').removeAttribute('required')
+                document.getElementById('relacaoRepresentante').value = ""
             }
         }
 

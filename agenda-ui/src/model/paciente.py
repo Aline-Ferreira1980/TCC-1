@@ -78,3 +78,36 @@ class Paciente(BaseModel):
             float: lambda v: str(v),
             Decimal: lambda v: str(v),
         }
+
+
+class AtualizaPacienteRequest(BaseModel):
+    nome: str = Field(...)
+    sobrenome: str = Field(...)
+    nomeSocial: str = Field(...)
+    dataNascimento: date
+    genero: str = Field(...)
+    estadoCivil: str = Field(...)
+    etniaRacial: str = Field(...)
+    endereco: Endereco
+    telefone: List[Telefone]
+    isMenorIdade: bool
+    relacaoRepresentante: Optional[str] = Field(...)
+    representanteNome: Optional[str] = Field(...)
+
+    @field_serializer('dataNascimento')
+    def serialize_t(self, d: date, _info):
+        return d.isoformat()
+
+    class Config:
+        use_enum_values = True
+        json_encoders = {
+            int: lambda v: str(v),
+            float: lambda v: str(v),
+            Decimal: lambda v: str(v),
+        }
+        dict_encoders = {
+            int: lambda v: str(v),
+            float: lambda v: str(v),
+            Decimal: lambda v: str(v),
+        }
+

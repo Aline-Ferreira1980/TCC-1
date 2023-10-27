@@ -117,6 +117,9 @@ def get_agendamentos(id_usuario):
         }
         return render('estagiario/agendamentos.html', **context)
 
+    flash(resp.message, "danger")
+    return redirect(url_for('estagiario.get_perfil', id_usuario=id_usuario))
+
 
 @estagiario.route('agendamento/novo',  methods=['GET'])
 @auth_required
@@ -466,6 +469,44 @@ def get_sala_agendamentos(id_sala):
         return render('estagiario/agendamentos_sala.html', **context)
 
 
+def cadastro_estagiario(form):
+    token = session.get('token')
+    estag_client = EstagiarioClient(token)
 
+    estag = Estagiario
+    estag.nome = request.form.get("nome")
+    estag.sobrenome = request.form.get("sobrenome")
+    estag.ra = request.form.get("ra_uscs").replace('-', '')
+    estag.turno = request.form.get("turno").upper()
+    estag.turma = request.form.get("turma")
+    estag.semestre = int(request.form.get("semestre"))
+    estag.horariosTrabalho.clear()
 
+    dias_semana = {'segunda': 'MONDAY',
+                   'terca': 'TUESDAY',
+                   'quarta': 'WEDNESDAY',
+                   'quinta': 'THURSDAY',
+                   'sexta': 'FRIDAY',
+                   'sabado': 'SATURDAY',
+                   'domingo': 'SUNDAY'}
 
+    horarios_trabalho: List[HorarioTrabalhoRequest] = []
+    temp_dict = {}
+    for key, value in request.form.items():
+        if key.startswith('cb_'):
+            dia_semana = key[3:]
+            temp_dict['diaSemana'] = dias_semana[dia_semana]
+            temp_dict['horarioInicio'] = request.form.get(f"{dia_semana}_inicio")
+            temp_dict['horarioFim'] = request.form.get(f"{dia_semana}_fim")
+            horario_trabalho = HorarioTrabalhoRequest(**temp_dict.copy())
+            horarios_trabalho.append(horario_trabalho)
+
+    estag.horariosTrabalho = horarios_trabalho.copy()
+
+    result = estag_client.update_estagiario(id_usuario, estag)
+    if not result.valid:
+        flash(result.message, "danger")
+        return redirect(url_for('estagiario.get_perfil', id_usuario=id_usuario))
+
+    flash("estagiario salvo", "success")
+    return redirect(url_for('estagiario.get_perfil', id_usuario=id_usuario))

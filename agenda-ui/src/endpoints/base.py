@@ -1,7 +1,8 @@
 from datetime import datetime
 
-from flask import Blueprint, redirect, url_for, flash, session
+from flask import Blueprint, redirect, url_for, flash, session, request
 
+from src.endpoints import estagiario
 from src.lib.utils import render, read_form_field
 from src.model.oauth_response import OAuthResponseModel
 from src.model.mapper import oauth_mapper
@@ -62,3 +63,9 @@ def get_paciente_cadastro():
 @base.route('/cadastro/estagiario', methods=['GET'])
 def get_estagiario_cadastro():
     return render('cadastro_estagiario.html')
+
+base.route('/cadastro/estagiario', methods=['POST'])
+def post_estagiario_cadastro():
+    form = request.form
+    estagiario.cadastro_estagiario(form)
+    return render('cadastro_realizado.html')

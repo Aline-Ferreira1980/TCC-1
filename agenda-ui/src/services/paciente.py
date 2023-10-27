@@ -1,4 +1,4 @@
-from src.model.estagiario import Estagiario, AtualizaEstagiarioRequest
+from src.model.paciente import AtualizaPacienteRequest
 from src.services.agenda import AgendaClient
 
 
@@ -14,4 +14,9 @@ class PacienteClient(AgendaClient):
     def get_by_estagiario_empty(self):
         return self.get("/paciente/findByEstagiarioEmpty")
 
+    def update_paciente(self, id_usuario, paciente: AtualizaPacienteRequest):
+        return self.put(f"paciente/{id_usuario}", data=paciente.model_dump())
+
+    def deleta_paciente(self, id_usuario):
+        return self.delete(f"/paciente/{id_usuario}")
 

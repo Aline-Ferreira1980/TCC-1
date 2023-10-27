@@ -14,7 +14,7 @@
             </a>
 
             <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
-                <li><a href="/estagiario/{{ paciente.id }}/agendamentos"
+                <li><a href="/paciente/{{ paciente.id }}/agendamentos"
                        class="nav-link px-2 link-primary text-white">Agedanentos</a></li>
 
             </ul>
@@ -25,7 +25,7 @@
                     {{ nome_usuario | default('', true) }}
                 </a>
                 <ul class="dropdown-menu text-small">
-                    <li><a class="dropdown-item" href="/estagiario/{{ paciente.id }}">Perfil</a></li>
+                    <li><a class="dropdown-item" href="/paciente/{{ paciente.id }}">Perfil</a></li>
                     <li>
                         <hr class="dropdown-divider">
                     </li>

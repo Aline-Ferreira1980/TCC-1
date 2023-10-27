@@ -130,3 +130,28 @@ class EstagiarioProperty(BaseModel):
             float: lambda v: str(v),
             Decimal: lambda v: str(v),
         }
+
+
+class CadastraEstagiarioRequest(BaseModel):
+    nome: str = Field(...)
+    sobrenome: str = Field(...)
+    email: str = Field(...)
+    senha: str = Field(...)
+    ra: str = Field(...)
+    turno: str = Field(...)
+    turma: str = Field(...)
+    semestre: int = Field(...)
+    horariosTrabalho: List[HorarioTrabalhoRequest]
+
+    class Config:
+        use_enum_values = True
+        json_encoders = {
+            int: lambda v: str(v),
+            float: lambda v: str(v),
+            Decimal: lambda v: str(v),
+        }
+        dict_encoders = {
+            int: lambda v: str(v),
+            float: lambda v: str(v),
+            Decimal: lambda v: str(v),
+        }
