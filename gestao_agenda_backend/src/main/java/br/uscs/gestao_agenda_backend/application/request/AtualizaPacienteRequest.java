@@ -36,10 +36,10 @@ public class AtualizaPacienteRequest {
     @NotBlank
     private String sobrenome;
 
-    @NonNull
-    @NotBlank
-    @Size(min = 6, message = "A senha deve conter pelo menos 6 caracteres.")
-    private String senha;
+//    @NonNull
+//    @NotBlank
+//    @Size(min = 6, message = "A senha deve conter pelo menos 6 caracteres.")
+//    private String senha;
 
     private String nomeSocial;
 
