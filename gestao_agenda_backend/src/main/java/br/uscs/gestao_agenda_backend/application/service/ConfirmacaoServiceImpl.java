@@ -1,5 +1,8 @@
 package br.uscs.gestao_agenda_backend.application.service;
 
+import br.uscs.gestao_agenda_backend.application.email.EmailException;
+import br.uscs.gestao_agenda_backend.application.email.EmailService;
+import br.uscs.gestao_agenda_backend.application.email.Mensagem;
 import br.uscs.gestao_agenda_backend.application.port.ConfirmacaoService;
 import br.uscs.gestao_agenda_backend.domain.model.User;
 import br.uscs.gestao_agenda_backend.domain.port.UserRepository;
@@ -25,21 +28,49 @@ public class ConfirmacaoServiceImpl implements ConfirmacaoService {
 
     private final UserRepository userRepository;
 
+    private final EmailService emailService;
+
+//    @Override
+//    public void enviarEmailConfirmacao(String email, String token) {
+//
+//        // TODO: Melhorar email? Talvez usar um template?
+//        String corpoEmail = "Clique neste link para confirmar seu e-mail: " +
+//                apiUrl + "/confirm?token=" + token;
+//
+//
+//        SimpleMailMessage message = new SimpleMailMessage();
+//        message.setFrom(mailSender);
+//        message.setTo(email);
+//        message.setSubject("Cadastro CESEP - Confirmação de E-mail");
+//        message.setText(corpoEmail);
+//
+//        javaMailSender.send(message);
+//    }
+
     @Override
     public void enviarEmailConfirmacao(String email, String token) {
 
-        // TODO: Melhorar email? Talvez usar um template?
-        String corpoEmail = "Clique neste link para confirmar seu e-mail: " +
-                apiUrl + "/confirm?token=" + token;
+        Mensagem mensagem = Mensagem.builder()
+                .assunto("Cadastro CESEP - Confirmação de E-mail")
+                .corpo("email_confirmacao.ftlh")
+                .variavel("link_confirmacao",  apiUrl + "/confirm?token=" + token)
+                .destinatario(email)
+                .build();
 
-
-        SimpleMailMessage message = new SimpleMailMessage();
-        message.setFrom(mailSender);
-        message.setTo(email);
-        message.setSubject("Cadastro CESEP - Confirmação de E-mail");
-        message.setText(corpoEmail);
-
-        javaMailSender.send(message);
+        emailService.enviar(mensagem);
+//
+//        // TODO: Melhorar email? Talvez usar um template?
+//        String corpoEmail = "Clique neste link para confirmar seu e-mail: " +
+//                apiUrl + "/confirm?token=" + token;
+//
+//
+//        SimpleMailMessage message = new SimpleMailMessage();
+//        message.setFrom(mailSender);
+//        message.setTo(email);
+//        message.setSubject("Cadastro CESEP - Confirmação de E-mail");
+//        message.setText(corpoEmail);
+//
+//        javaMailSender.send(message);
     }
 
     @Override
@@ -51,4 +82,16 @@ public class ConfirmacaoServiceImpl implements ConfirmacaoService {
         user.setToken(null);
         userRepository.save(user);
     }
+
 }
+
+//			Mensagem mensagem = Mensagem.builder()
+//				.assunto(cliente.getNome()+ "Cliente Atualizado")
+//				.corpo("cliente-atualizado.html")
+//				.variavel("cliente",cliente)
+//				.variavel("cidade",cidade.get().getNome())
+//				.variavel("estado",cidade.get().getEstado().getNome())
+//				.destinatario(cliente.getEmail())
+//				.build();
+//			envioMensagem.enviar(mensagem);
+

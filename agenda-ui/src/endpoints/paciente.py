@@ -7,14 +7,14 @@ from src.lib.auth import auth_required
 from src.lib.utils import render
 from src.model.agendamento import Agendamento
 from src.model.mapper import paciente_mapper, agendamento_mapper
-from src.model.paciente import Telefone, AtualizaPacienteRequest
+from src.model.paciente import Telefone, AtualizaPacienteRequest, CadastraPacienteRequest, Endereco
 from src.services.agendamento import AgendamentoClient
 from src.services.paciente import PacienteClient
 
 paciente = Blueprint('paciente', __name__)
 
 
-@paciente.route('/<id_usuario>',  methods=['GET'])
+@paciente.route('/<id_usuario>', methods=['GET'])
 @auth_required
 def get_perfil(id_usuario):
     token = session.get('token')
@@ -35,9 +35,7 @@ def get_perfil(id_usuario):
     return redirect(url_for('base.get_home'))
 
 
-
-
-@paciente.route('/<id_usuario>',  methods=['POST'])
+@paciente.route('/<id_usuario>', methods=['POST'])
 @auth_required
 def post_perfil(id_usuario):
     token = session.get('token')
@@ -52,7 +50,6 @@ def post_perfil(id_usuario):
             paciente_client.deleta_paciente(id_usuario)
             flash("Perfil deletado", "warn")
             return redirect(url_for('base.get_home'))
-
 
         paciente.nome = form.get('nome')
         paciente.sobrenome = form.get('sobrenome')
@@ -104,8 +101,7 @@ def post_perfil(id_usuario):
         return redirect(url_for('paciente.get_agendamentos', id_usuario=id_usuario))
 
 
-
-@paciente.route('/<id_usuario>/agendamentos',  methods=['GET'])
+@paciente.route('/<id_usuario>/agendamentos', methods=['GET'])
 @auth_required
 def get_agendamentos(id_usuario):
     token = session.get('token')
@@ -118,7 +114,8 @@ def get_agendamentos(id_usuario):
         agendamentos = agendamento_cli.find_by_user_id(id_usuario)
         agenda: List[Agendamento] = agendamento_mapper.to_agendamentos(agendamentos.value)
 
-        sorted_agenda = sorted(agenda, key= lambda a: a.inicioAgendamento, reverse=False) #Reverse = True para ordenar do mais no futuro para o presente
+        sorted_agenda = sorted(agenda, key=lambda a: a.inicioAgendamento,
+                               reverse=False)  # Reverse = True para ordenar do mais no futuro para o presente
 
         data_atual = datetime.now().date()
         agendamentos_futuros = [agnd for agnd in sorted_agenda if
@@ -129,4 +126,57 @@ def get_agendamentos(id_usuario):
             'agenda': agendamentos_futuros
         }
         return render('pacientes/agendamentos.html', **context)
+
+
+def cadastro_paciente(form):
+
+    data_nascimento_str = form.get('dataNascimento')
+    formato = '%d/%m/%Y'
+
+    paciente = CadastraPacienteRequest(
+        nome=form.get('nome'),
+        sobrenome=form.get('sobrenome'),
+        email=form.get('email'),
+        senha=form.get('senha'),
+        nomeSocial=form.get('nomeSocial'),
+        dataNascimento=datetime.strptime(data_nascimento_str, formato),
+        genero=form.get('genero'),
+        estadoCivil=form.get('estadoCivil'),
+        etniaRacial=form.get('etniaRacial'),
+        endereco=Endereco(
+            rua=form.get('endereco_rua'),
+            cidade=form.get('endereco_cidade'),
+            bairro=form.get('endereco_bairro'),
+            cep=form.get('endereco_cep')
+        )
+    )
+
+    paciente.telefone.clear()
+    for chave, valor in form.items():
+        if chave.startswith('telefone_telefone'):
+            indice = chave.split('telefone_telefone')[-1]
+            if valor.strip():  # Verifique se o valor do telefone não está em branco
+                if indice == 'extra':
+                    chave_telefone = 'extra'
+                else:
+                    chave_telefone = indice
+                tipo_chave = f'telefone_tipo{chave_telefone}'
+
+                tmp_tel = Telefone(telefone=valor, tipo=form[tipo_chave])
+                paciente.telefone.append(tmp_tel)
+
+    if form.get('isMenorIdade'):
+        paciente.isMenorIdade = True
+        paciente.representanteNome = form.get('representanteNome')
+        paciente.relacaoRepresentante = form.get('relacaoRepresentante')
+    else:
+        paciente.isMenorIdade = False
+        paciente.representanteNome = None
+        paciente.relacaoRepresentante = None
+
+    paciente_client = PacienteClient('')
+    resp = paciente_client.create_paciente(paciente)
+    if resp.valid:
+        return True
+    return False
 

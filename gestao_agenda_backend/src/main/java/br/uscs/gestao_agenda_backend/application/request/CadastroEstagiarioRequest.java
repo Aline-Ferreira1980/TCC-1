@@ -56,6 +56,5 @@ public class CadastroEstagiarioRequest {
     @Max(value = 10, message = "O campo 'semestre' deve ser meno ou igual a 10.")
     private Integer semestre;
 
-    @NotEmpty
     private List<HorarioTrabalhoRequest> horariosTrabalho;
 }

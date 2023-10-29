@@ -1,6 +1,6 @@
 from urllib.parse import urlencode
 
-from src.model.estagiario import Estagiario, AtualizaEstagiarioRequest
+from src.model.estagiario import Estagiario, AtualizaEstagiarioRequest, CadastraEstagiarioRequest
 from src.services.agenda import AgendaClient
 
 
@@ -22,3 +22,6 @@ class EstagiarioClient(AgendaClient):
         data = urlencode(data)
         headers = {'Content-Type': 'application/x-www-form-urlencoded'}
         return self.post(f"estagiario/{id_estagiario}/add_paciente", params=data, headers=headers)
+
+    def create_estagiario(self, estag: CadastraEstagiarioRequest):
+        return self.post("estagiario/cadastrar", data=estag.model_dump())

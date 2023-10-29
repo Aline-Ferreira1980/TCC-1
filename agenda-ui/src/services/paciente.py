@@ -1,4 +1,4 @@
-from src.model.paciente import AtualizaPacienteRequest
+from src.model.paciente import AtualizaPacienteRequest, CadastraPacienteRequest
 from src.services.agenda import AgendaClient
 
 
@@ -19,4 +19,7 @@ class PacienteClient(AgendaClient):
 
     def deleta_paciente(self, id_usuario):
         return self.delete(f"/paciente/{id_usuario}")
+
+    def create_paciente(self, paciente: CadastraPacienteRequest):
+        return self.post("paciente/cadastrar", data=paciente.model_dump())
 

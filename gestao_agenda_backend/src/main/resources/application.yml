@@ -16,6 +16,11 @@ spring:
         auth: true
         starttls.enable: true
 
+  freemarker:
+    check-template-location: false
+    settings:
+      locale: pt_BR
+
 agenda:
   email:
     sender: Agenda-CESEP <agenda.cesep@gmail.com>
@@ -38,7 +43,6 @@ springdoc:
       clientSecret: newClientSecret
 
   oAuthFlow.tokenUrl: ${OAUTH2_SERVER:http://localhost:8080}/oauth/token
-
 
 
     #management:

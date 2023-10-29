@@ -2,7 +2,7 @@ from datetime import datetime
 
 from flask import Blueprint, redirect, url_for, flash, session, request
 
-from src.endpoints import estagiario
+from src.endpoints import estagiario, paciente
 from src.lib.utils import render, read_form_field
 from src.model.oauth_response import OAuthResponseModel
 from src.model.mapper import oauth_mapper
@@ -60,12 +60,32 @@ def get_paciente_cadastro():
     return render('cadastro.html')
 
 
+
+@base.route('/cadastro', methods=['POST'])
+def post_paciente_cadastro():
+    form = request.form
+    if paciente.cadastro_paciente(form):
+        return redirect(url_for('base.get_confirmar_email'))
+
+    flash("Erro ao realziar o cadastro, tente novamente mais tarde", "danger")
+    return redirect(url_for('base.get_login'))
+
+
 @base.route('/cadastro/estagiario', methods=['GET'])
 def get_estagiario_cadastro():
     return render('cadastro_estagiario.html')
 
-base.route('/cadastro/estagiario', methods=['POST'])
+
+@base.route('/cadastro/estagiario', methods=['POST'])
 def post_estagiario_cadastro():
     form = request.form
-    estagiario.cadastro_estagiario(form)
+    if estagiario.cadastro_estagiario(form):
+        return redirect(url_for('base.get_confirmar_email'))
+
+    flash("Erro ao realziar o cadastro, tente novamente mais tarde", "danger")
+    return redirect(url_for('base.get_login'))
+
+
+@base.route('/cadastro/confirmar', methods=['GET'])
+def get_confirmar_email():
     return render('cadastro_realizado.html')
