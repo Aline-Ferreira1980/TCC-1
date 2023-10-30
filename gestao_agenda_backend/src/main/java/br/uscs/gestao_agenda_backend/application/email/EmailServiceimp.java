@@ -39,7 +39,6 @@ public class EmailServiceimp  implements EmailService{
             helper.setText(corpo, true);
 
             mailSender.send(mimeMessage);
-            System.out.println(mimeMessage);
         } catch (Exception e) {
             throw new EmailException("Não foi possível enviar e-mail", e);
         }

@@ -52,7 +52,7 @@ public class ConfirmacaoServiceImpl implements ConfirmacaoService {
 
         Mensagem mensagem = Mensagem.builder()
                 .assunto("Cadastro CESEP - Confirmação de E-mail")
-                .corpo("email_confirmacao.ftlh")
+                .corpo("email_confirmacao.html")
                 .variavel("link_confirmacao",  apiUrl + "/confirm?token=" + token)
                 .destinatario(email)
                 .build();
@@ -84,14 +84,4 @@ public class ConfirmacaoServiceImpl implements ConfirmacaoService {
     }
 
 }
-
-//			Mensagem mensagem = Mensagem.builder()
-//				.assunto(cliente.getNome()+ "Cliente Atualizado")
-//				.corpo("cliente-atualizado.html")
-//				.variavel("cliente",cliente)
-//				.variavel("cidade",cidade.get().getNome())
-//				.variavel("estado",cidade.get().getEstado().getNome())
-//				.destinatario(cliente.getEmail())
-//				.build();
-//			envioMensagem.enviar(mensagem);
 

@@ -82,6 +82,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         web.ignoring().antMatchers("/paciente/cadastrar");
         web.ignoring().antMatchers("/estagiario/cadastrar");
         web.ignoring().antMatchers("/confirm");
+        web.ignoring().antMatchers("/confirm/**");
 
     }
 }

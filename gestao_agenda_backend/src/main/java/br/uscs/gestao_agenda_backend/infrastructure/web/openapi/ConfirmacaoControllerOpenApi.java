@@ -9,7 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Tag(name = "Confirmação")
-@SecurityRequirement(name = "OAuth2")
+//@SecurityRequirement(name = "OAuth2")
 public interface ConfirmacaoControllerOpenApi {
     @Operation(summary = "Confirmação de e-mail cadastrado via token", method = "GET")
     @ApiResponses(value = {

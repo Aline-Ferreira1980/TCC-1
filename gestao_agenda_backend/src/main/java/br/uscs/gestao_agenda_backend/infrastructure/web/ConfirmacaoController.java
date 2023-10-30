@@ -25,4 +25,11 @@ public class ConfirmacaoController implements ConfirmacaoControllerOpenApi {
             return ResponseEntity.notFound().build();
         }
     }
+
+
+    @GetMapping("/teste")
+    public ResponseEntity<?> enviaEmailTeste() {
+        confirmacaoService.enviarEmailConfirmacao("gfavini@gmail.com", "");
+        return ResponseEntity.ok().build();
+    }
 }
