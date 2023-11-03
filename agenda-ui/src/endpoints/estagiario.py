@@ -203,7 +203,7 @@ def post_agendamentos(id_usuario):
 
     if request.form.get('delete') == 'delete':
         agen_id = int(request.form.get('id_agendamento'))
-        agendamento_cli.delete_agendandamento(agen_id)
+        agendamento_cli.delete_agendamento(agen_id)
 
     return redirect(url_for('estagiario.get_agendamentos', id_usuario=user_token.payload.user_id))
 

@@ -25,8 +25,7 @@
                                 <div class="card-body">
 
                                     <h5 class="card-title">{{ agendamento.paciente.nome }} {{ agendamento.paciente.sobrenome }}</h5>
-                                    <p class="card-text"><strong>Nome
-                                        social: </strong> {{ agendamento.paciente.nomeSocial }} </p>
+                                    <p class="card-text"><strong>Atendente: </strong> {{ agendamento.estagiario.nome }} </p>
                                     <p class="card-text"><strong>Horio: </strong>
                                         {{ agendamento.inicioAgendamento.strftime("%H:%M") }} -
                                         <strong>Duração: </strong> {{ (agendamento.fimAgendamento - agendamento.inicioAgendamento).total_seconds() / 60 }}
@@ -35,8 +34,6 @@
                                     </p>
                                     <form method="POST">
                                         <input type="text" name="id_agendamento" id="id_agendamento{{ agendamento.id }}" value="{{ agendamento.id }}" hidden>
-                                        <button class="btn btn-primary align-middle" type="submit" name="edit"
-                                                value="edit"><i class="fa-solid fa-file-pen"></i></button>
                                         <button class="btn btn-danger" type="submit" name="delete" value="delete"><i
                                                 class="fa-solid fa-trash"></i></button>
                                     </form>

@@ -1,6 +1,6 @@
 server:
   port: 8080
-  apiUrl: http://localhost:8080
+  apiUrl: ${API_URL:http://localhost:8080}
 
 spring:
   profiles.active: local
@@ -23,18 +23,18 @@ spring:
 
 agenda:
   email:
-    sender: Agenda-CESEP <agenda.cesep@gmail.com>
+    sender: ${EMAIL_SENDER:Agenda-CESEP <agenda.cesep@gmail.com>}
 
 logging:
   level.org.springframework:
-    security: DEBUG
+    security: ${API_LOG_LEVEL:DEBUG}
 
 
 agenda-cesep:
   password:
     client: ${CLIENT_PASS:teste}
   jwt:
-    secret: ${JWT_SECRET}
+    secret: ${JWT_SECRET:teste}
   frontend-origin: ${FRONT_ORIGIN:http://localhost:4200/}
 
 springdoc:

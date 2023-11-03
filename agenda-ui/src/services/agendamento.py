@@ -19,7 +19,7 @@ class AgendamentoClient(AgendaClient):
         return self.get(f"agendamento/user/{id}")
 
 
-    def delete_agendandamento(self, id: int):
+    def delete_agendamento(self, id: int):
         return self.delete(f"agendamento/{id}")
 
     def find_by_id(self, id_agendamento) -> HTTPResponse:
