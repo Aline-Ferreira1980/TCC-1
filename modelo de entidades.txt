@@ -1,0 +1,83 @@
+Tabela Usuário
+++++++++++++++++++++++++++++++++++++++++
+id                                      
+Nome
+Sobrenome
+data de nascimento
+telefone
+cidade
+Bairro
+Numero do Prontuário
+CID
+Estagiário {list} [id, nome, turma, semeste] (histórico)
+Evolução {list} [1, 0, -1]
+Serviço Utilizado {list} [id, nome]
+Orientador [id, nome],
+agendamentos [id, sala, inicio, termino]
+
+++++++++++++++++++++++++++++++++++++++++
+
+
+Tabela Estagiarios
++++++++++++++++++++++++++++++++++++++++
+pk-ra
+Nome
+sobrenome
+semestre
+turma??????
+telefone
+orientador{list?????} [id, nome, ????]
+Usuarios {list} [id, nome, Numero do prontuário, serviço???]
+consultas {lista} [id agendamento, sala, inicio, termino]
+email??
+algo mais??????
+
+
+
+Orientadores
+++++++++++++++++++++++++++++++++++++++++++
+
+Nome
+Sobrenome
+orientados:{list Estags} [ra, nome Estagiário, turma]
+usuarios: {list} [id, nome, serviço]
+mais atribustos ????
+
+
+
+Agendamento
+++++++++++++++++++++++++++++++++++++++++++
+id
+sala {id, nome, local}
+inicio
+termino
+estag {list} [ra, nome, telefone, mais info???]
+usuarios {list}[id, nome, telefone]
+
+
+Salas
+++++++++++++++++++++++++++++++++++++++++++
+id
+nome
+local
+disponibilidade:{
+    segunda : [ 
+        {inicio, fim}
+    ]
+}
+agendamentos {
+    segunda : [ 
+        {inicio, fim}
+    ]
+}
+
+
+Serviços
+++++++++++++++++++++++++++++++++++++++++++
+id
+nome
+descrição
+oritentador???
+
+
+

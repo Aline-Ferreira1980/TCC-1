@@ -1,0 +1,19 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      java: corretto20
+
+  build:
+    commands:
+      - mvn clean package
+
+artifacts:
+  files:
+    - gestao_agenda_backend/target/*.jar
+  discard-paths: yes
+
+cache:
+  paths:
+    - ~/.m2/repository

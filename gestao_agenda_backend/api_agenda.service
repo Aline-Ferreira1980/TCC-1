@@ -1,0 +1,29 @@
+[Unit]
+Description=Agenda CESEPP - API
+After=network.target
+
+[Service]
+User=agenda
+WorkingDirectory=/var/www/backend
+ExecStart=/usr/bin/java -jar /var/www/backend/api.jar
+
+Environment="API_URL=http://18.231.69.255:8000"
+Environment="SMTP_USER=apikey"
+Environment="SMTP_PASS=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"
+Environment="EMAIL_SENDER=Agenda-CESEP <agenda.cesep@gmail.com>"
+Environment="API_LOG_LEVEL=INFO"
+Environment="CLIENT_PASS=segredoparaappdefrontend"
+Environment="JWT_SECRET=tcc7anturma2023projtoagendacesep"
+Environment="FRONT_ORIGIN=http://18.231.69.255"
+Environment="OAUTH2_SERVER=http://18.231.69.255:8000/oauth/token"
+
+ExecStop=/bin/kill -15 $MAINPID
+SuccessExitStatus=143
+Restart=on-failure
+StandardOutput=syslog
+StandardError=syslog
+SyslogIdentifier=api_agenda
+
+[Install]
+WantedBy=multi-user.target
+

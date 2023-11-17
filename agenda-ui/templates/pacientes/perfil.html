@@ -1,0 +1,320 @@
+{% extends "pacientes/base_paciente.html" %}
+{% block title %} Perfil Paciente {% endblock %}
+{% block path %} Perfil Paciente {% endblock %}
+
+{% block paciente_content %}
+    <div class="container pt-4">
+        <div class="row">
+            <div class="mb-2 pt-2 text-start">
+                <h2>Perfil Paciente {{ '| ' + paciente.nome if paciente }}</h2>
+            </div>
+            <h4 class="mb-2">Dados Pessoais</h4>
+        </div>
+
+        <div class="row">
+            <!-- <div class="col-md-7 col-lg-8">-->
+            <form class="needs-validation" id="atualizaPaciente" method="POST" novalidate>
+                <div class="row g-3">
+
+                    <div class="col-sm-4">
+                        <label for="nome" class="form-label">Primeiro Nome</label>
+                        <input type="text" class="form-control" id="nome" name="nome" placeholder=""
+                               value="{{ paciente.nome }}" required>
+                        <div class="invalid-feedback">
+                            Favor informar o primeiro nome.
+                        </div>
+                    </div>
+
+                    <div class="col-sm-4">
+                        <label for="sobrenome" class="form-label">Sobrenome</label>
+                        <input type="text" class="form-control" id="sobrenome" name="sobrenome" placeholder=""
+                               value="{{ paciente.sobrenome }}"
+                               required>
+                        <div class="invalid-feedback">
+                            Favor informar seu sobrenome.
+                        </div>
+                    </div>
+
+                    <div class="col-sm-3">
+                        <label for="dataNascimento" class="form-label">Data Nascimento</label>
+                        <input type="text" class="form-control" id="dataNascimento" name="dataNascimento" placeholder=""
+                               value="{{ paciente.dataNascimento.strftime("%d/%m/%Y") }}"
+                               data-inputmask-regex="(0[1-9]|[12][0-9]|3[01])\/(0[1-9]|1[0-2])\/(\d{4})" required>
+                        <div class="invalid-feedback">
+                            Favor informar a data de Nascimento.
+                        </div>
+
+                    </div>
+
+
+                    <div class="col-6">
+                        <label for="email" class="form-label">Email</label>
+                        <div class="input-group has-validation">
+                            <span class="input-group-text">@</span>
+                            <input type="email" class="form-control" id="email" name="email"
+                                   value="{{ paciente.email }}"
+                                   disabled>
+                            <div class="invalid-feedback">
+                                Favor informar um email valido.
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="col-12 alert alert-warning">
+                        <div class="ps-5 my-0 form-check">
+                            <input class="form-check-input" type="checkbox" name="isMenorIdade"
+                                   value="isMenorIdade" id="flexCheckDefault"
+                                   {% if paciente.isMenorIdade %}checked{% endif %}
+                                   onchange="onIsMenorDeIdadeChanged(this)">
+                            <label class="form-check-label" for="flexCheckDefault">
+                                <strong>Sou menor de idade</strong>
+                            </label>
+                        </div>
+                    </div>
+
+
+                    <div class="col-sm-4" id="representanteNomeDiv"
+                         {% if not paciente.isMenorIdade %}hidden="" {% endif %}>
+                        <label for="representanteNome" class="form-label">Nome do Representante</label>
+                        <input type="text" class="form-control"
+                               id="representanteNome" name="representanteNome"
+                               value="{{ paciente.representanteNome }}"
+                               {% if paciente.isMenorIdade %}required{% endif %}>
+                        <div class="invalid-feedback">
+                            Favor informar o nome do representante.
+                        </div>
+                    </div>
+
+                    <div class="col-sm-4" id="relacaoRepresentanteDiv"
+                         {% if not paciente.isMenorIdade %}hidden="" {% endif %}>
+                        <label for="relacaoRepresentante" class="form-label">Relação com Representante</label>
+                        <input type="text" class="form-control" id="relacaoRepresentante"
+                               name="relacaoRepresentante" placeholder="Mae/Pai"
+                               value="{{ paciente.relacaoRepresentante }}"
+                               {% if paciente.isMenorIdade %}required{% endif %}>
+                        <div class="invalid-feedback">
+                            Favor informar qual a relação com o representante.
+                        </div>
+                    </div>
+
+
+                    <hr class="my-3">
+                    <h5 class="mb-3">Informações Adicionais</h5>
+
+                    <div class="col-sm-5">
+                        <label for="nomeSocial" class="form-label">Nome Social</label>
+                        <input type="text" class="form-control" id="nomeSocial" name="nomeSocial" placeholder=""
+                               value="{{ paciente.nomeSocial }}" required>
+                        <div class="invalid-feedback">
+                            Favor informar seu nome social.
+                        </div>
+                    </div>
+
+                    <div class="col-sm-3">
+                        <label for="genero" class="form-label">Genero</label>
+                        <input type="text" class="form-control" id="genero" name="genero" placeholder=""
+                               value="{{ paciente.genero }}"
+                               required>
+                        <div class="invalid-feedback">
+                            Favor informar seu genero.
+                        </div>
+                    </div>
+
+                    <div class="col-sm-3">
+                        <label for="etniaRacial" class="form-label">Etinia</label>
+                        <input type="text" class="form-control" id="etniaRacial" name="etniaRacial" placeholder=""
+                               value="{{ paciente.etniaRacial }}"
+                               required>
+                        <div class="invalid-feedback">
+                            Favor informar sua etinia.
+                        </div>
+                    </div>
+
+                    <div class="col-sm-3">
+                        <label for="estadoCivil" class="form-label">Estado Civil</label>
+                        <select class="form-select" id="estadoCivil" name="estadoCivil"
+                                required>
+                            <option value="SOLTEIRO"
+                                    {% if paciente.estadoCivil == 'SOLTEIRO' %} selected {% endif %}>Solteiro(a)
+                            </option>
+                            <option value="CASADO"
+                                    {% if paciente.estadoCivil == 'CASADO' %} selected {% endif %}>Casado(a)
+                            </option>
+                            <option value="SEPARADO"
+                                    {% if paciente.estadoCivil == 'SEPARADO' %} selected {% endif %}>Sparado(a)
+                            </option>
+                            <option value="DIVORCIADO"
+                                    {% if paciente.estadoCivil == 'DIVORCIADO' %} selected {% endif %}>Divorciado(a)
+                            </option>
+                            <option value="VIUVO"
+                                    {% if paciente.estadoCivil == 'VIUVO' %} selected {% endif %}>Viuvo(a)
+                            </option>
+                            <option value="UNIAO_ESTAVEL"
+                                    {% if paciente.estadoCivil == 'UNIAO_ESTAVEL' %} selected {% endif %}>Uniao Estável
+                            </option>
+                        </select>
+                        <div class="invalid-feedback">
+                            Favor seu seu estado civil.
+                        </div>
+                    </div>
+                    <div class="col"></div>
+
+                    <div class="col-9">
+                        <label for="rua" class="form-label">Rua</label>
+                        <input type="text" class="form-control" id="rua"
+                               name="endereco_rua" placeholder=""
+                               value="{{ paciente.endereco.rua }}" required>
+                        <div class="invalid-feedback">
+                            Favor informar sua rua
+                        </div>
+                    </div>
+
+                    <div class="col-4">
+                        <label for="cidade" class="form-label">Cidade</label>
+                        <input type="text" class="form-control" id="cidade"
+                               name="endereco_cidade" placeholder=""
+                               value="{{ paciente.endereco.cidade }}"
+                               required>
+                        <div class="invalid-feedback">
+                            Favor informar sua cidade
+                        </div>
+                    </div>
+
+                    <div class="col-4">
+                        <label for="bairro" class="form-label">Bairro</label>
+                        <input type="text" class="form-control" id="bairro" name="endereco_bairro" placeholder=""
+                               value="{{ paciente.endereco.bairro }}" required>
+                        <div class="invalid-feedback">
+                            Favor informar seu bairro
+                        </div>
+                    </div>
+
+
+                    <div class="col-3">
+                        <label for="cep" class="form-label">CEP</label>
+                        <input type="text" class="form-control" id="cep" name="endereco_cep" placeholder=""
+                               data-inputmask="'mask': '99999-999'" value="{{ paciente.endereco.cep }}" required>
+                        <div class="invalid-feedback">
+                            Favor informar seu CEP.
+                        </div>
+                    </div>
+
+                    <hr class="my-3">
+                    <h5 class="mb-3">Contato</h5>
+
+
+                    {% for telefone in paciente.telefone %}
+                        <div class="col-3">
+                            <label for="telefone{{ loop.index }}" class="form-label">Telefone</label>
+                            <input type="text" class="form-control" id="telefone{{ loop.index }}"
+                                   name="telefone_telefone{{ loop.index }}"
+                                   placeholder=""
+                                   data-inputmask-regex="\([1-9]{2}\) (?:[2-8]|9[0-9])[0-9]{3}\-[0-9]{4}"
+                                   value="{{ telefone.telefone }}" required>
+                            <div class="invalid-feedback">
+                                Favor informar seu telefone.
+                            </div>
+                        </div>
+
+
+                        <div class="col-sm-3">
+                            <label for="tipo{{ loop.index }}" class="form-label">Estado Civil</label>
+                            <select class="form-select" id="tipo{{ loop.index }}" name="telefone_tipo{{ loop.index }}"
+                                    required>
+                                <option value="CELULAR" {% if telefone.tipo == 'CELULAR' %}selected{% endif %}>Celular
+                                </option>
+                                <option value="RESIDENCIA" {% if telefone.tipo == 'RESIDENCIA' %}selected{% endif %}>
+                                    Residencia
+                                </option>
+                                <option value="COMERCIAL" {% if telefone.tipo == 'COMERCIAL' %}selected{% endif %}>
+                                    Comercial
+                                </option>
+
+                            </select>
+                        </div>
+                        <div class="col-sm-6"></div>
+                    {% endfor %}
+
+                    <div class="col-3">
+                        <label for="telefone_extra" class="form-label">Telefone</label>
+                        <input type="text" class="form-control" id="telefone_extra" name="telefone_telefone_extra"
+                               placeholder=""
+                               data-inputmask-regex="\([1-9]{2}\) (?:[2-8]|9[0-9])[0-9]{3}\-[0-9]{4}">
+                    </div>
+                    <div class="col-sm-3">
+                        <label for="tipo_extra" class="form-label">Estado Civil</label>
+                        <select class="form-select" id="tipo_extra" name="telefone_tipo_extra">
+                            <option value="CELULAR">Celular</option>
+                            <option value="RESIDENCIA">Residencia</option>
+                            <option value="COMERCIAL">Comercial</option>
+                        </select>
+                    </div>
+
+
+                </div>
+
+
+            </form>
+
+
+            <hr class="my-4">
+            <div class="d-flex justify-content-between">
+
+                <input class="btn btn-primary" type="submit" form="atualizaPaciente"
+                       value="Salvar Cadastro" name="salvar">
+                <button class="btn btn-danger"  data-bs-toggle="modal" data-bs-target="#confirmaDelecao">Deletar Perfil</button>
+
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="confirmaDelecao" tabindex="-1" role="dialog"
+         aria-labelledby="confirmaDelecao" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="confromaDelecaoCenterTitle">Seu perfil será deletado Permanentemente</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    Ao deletar seu perfil, todos os seus dados serão apagados do sistema de <strong>forma permanente e eventuais
+                    agendamentos em aberto serão cancelados</strong> <br><br>
+                    Para seguir com a deleção insira seu email abaixo ({{ paciente.email }})
+                    <form method="post" class="pt-3" id="deletaPacienteForm">
+                        <label for="recipient-name" class="form-label">Email</label>
+                        <input type="email" class="form-control" id="recipient-name" required>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <input class="btn btn-danger" value="Deletar Perfil"
+                           name="deletaPaciente"  type="submit" form="deletaPacienteForm">
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+        function onIsMenorDeIdadeChanged(element) {
+            if (element.checked) {
+                document.getElementById('representanteNomeDiv').hidden = false
+                document.getElementById('representanteNome').setAttribute('required', '')
+                document.getElementById('representanteNome').value = ""
+                document.getElementById('relacaoRepresentanteDiv').hidden = false
+                document.getElementById('relacaoRepresentante').setAttribute('required', '')
+                document.getElementById('relacaoRepresentante').value = ""
+            } else {
+                document.getElementById('representanteNomeDiv').hidden = true
+                document.getElementById('representanteNome').removeAttribute('required')
+                document.getElementById('representanteNome').value = ""
+                document.getElementById('relacaoRepresentanteDiv').hidden = true
+                document.getElementById('relacaoRepresentante').removeAttribute('required')
+                document.getElementById('relacaoRepresentante').value = ""
+            }
+        }
+
+    </script>
+
+{% endblock %}

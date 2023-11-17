@@ -1,0 +1,58 @@
+{% extends "estagiario/base_estagiario.html" %}
+{% block title %} Estagiario {% endblock %}
+{% block path %} Estagiario {% endblock %}
+
+{% block estagiario_content %}
+    <div class="container" style="min-height: 80vh">
+        <div class="row sticky-top flex-nowrap justify-content-between align-items-center bg-light p-3">
+            <div class="col-4"></div>
+
+            <div class="col-4 text-center">
+                <h2>Agendamentos | {{ estagiario.nome }} </h2>
+            </div>
+
+
+            <div class="col-4 d-flex justify-content-end">
+                <a href="../agendamento/novo" class="btn btn-primary" type="submit">Novo Agendamento</a>
+            </div>
+        </div>
+
+        <div class="row">
+            {% for agendamento in agenda %}
+                <div class="col-4 mt-4">
+                    <div class="card mb-3">
+                        <div class="row g-0">
+                            <div class="col-4 bg-black d-flex justify-content-center text-center text-white">
+
+                                <h1 class="align-self-center">{{ agendamento.inicioAgendamento.strftime("%d/%m") }}</h1>
+                            </div>
+                            <div class="col-md-8">
+                                <div class="card-body">
+
+                                    <h5 class="card-title">{{ agendamento.paciente.nome }} {{ agendamento.paciente.sobrenome }}</h5>
+                                    <p class="card-text"><strong>Nome
+                                        social: </strong> {{ agendamento.paciente.nomeSocial }} </p>
+                                    <p class="card-text"><strong>Horio: </strong>
+                                        {{ agendamento.inicioAgendamento.strftime("%H:%M") }} -
+                                        <strong>Duração: </strong> {{ (agendamento.fimAgendamento - agendamento.inicioAgendamento).total_seconds() / 60 }}
+                                        min </p>
+                                    <p class="card-text"><small class="text-body-secondary">Sala 10 - bloco A</small>
+                                    </p>
+                                    <form method="POST">
+                                        <input type="text" name="id_agendamento" id="id_agendamento{{ agendamento.id }}" value="{{ agendamento.id }}" hidden>
+                                        <button class="btn btn-primary align-middle" type="submit" name="edit"
+                                                value="edit"><i class="fa-solid fa-file-pen"></i></button>
+                                        <button class="btn btn-danger" type="submit" name="delete" value="delete"><i
+                                                class="fa-solid fa-trash"></i></button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+
+
+        </div>
+    </div>
+{% endblock %}

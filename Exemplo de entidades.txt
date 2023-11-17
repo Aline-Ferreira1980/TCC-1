@@ -1,0 +1,132 @@
+
+// ++++++++++++++++++++++++++++++++++++++++++++++++
+// Estagiario
+// ++++++++++++++++++++++++++++++++++++++++++++++++
+
+{
+    PK "ra": 78787878787,
+    "Nome" : "Gustavo",
+    "sobrenome": "Favini",
+    "semestre": 7,
+    "turma": "7AN",
+    "telefone": 11952096302,
+    "orientador": "Rebeca",
+    "Usuarios": [
+        {
+            "id": 123456748,
+            "nome": "Aline",
+            "prontuario": 235,
+            "serviço": "Orientação de Carrera"
+        },
+        {
+            "id": 987456,
+            "nome": "Roberta",
+            "prontuario": 987,
+            "serviço": "Terapia Breve"
+        }
+        
+    ],
+
+    "consultas":[
+        {
+            "id": 7878787,
+            "usuáio": "Aline",
+            "sala": "predio A sala 6",
+            "inicio": "2023/01/01 08:00:00.000GMT+3",
+            "termino": "2023/01/01 09:00:00.000GMT+3"
+        },
+        {
+            "id": 88888,
+            "usuáio": "Aline",
+            "sala": "predio B sala 4",
+            "inicio": "2023/01/08 08:00:00.000GMT+3",
+            "termino": "2023/01/08 09:00:00.000GMT+3"
+        },
+        {
+            "id": 9999,
+            "usuáio": "João",
+            "sala": "predio B sala 4",
+            "inicio": "2023/01/10 08:00:00.000GMT+3",
+            "termino": "2023/01/10 09:00:00.000GMT+3"
+        }
+    ]
+}
+
+
+// ++++++++++++++++++++++++++++++++++++++++++++++++
+// Usuário
+// ++++++++++++++++++++++++++++++++++++++++++++++++
+
+{
+    "id": 11955465878,
+    "Nome" : "Aline",
+    "Sobrenome" : "Ferreira",
+    "data": "08/05/1880",
+    "DDD": 11,
+    "telefone": 955465878,
+    "cidade": "SCS",
+    "Bairro": "ceramica",
+    "prontuário" : 235,
+    "CID": "M59",
+    "Estagiário" : [
+        "id": 78787878787,
+        "nome" : "Gustavo",
+        "turma": "7AN",
+        "semeste": 7
+    ],
+    "Evolução":[
+        "1": 0,
+        "2": 0,
+        "3": 0,
+        "4": 0,
+        "5": 1,
+        "6": -1
+    ],
+    "Serviço Utilizado":[
+        {
+            "id": 456,
+            "nome": "Terapia breve",
+            "inicio": "01/01/2023",
+            "encerrado": "01/03/2023"
+
+        },
+        {
+            "id": 456,
+            "nome": "Orientação de Carrera",
+            "inicio": "01/04/2023",
+            "ecerrado": null
+        }
+    ],
+    "Orientador": [
+        {
+            "id": 7987987,
+            "nome": "Mara",
+            "inicio": "01/01/2023",
+            "encerrado": "01/03/2023"
+        },
+        {
+            "id": 66666,
+            "nome": "Carlos",
+            "inicio": "01/04/2023",
+            "encerrado": null
+        }
+    ],
+    "agendamentos":[
+        {
+            "id": 7878787,
+            "sala": "predio A sala 6",
+            "inicio": "2023/01/01 08:00:00.000GMT+3",
+            "termino": "2023/01/01 09:00:00.000GMT+3"
+        },
+        {
+            "id": 88888,
+            "sala": "predio B sala 4",
+            "inicio": "2023/01/08 08:00:00.000GMT+3",
+            "termino": "2023/01/08 09:00:00.000GMT+3"
+        }
+
+    ]
+
+
+}
+

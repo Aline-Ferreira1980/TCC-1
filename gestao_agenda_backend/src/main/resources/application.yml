@@ -1,20 +1,63 @@
-
 server:
   port: 8080
+  apiUrl: ${API_URL:http://localhost:8080}
 
-management:
-  endpoints:
-    web:
-      exposure:
-        include: prometheus
-  endpoint:
-    prometheus:
-      enabled: true
+spring:
+  profiles.active: local
 
-aws:
-  cloudwatch:
-    enabled: true
-    region: us-west-2
-    namespace: gestao_agenda_backend
-  metrics:
-    enabled: false
+  mail:
+    host: smtp.sendgrid.net
+    port: 587
+    username: ${SMTP_USER}
+    password: ${SMTP_PASS}
+    properties.mail:
+      debug: true
+      smtp:
+        auth: true
+        starttls.enable: true
+
+  freemarker:
+    check-template-location: false
+    settings:
+      locale: pt_BR
+
+agenda:
+  email:
+    sender: ${EMAIL_SENDER:Agenda-CESEP <agenda.cesep@gmail.com>}
+
+logging:
+  level.org.springframework:
+    security: ${API_LOG_LEVEL:DEBUG}
+
+
+agenda-cesep:
+  password:
+    client: ${CLIENT_PASS:teste}
+  jwt:
+    secret: ${JWT_SECRET:teste}
+  frontend-origin: ${FRONT_ORIGIN:http://localhost:4200/}
+
+springdoc:
+  swagger-ui.oauth:
+      clientId: newClient
+      clientSecret: newClientSecret
+
+  oAuthFlow.tokenUrl: ${OAUTH2_SERVER:http://localhost:8080}/oauth/token
+
+
+    #management:
+    #  endpoints:
+    #    web:
+    #      exposure:
+    #        include: prometheus
+    #  endpoint:
+    #    prometheus:
+    #      enabled: true
+    #
+    #aws:
+    #  cloudwatch:
+    #    enabled: true
+    #    region: us-west-2
+    #    namespace: gestao_agenda_backend
+    #  metrics:
+    #    enabled: false

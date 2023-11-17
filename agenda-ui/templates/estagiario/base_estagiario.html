@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% block title %} Estagiario {% endblock %}
+{% block path %} Estagiario {% endblock %}
+
+{% block content %}
+<header class="p-1 text-bg-dark">
+    <div class="container text-bg-dark w-100">
+        <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+            <a href="/"
+               class="d-flex align-items-center mb-2 mb-lg-0 link-body-emphasis text-decoration-none text-white">
+                <svg class="bi me-2" width="40" height="32" role="img" aria-label="Bootstrap">
+
+                </svg>
+            </a>
+
+            <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+                <li><a href="/estagiario/{{ estagiario.id }}/agendamentos"
+                       class="nav-link px-2 link-primary text-white">Agendamento</a></li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle link-primary text-white" href="#" role="button" data-bs-toggle="dropdown"
+                       aria-expanded="false">
+                        Pacientes
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="/estagiario/{{ estagiario.id }}/pacientes">Meus Pacientes</a></li>
+                        <li><a class="dropdown-item" href="/estagiario/pacientes_ofaos">Pacientes Orfãos</a></li>
+                    </ul>
+                </li>
+                <li><a href="/estagiario/salas" class="nav-link px-2 link-primary text-white">Salas</a></li>
+
+            </ul>
+
+            <div class="dropdown text-end">
+                <a href="#" class="d-block text-decoration-none dropdown-toggle text-white"
+                   data-bs-toggle="dropdown" aria-expanded="false">
+                    {{ nome_usuario | default('', true) }}
+                </a>
+                <ul class="dropdown-menu text-small">
+                    <li><a class="dropdown-item" href="/estagiario/{{ estagiario.id }}">Perfil</a></li>
+                    <li>
+                        <hr class="dropdown-divider">
+                    </li>
+                    <li><a class="dropdown-item" href="/logout">Sign out</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</header>
+
+{% block estagiario_content %}{% endblock %}
+
+{% endblock %}
