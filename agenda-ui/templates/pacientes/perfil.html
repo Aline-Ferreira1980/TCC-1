@@ -219,7 +219,7 @@
 
 
                         <div class="col-sm-3">
-                            <label for="tipo{{ loop.index }}" class="form-label">Estado Civil</label>
+                            <label for="tipo{{ loop.index }}" class="form-label">Tipo</label>
                             <select class="form-select" id="tipo{{ loop.index }}" name="telefone_tipo{{ loop.index }}"
                                     required>
                                 <option value="CELULAR" {% if telefone.tipo == 'CELULAR' %}selected{% endif %}>Celular
@@ -243,7 +243,7 @@
                                data-inputmask-regex="\([1-9]{2}\) (?:[2-8]|9[0-9])[0-9]{3}\-[0-9]{4}">
                     </div>
                     <div class="col-sm-3">
-                        <label for="tipo_extra" class="form-label">Estado Civil</label>
+                        <label for="tipo_extra" class="form-label">Tipo</label>
                         <select class="form-select" id="tipo_extra" name="telefone_tipo_extra">
                             <option value="CELULAR">Celular</option>
                             <option value="RESIDENCIA">Residencia</option>
